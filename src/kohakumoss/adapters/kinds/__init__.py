@@ -1,6 +1,6 @@
 """Per-algorithm records (`Kind`), registered by kind name, module class and ALGO."""
 
-from kohakumoss.adapters.kinds import lowrank, other, rotation
+from kohakumoss.adapters.kinds import lori, lowrank, other, rotation
 from kohakumoss.adapters.kinds.record import (
     BY_ALGO,
     BY_MODULE,
@@ -16,6 +16,7 @@ __all__ = [
     "BY_MODULE",
     "REGISTRY",
     "Kind",
+    "lori",
     "lowrank",
     "lycoris_algo",
     "other",
