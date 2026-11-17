@@ -66,6 +66,7 @@ from kohakumoss.training.build.model import (
 )
 from kohakumoss.training.build.pipelines import release_nonlocal
 from kohakumoss.training.callbacks.evaluate import FixedSigma
+from kohakumoss.training.checkpoint.io import load_lori_initialization
 from kohakumoss.training.context import RunContext
 from kohakumoss.training.drivers import Parts
 from kohakumoss.training.exports import (
@@ -246,8 +247,21 @@ def worker(k: dict, rank: int = 0, world: int = 1, device=None) -> TrainState:
     kd, tokens, loader = _data(k, layout, rank, world, device)
     ranks_meet("data")
     torch.manual_seed(k["SEED"])
+    initial_state, initial_metadata = None, None
+    resume = resumed_from(k, output_dir)
+    if k["ALGO"] == "lori" and resume is not None:
+        initial_state, initial_metadata = load_lori_initialization(resume)
     with timed(log, "building model, adapters and encoders"):
-        built = build_model(k, device, prec, world, loader.dataset.text_tokens_max())
+        built = build_model(
+            k,
+            device,
+            prec,
+            world,
+            loader.dataset.text_tokens_max(),
+            initial_state=initial_state,
+            initial_metadata=initial_metadata,
+        )
+    del initial_state, initial_metadata
     log_object(log, "training memory plan", built.plan)
     for message, fields in placement_lines(k, built, device):
         log.info(message, **fields)
@@ -329,7 +343,6 @@ def worker(k: dict, rank: int = 0, world: int = 1, device=None) -> TrainState:
         recorder=recorder,
     )
     state = TrainState()
-    resume = ckpt.resolve(k["RESUME"])
     if resume is not None:
         log.info(f"resuming from {resume}")
         parts.restore(ckpt.load(resume), state)

@@ -182,6 +182,12 @@ def read_lori_state(path: str | Path) -> tuple[dict[str, Tensor], dict[str, str]
     with safe_open(path, framework="pt", device="cpu") as handle:
         state = {key: handle.get_tensor(key) for key in handle.keys()}
         metadata = handle.metadata() or {}
+    validate_lori_state(state, metadata)
+    return state, metadata
+
+
+def validate_lori_state(state: dict[str, Tensor], metadata: dict[str, str]) -> None:
+    """Validate already loaded native tensors with the artifact metadata contract."""
     layers = _layers(state)
     phases = {_validate(layer) for layer in layers.values()}
     if len(phases) != 1:
@@ -189,7 +195,7 @@ def read_lori_state(path: str | Path) -> tuple[dict[str, Tensor], dict[str, str]
     if META_KEY not in metadata:
         if phases != {"calibration"}:
             raise ValueError("Sparse LoRI state requires versioned shape metadata")
-        return state, metadata
+        return
     try:
         info = json.loads(metadata[META_KEY])
         if (
@@ -243,4 +249,3 @@ def read_lori_state(path: str | Path) -> tuple[dict[str, Tensor], dict[str, str]
             raise ValueError("Invalid LoRI calibration metadata")
     except (KeyError, TypeError, json.JSONDecodeError) as error:
         raise ValueError("Malformed LoRI artifact metadata") from error
-    return state, metadata

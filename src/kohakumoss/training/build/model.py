@@ -216,7 +216,14 @@ def seeded_rng(seed: int, device: torch.device):
         yield
 
 
-def build_trainable(k: dict, backbone, prec: PrecisionConfig, device):
+def build_trainable(
+    k: dict,
+    backbone,
+    prec: PrecisionConfig,
+    device,
+    initial_state=None,
+    initial_metadata=None,
+):
     """FullTrainable for full FT; otherwise the LyCORIS AdapterSet, its init drawn
     from SEED (independent of every draw before it)."""
     if is_full(k):
@@ -225,7 +232,12 @@ def build_trainable(k: dict, backbone, prec: PrecisionConfig, device):
     backbone.requires_grad_(False)
     with seeded_rng(k["SEED"], device):
         return apply_adapters(
-            backbone, config_from_knobs(k), dtype=prec.master, device=device
+            backbone,
+            config_from_knobs(k),
+            dtype=prec.master,
+            device=device,
+            initial_state=initial_state,
+            initial_metadata=initial_metadata,
         )
 
 
@@ -235,6 +247,8 @@ def build_model(
     prec: PrecisionConfig,
     world: int = 1,
     text_tokens: int | None = None,
+    initial_state: dict | None = None,
+    initial_metadata: dict | None = None,
 ) -> Built:
     """Build order of types/context.py up to (not including) the parallel wrap and compile:
     load on the host -> FP16_FIX -> memory plan (quantize, place or stream onto
@@ -256,7 +270,9 @@ def build_model(
     )
     if auto_rows:
         engines.reports["auto"] = auto_rows
-    trainable = build_trainable(k, backbone, prec, device)
+    trainable = build_trainable(
+        k, backbone, prec, device, initial_state, initial_metadata
+    )
     apply_param_dtypes(backbone, prec, _ids(trainable), k["OPTIMIZER"] == "adamw16")
     engines.exclude_params(trainable.trainable_params())
     backbone.bind_ops(OpSet.resolve(device, prec.compute, k["KERNELS"]))

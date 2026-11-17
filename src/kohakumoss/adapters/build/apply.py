@@ -8,6 +8,7 @@ from kohakumoss.adapters.build.network import build_targets
 from kohakumoss.adapters.build.target import CHILD, Target, base_kind
 from kohakumoss.adapters.lycoris.backend import pick_backend
 from kohakumoss.adapters.train.adapter_set import LycoAdapterSet
+from kohakumoss.adapters.train.lori import read_lori_state
 from kohakumoss.logging.log import get_logger
 
 log = get_logger(__name__)
@@ -23,7 +24,14 @@ def compute_device(model: nn.Module) -> torch.device:
 
 def _place(t: Target, dtype: torch.dtype, device: torch.device) -> None:
     """Register the module under its linear (FSDP / offload see it) on `device`."""
+    fixed = (
+        {name: value for name, value in t.lyco.named_buffers()}
+        if t.record.name == "lori"
+        else {}
+    )
     t.lyco.to(device=device, dtype=dtype)
+    for name, value in fixed.items():
+        setattr(t.lyco, name, value.to(device=device))
     t.lyco.train(t.linear.training)
     t.linear.add_module(CHILD, t.lyco)
 
@@ -49,6 +57,7 @@ def apply(
     dtype: torch.dtype = torch.float32,
     device: torch.device | str | None = None,
     initial_state: dict[str, torch.Tensor] | None = None,
+    initial_metadata: dict[str, str] | None = None,
 ) -> LycoAdapterSet:
     """Adapters on `model` per `config`; parameters live in `dtype` (the master dtype)."""
     problems = config.validate()
@@ -56,10 +65,23 @@ def apply(
         raise ValueError("; ".join(problems))
     device = torch.device(device) if device is not None else compute_device(model)
     backend = pick_backend(device, config.backend)
-    targets, norms = build_targets(model, config, initial_state=initial_state)
+    if (
+        config.algo == "lori"
+        and initial_state is None
+        and config.algo_kwargs.get("phase") == "sparse"
+    ):
+        path = config.algo_kwargs.get("mask_path")
+        if path:
+            initial_state, initial_metadata = read_lori_state(path)
+    targets, norms = build_targets(
+        model, config, initial_state=initial_state, initial_metadata=initial_metadata
+    )
     if not targets and not norms:
         raise ValueError(f"preset {config.preset!r} matched no layer")
     note_bypassed(config, targets)
     for t in targets:
         _place(t, dtype, device)
-    return LycoAdapterSet(model, config, targets, norms, backend)
+    aset = LycoAdapterSet(model, config, targets, norms, backend)
+    if config.algo == "lori" and config.algo_kwargs.get("phase") == "sparse":
+        aset.lori_metadata = dict(initial_metadata or {})
+    return aset

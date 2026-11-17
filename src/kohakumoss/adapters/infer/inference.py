@@ -24,6 +24,7 @@ from kohakumoss.adapters.export.fused import split_qkv
 from kohakumoss.adapters.infer import stored
 from kohakumoss.adapters.infer.formats import config_from_meta, group, read, stem_index
 from kohakumoss.adapters.kinds import record_of
+from kohakumoss.adapters.kinds.lori import LoRIModule
 from kohakumoss.adapters.kinds.record import Stacking
 from kohakumoss.adapters.lycoris.backend import pick_backend
 from kohakumoss.adapters.train.adapter_set import (
@@ -32,6 +33,11 @@ from kohakumoss.adapters.train.adapter_set import (
     check_adapter_file,
     ensure_bias,
     fold_of,
+)
+from kohakumoss.adapters.train.lori import (
+    META_KEY,
+    lori_layer_init,
+    validate_lori_state,
 )
 from kohakumoss.adapters.train.scope import rebind_owner
 from kohakumoss.logging.log import get_logger, hl
@@ -195,6 +201,8 @@ class AdapterStack:
                 "an adapter; export it as a merged transformer (scripts/export/export.py"
                 " FORMAT='merged') and load that as the DiT"
             )
+        if META_KEY in meta:
+            validate_lori_state(tensors, meta)
         if meta.get(RAW_TAG):
             tensors = self._raw_tensors(tensors, meta)
         groups, unmatched = group(split_qkv(tensors), self.index)
@@ -363,6 +371,15 @@ class AdapterStack:
         parts.setdefault("alpha", _default_alpha(parts))
         dora_scale = parts.pop("dora_scale", None)
         sd = {f"{name}.{k}": v for k, v in parts.items()}
+        if "A" in parts:
+            phase = "sparse" if "b_values" in parts else "calibration"
+            lyco = LoRIModule(name, linear, phase=phase, **lori_layer_init(sd, name))
+            lyco.load_state_dict(parts, strict=True)
+            weak_org(lyco, linear)
+            lyco.to(device=self.device, dtype=torch.float32)
+            lyco.requires_grad_(False)
+            lyco.eval()
+            return lyco
         lyco_type, params = get_module(sd, name)
         if lyco_type is None:
             raise KeyError(f"{path}: no LyCORIS algorithm matches {sorted(parts)}")
@@ -413,6 +430,8 @@ class AdapterStack:
         """The effective weight of `t`'s layer in the space of a state trained under
         the fold whose row scales are `source` (unfolded, times that scale); None when
         the layer's own storage reads exactly that."""
+        if t.record.name == "lori":
+            return None
         src = source.get(t.path)
         if _same_rows(self.row_scales.get(t.path), src) and not self.earlier.get(
             t.path
@@ -433,7 +452,13 @@ class AdapterStack:
         source = record_row_scales(self.model, record) if recorded else self.row_scales
         stash = self._stash_forwards()
         try:
-            aset = apply(self.model, config, device=self.device)
+            aset = apply(
+                self.model,
+                config,
+                device=self.device,
+                initial_state=tensors,
+                initial_metadata=meta,
+            )
             aset.load_state_dict(tensors)
             base_of = partial(self._source_base, source=source)
             raw = aset.tensors("lycoris", row_scales=source, base_of=base_of)

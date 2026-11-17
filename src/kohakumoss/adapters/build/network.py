@@ -22,7 +22,12 @@ from kohakumoss.adapters.build.presets import resolve_preset
 from kohakumoss.adapters.build.target import NormTarget, Target, weak_org
 from kohakumoss.adapters.kinds.lori import LoRIModule
 from kohakumoss.adapters.train import norms
-from kohakumoss.adapters.train.lori import META_KEY, lori_layer_init, read_lori_state
+from kohakumoss.adapters.train.lori import (
+    META_KEY,
+    lori_layer_init,
+    read_lori_state,
+    validate_lori_state,
+)
 from kohakumoss.adapters.train.tlora import AXES, axis_of
 
 
@@ -97,6 +102,7 @@ def build_targets(
     model: nn.Module,
     config: AdapterConfig,
     initial_state: dict[str, torch.Tensor] | None = None,
+    initial_metadata: dict[str, str] | None = None,
 ) -> tuple[list[Target], list[NormTarget]]:
     """LyCORIS modules for every matched linear, and the norms that train directly."""
     problems = config.validate()
@@ -120,7 +126,7 @@ def build_targets(
         **kwargs,
     )
     loras, net.loras = net.loras, []
-    lori_state, shapes = _lori_state(config, initial_state, loras)
+    lori_state, shapes = _lori_state(config, initial_state, loras, initial_metadata)
     paths = _paths(model)
     targets = []
     for lyco in loras:
@@ -136,17 +142,20 @@ def build_targets(
     return targets, trained
 
 
-def _lori_state(config, initial_state, loras):
+def _lori_state(config, initial_state, loras, initial_metadata):
     """Raw constructor state and artifact target shapes for LoRI discovery."""
     if config.algo != "lori":
         return None, {}
     state, shapes = initial_state, {}
+    metadata = initial_metadata or {}
     phase = config.algo_kwargs.get("phase", "calibration")
     if state is None and phase == "sparse":
         path = config.algo_kwargs.get("mask_path")
         if not path:
             raise ValueError("Sparse LoRI requires initial_state or mask_path")
         state, metadata = read_lori_state(path)
+    if state is not None and metadata:
+        validate_lori_state(state, metadata)
         if META_KEY in metadata:
             shapes = {
                 name: tuple(layer["target_shape"])

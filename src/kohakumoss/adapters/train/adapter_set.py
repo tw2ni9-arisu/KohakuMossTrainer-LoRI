@@ -23,6 +23,7 @@ from kohakumoss.adapters.export.fused import (
 from kohakumoss.adapters.export.merged import merged_state_dict
 from kohakumoss.adapters.train import groups
 from kohakumoss.adapters.train import norms as norm_delta
+from kohakumoss.adapters.train.lori import META_KEY
 from kohakumoss.adapters.train.scope import evaluated, rebind_owner
 from kohakumoss.adapters.train.steps import StepPlan
 from kohakumoss.model.io.save import write_diffusers
@@ -299,6 +300,9 @@ class LycoAdapterSet:
                 f"adapter state mismatch: {len(unknown)} unknown keys "
                 f"{unknown[:4]}, {len(missing)} missing keys {missing[:4]}"
             )
+        for key, value in state.items():
+            if value.shape != live[key].shape:
+                raise ValueError(f"adapter state shape mismatch: {key}")
         with torch.no_grad():
             for key, value in state.items():
                 live[key].copy_(value.to(live[key].device, live[key].dtype))
@@ -421,6 +425,30 @@ class LycoAdapterSet:
             raise KeyError(f"export format {fmt!r} not in {FORMATS}")
         if fused_qkv and fmt in ("lycoris", "diffusers"):
             raise ValueError(f"fused_qkv applies to 'comfy' and 'merged', not {fmt!r}")
+        if fmt == "lycoris" and self.config.algo == "lori":
+            meta = {
+                **self.state_metadata(),
+                **(metadata or {}),
+                "kohakumoss_format": "kohakumoss_lori",
+            }
+            raw = self.state_dict()
+            if row_scales:
+                for t in self.targets:
+                    scale = row_scales.get(t.path)
+                    if scale is None:
+                        continue
+                    module = t.lyco
+                    field = "b_values" if module.phase == "sparse" else "b_dense"
+                    value = raw[f"{t.lora_name}.{field}"]
+                    rows = scale.to(value).reshape(-1)
+                    if module.phase == "sparse":
+                        rows = rows[module.active_indices // module.lora_dim]
+                    else:
+                        rows = rows.reshape(-1, 1)
+                    raw[f"{t.lora_name}.{field}"] = value / rows
+                meta[FOLD_KEY] = "null"
+            files.write(path, files.to_storage(raw, None), meta)
+            return
         if fmt in ("lycoris", "comfy"):
             raw = self.tensors(fmt, style, row_scales, fused_qkv)
             meta = self.metadata(fmt, style, metadata)
@@ -442,7 +470,24 @@ class LycoAdapterSet:
             RAW_TAG: "1",
             SPEC_KEY: json.dumps(asdict(self.config)),
             **fold_metadata(self.model),
+            **self._lori_metadata(),
         }
+
+    def _lori_metadata(self) -> dict[str, str]:
+        """Versioned sparse initialization metadata marked as trained native state."""
+        if (
+            self.config.algo != "lori"
+            or self.config.algo_kwargs.get("phase") != "sparse"
+        ):
+            return {}
+        metadata = getattr(self, "lori_metadata", {})
+        if META_KEY not in metadata:
+            raise ValueError(
+                "Sparse native save requires versioned initialization metadata"
+            )
+        info = json.loads(metadata[META_KEY])
+        info["phase"] = "sparse"
+        return {META_KEY: json.dumps(info, sort_keys=True, separators=(",", ":"))}
 
     def save_state(self, path: str) -> None:
         """Raw state + `state_metadata()` as a safetensors file (exact reload)."""

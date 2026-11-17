@@ -18,6 +18,7 @@ import numpy as np
 import torch
 from safetensors.torch import load_file
 
+from kohakumoss.adapters.train.lori import read_lori_state
 from kohakumoss.training.checkpoint.stream import save_stream
 
 _MULTIARRAY = np._core.multiarray if hasattr(np, "_core") else np.core.multiarray
@@ -125,6 +126,11 @@ def save_checkpoint(
         json.dumps(state, indent=2, default=str), encoding="utf-8"
     )
     return path
+
+
+def load_lori_initialization(path: str | Path):
+    """Read only native trainable tensors and metadata for early LoRI sizing."""
+    return read_lori_state(Path(path) / "trainable.safetensors")
 
 
 def load_checkpoint(path: str | Path) -> dict:
