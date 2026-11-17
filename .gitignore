@@ -1,0 +1,36 @@
+# working areas (local only)
+plans/
+STATE.md
+CLAUDE.local.md
+internal/
+out/
+runs/
+ref/
+.claude/
+configs/user/
+
+# python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+/build/
+/dist/
+.venv/
+.venv-*/
+venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# kernel / tuning caches
+.cache/
+*.tune.json
+
+# weights and data
+*.safetensors
+*.ckpt
+*.pt
+*.db
+*.db-wal
+*.db-shm
