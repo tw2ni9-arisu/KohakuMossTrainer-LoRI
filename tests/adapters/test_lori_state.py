@@ -218,3 +218,60 @@ def test_load_refuses_broadcast_shape_without_partial_copy(tmp_path):
         aset.load_state_dict(state)
     for key, value in aset.state_dict().items():
         assert torch.equal(value, original[key])
+
+
+@pytest.mark.parametrize("dtype", [torch.float16, torch.bfloat16])
+@pytest.mark.parametrize("fmt", ["lycoris", "comfy"])
+def test_low_precision_master_folded_delta_export(tmp_path, dtype, fmt):
+    aset, artifact = setup_state(tmp_path)
+    state, metadata = read_lori_state(artifact)
+    for key, value in state.items():
+        if key.endswith("b_values"):
+            value.fill_(0.25)
+    metadata_info = json.loads(metadata[META_KEY])
+    metadata_info["phase"] = "sparse"
+    metadata[META_KEY] = json.dumps(metadata_info)
+    aset = apply(
+        operators(),
+        aset.config,
+        dtype=dtype,
+        initial_state=state,
+        initial_metadata=metadata,
+    )
+    aset.load_state_dict(state)
+    ids = [id(p) for p in aset.trainable_params()]
+    frozen = {
+        key: value.clone()
+        for key, value in aset.state_dict().items()
+        if not key.endswith("b_values")
+    }
+    scales = {"0": torch.tensor([0.5, 1.0, 2.0]), "1": torch.tensor([2.0, 0.5])}
+    for target in aset.targets:
+        module = target.lyco
+        assert module.A.dtype == torch.float32
+        assert module.b_values.dtype == dtype
+        reference = (module.dense_b() @ module.A.to(dtype)) * module.scale
+        for multiplier in (0.0, 0.5, 1.0):
+            torch.testing.assert_close(
+                target.delta(multiplier)[0], reference.float() * multiplier
+            )
+    tensors = aset.tensors("comfy", row_scales=scales)
+    for target in aset.targets:
+        module = target.lyco
+        reference = ((module.dense_b() @ module.A.to(dtype)) * module.scale).float()
+        torch.testing.assert_close(
+            tensors[f"{target.lora_name}.diff"],
+            reference / scales[target.path].reshape(-1, 1),
+        )
+    path = tmp_path / "folded.safetensors"
+    aset.export(path, fmt, dtype=dtype, row_scales=scales)
+    # Exported local native files remain readable with exact projection bytes.
+    if fmt == "lycoris":
+        saved, _ = read_lori_state(path)
+        for key, value in frozen.items():
+            assert torch.equal(saved[key], value)
+            assert saved[key].dtype == value.dtype
+    assert ids == [id(p) for p in aset.trainable_params()]
+    for key, value in frozen.items():
+        assert torch.equal(aset.state_dict()[key], value)
+        assert aset.state_dict()[key].dtype == value.dtype

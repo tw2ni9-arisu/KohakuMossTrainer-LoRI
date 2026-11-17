@@ -93,7 +93,8 @@ class LoRIModule(nn.Module):
 
     def get_diff_weight(self, multiplier: float = 1.0) -> tuple[Tensor, None]:
         """Materialize the scaled delta weight and no bias."""
-        return (self.dense_b() @ self.A) * (self.scale * multiplier), None
+        b = self.dense_b()
+        return (b @ self.A.to(b.dtype)) * (self.scale * multiplier), None
 
 
 def _module_forward(t, ctx):

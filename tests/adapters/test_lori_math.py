@@ -157,3 +157,28 @@ def test_scale_check_rejects_double_scaling():
 def test_invalid_indices_rejected(indices):
     with pytest.raises(ValueError):
         make_module("sparse", indices)
+
+
+@pytest.mark.parametrize("phase", ["calibration", "sparse"])
+@pytest.mark.parametrize("dtype", [torch.float16, torch.bfloat16])
+def test_delta_with_fp32_projection_and_low_precision_b(phase, dtype):
+    indices = torch.tensor([0, 3, 7, 11]) if phase == "sparse" else None
+    module = make_module(phase, indices)
+    parameter = next(module.parameters())
+    parameter.data = (
+        torch.linspace(-0.3, 0.5, parameter.numel()).reshape(parameter.shape).to(dtype)
+    )
+    before = {name: value.clone() for name, value in module.named_buffers()}
+    parameter_id = id(parameter)
+    b = module.dense_b()
+    for multiplier in (0.0, 0.5, 1.0):
+        actual, _ = module.get_diff_weight(multiplier)
+        expected = (b @ module.A.to(dtype)) * (module.scale * multiplier)
+        assert actual.dtype == dtype
+        torch.testing.assert_close(actual, expected, rtol=0, atol=0)
+    actual.float().sum().backward()
+    assert parameter.grad is not None
+    assert id(next(module.parameters())) == parameter_id
+    for name, value in module.named_buffers():
+        assert value.dtype == before[name].dtype
+        assert torch.equal(value, before[name])
