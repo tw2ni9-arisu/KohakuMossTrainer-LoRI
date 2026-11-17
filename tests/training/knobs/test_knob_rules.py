@@ -135,3 +135,9 @@ def test_bf16_rule_checks_every_device(mixed_host, linux):
         lambda: _has(validate(runnable(PRECISION="bf16", DEVICES=(0,))), "bf16"),
         "an sm86-only device set reported",
     )
+
+
+def test_lori_knobs_and_unsupported_optimizer():
+    _clean(runnable(ALGO="lori", WEIGHT_DECAY=0.0))
+    _has(validate(runnable(ALGO="lori", OPTIMIZER="muon")), "LoRI", "muon")
+    _has(validate(runnable(ALGO="lori", LORAPLUS_RATIO=2.0)), "LORAPLUS")

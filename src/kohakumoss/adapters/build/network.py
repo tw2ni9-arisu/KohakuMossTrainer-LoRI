@@ -8,6 +8,7 @@ copy of each layer's base, so no dense weight is ever held. See
 docs/internals/adapter-binding.md#quantized-and-streamed-bases.
 """
 
+import json
 import re
 from types import SimpleNamespace
 
@@ -19,7 +20,9 @@ from torch import nn
 from kohakumoss.adapters.build.config import AdapterConfig
 from kohakumoss.adapters.build.presets import resolve_preset
 from kohakumoss.adapters.build.target import NormTarget, Target, weak_org
+from kohakumoss.adapters.kinds.lori import LoRIModule
 from kohakumoss.adapters.train import norms
+from kohakumoss.adapters.train.lori import META_KEY, lori_layer_init, read_lori_state
 from kohakumoss.adapters.train.tlora import AXES, axis_of
 
 
@@ -91,9 +94,14 @@ def _target(path: str, lyco: nn.Module, linear: nn.Module) -> Target:
 
 
 def build_targets(
-    model: nn.Module, config: AdapterConfig
+    model: nn.Module,
+    config: AdapterConfig,
+    initial_state: dict[str, torch.Tensor] | None = None,
 ) -> tuple[list[Target], list[NormTarget]]:
     """LyCORIS modules for every matched linear, and the norms that train directly."""
+    problems = config.validate()
+    if problems:
+        raise ValueError("; ".join(problems))
     preset, norm_patterns = resolve_preset(config.preset, config.prefix)
     LycorisNetwork.apply_preset(preset)
     kwargs = config.module_kwargs()
@@ -112,17 +120,65 @@ def build_targets(
         **kwargs,
     )
     loras, net.loras = net.loras, []
+    lori_state, shapes = _lori_state(config, initial_state, loras)
     paths = _paths(model)
     targets = []
     for lyco in loras:
         linear = lyco.org_module[0]
         if "forward" in vars(linear):
             raise RuntimeError(f"{paths[id(linear)]} already carries an adapter")
+        if config.algo == "lori":
+            lyco = _lori_module(lyco.lora_name, linear, config, lori_state, shapes)
         weak_org(lyco, linear)
         deferred.restore(lyco, linear)
         targets.append(_target(paths[id(linear)], lyco, linear))
     trained = build_norms(model, norm_patterns, config) if config.train_norms else []
     return targets, trained
+
+
+def _lori_state(config, initial_state, loras):
+    """Raw constructor state and artifact target shapes for LoRI discovery."""
+    if config.algo != "lori":
+        return None, {}
+    state, shapes = initial_state, {}
+    phase = config.algo_kwargs.get("phase", "calibration")
+    if state is None and phase == "sparse":
+        path = config.algo_kwargs.get("mask_path")
+        if not path:
+            raise ValueError("Sparse LoRI requires initial_state or mask_path")
+        state, metadata = read_lori_state(path)
+        if META_KEY in metadata:
+            shapes = {
+                name: tuple(layer["target_shape"])
+                for name, layer in json.loads(metadata[META_KEY])["layers"].items()
+            }
+    if state is not None:
+        names = {key.rpartition(".")[0] for key in state}
+        if names != {module.lora_name for module in loras}:
+            raise ValueError("LoRI state target keys do not match discovered targets")
+    return state, shapes
+
+
+def _lori_module(name, linear, config, state, shapes):
+    """Construct final dense or compact parameters before Target creation."""
+    phase = config.algo_kwargs.get("phase", "calibration")
+    kwargs = {"lora_dim": config.dim, "alpha": config.alpha}
+    if state is not None:
+        kwargs = lori_layer_init(state, name)
+        if kwargs["lora_dim"] != config.dim:
+            raise ValueError(f"LoRI rank mismatch for {name}")
+        sparse = "active_indices" in kwargs
+        if sparse != (phase == "sparse"):
+            raise ValueError(f"LoRI state phase mismatch for {name}")
+        shape = (linear.out_features, linear.in_features)
+        if name in shapes and shapes[name] != shape:
+            raise ValueError(f"LoRI target shape mismatch for {name}")
+        if not sparse and state[f"{name}.b_dense"].shape != (shape[0], config.dim):
+            raise ValueError(f"LoRI B target shape mismatch for {name}")
+    module = LoRIModule(name, linear, phase=phase, **kwargs)
+    if state is not None:
+        module.alpha = state[f"{name}.alpha"].detach().clone()
+    return module
 
 
 def build_norms(model: nn.Module, patterns: list[str], config: AdapterConfig):

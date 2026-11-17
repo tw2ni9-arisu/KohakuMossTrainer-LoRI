@@ -83,7 +83,7 @@ DATA_WAIT = 3600.0  # seconds a non-writer rank waits for the catalog writer
 SEED = 0
 
 # ===================== ADAPTER =====================
-ALGO = "lora"  # "lora" | "locon" | "loha" | "lokr" | "oft" | "boft" | "glora" | "ia3" | "dylora" | "tlora" | "full"
+ALGO = "lora"  # "lori" | "lora" | "locon" | "loha" | "lokr" | "oft" | "boft" | "glora" | "ia3" | "dylora" | "tlora" | "full"
 PRESET = "attn-mlp"  # base "attn" | "attn-mlp" | "full-block" | "all", + modifiers "+text-refiner" "+modulation" "+embed"; or a LyCORIS-style toml path
 DIM = 32
 ALPHA = 32.0

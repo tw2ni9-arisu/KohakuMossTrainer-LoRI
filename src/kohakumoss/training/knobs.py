@@ -92,6 +92,7 @@ CHOICES = {
     "DIST_BIND": ("lazy", "device"),
 }
 ALGOS = (
+    "lori",
     "lora",
     "locon",
     "loha",
@@ -247,6 +248,10 @@ def validate(k: dict) -> list[str]:
     p += vae_problems(k)
     layout = _layout(k)
     p += parallel_problems(k, layout.problems if layout is not None else None)
+    if k["ALGO"] == "lori":
+        p += config_from_knobs(k).validate()
+        if k["OPTIMIZER"] == "muon":
+            p.append("LoRI does not support OPTIMIZER='muon'")
     p += optimizer_problems(k)
     p += io_problems(k)
     return list(dict.fromkeys(p))

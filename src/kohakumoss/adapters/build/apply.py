@@ -48,6 +48,7 @@ def apply(
     config: AdapterConfig,
     dtype: torch.dtype = torch.float32,
     device: torch.device | str | None = None,
+    initial_state: dict[str, torch.Tensor] | None = None,
 ) -> LycoAdapterSet:
     """Adapters on `model` per `config`; parameters live in `dtype` (the master dtype)."""
     problems = config.validate()
@@ -55,7 +56,7 @@ def apply(
         raise ValueError("; ".join(problems))
     device = torch.device(device) if device is not None else compute_device(model)
     backend = pick_backend(device, config.backend)
-    targets, norms = build_targets(model, config)
+    targets, norms = build_targets(model, config, initial_state=initial_state)
     if not targets and not norms:
         raise ValueError(f"preset {config.preset!r} matched no layer")
     note_bypassed(config, targets)

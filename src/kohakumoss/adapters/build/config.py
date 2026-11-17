@@ -1,6 +1,7 @@
 """AdapterConfig: what to train and how, resolved from the train-script knobs."""
 
 import inspect
+import math
 from dataclasses import dataclass, field
 
 from lycoris.wrapper import LycorisNetwork
@@ -30,6 +31,8 @@ def _parameters(fn) -> set[str]:
 
 def accepted_kwargs(algo: str) -> set[str]:
     """ALGO_KWARGS names the LyCORIS module (or network) of `algo` takes."""
+    if algo == "lori":
+        return {"phase", "sparsity", "mask_path"}
     module = BY_ALGO[algo].module
     return (_parameters(module.__init__) | _parameters(LycorisNetwork.__init__)) - {
         "lora_name",
@@ -121,7 +124,35 @@ class AdapterConfig:
                 "ALGO='tlora' masks ranks per token, which no merged weight expresses; "
                 "use ADAPTER_MODE='bypass'"
             )
+        if self.algo == "lori":
+            out += self._lori_problems()
         return out + self._kwarg_problems()
+
+    def _lori_problems(self) -> list[str]:
+        out = []
+        for name in ("dropout", "rank_dropout", "module_dropout"):
+            if getattr(self, name) != 0:
+                out.append(f"LoRI does not support {name}")
+        if self.train_norms:
+            out.append("LoRI does not support TRAIN_NORMS")
+        if self.lr_ratio_up != 1.0:
+            out.append("LoRI does not support LORAPLUS_RATIO != 1")
+        if self.dora_detach:
+            out.append("LoRI does not support DORA_DETACH")
+        if self.algo_kwargs.get("phase", "calibration") not in (
+            "calibration",
+            "sparse",
+        ):
+            out.append("LoRI phase must be calibration or sparse")
+        sparsity = self.algo_kwargs.get("sparsity", 0.9)
+        if (
+            isinstance(sparsity, bool)
+            or not isinstance(sparsity, (int, float))
+            or not math.isfinite(sparsity)
+            or not 0 <= sparsity < 1
+        ):
+            out.append("LoRI sparsity must be finite in [0, 1)")
+        return out
 
     def _kwarg_problems(self) -> list[str]:
         own = set(MASK_KEYS) if self.record.per_token_mask else set()
@@ -138,6 +169,8 @@ class AdapterConfig:
 
     def module_kwargs(self) -> dict:
         """Constructor kwargs shared by every LyCORIS module of this configuration."""
+        if self.algo == "lori":
+            return {}
         kwargs = {k: v for k, v in self.algo_kwargs.items() if k not in MASK_KEYS}
         kwargs.setdefault("bypass_mode", self.mode == "bypass")
         if self.dora:
@@ -161,7 +194,11 @@ def config_from_knobs(cfg: dict) -> AdapterConfig:
         alpha=float(cfg.get("ALPHA", 32.0)),
         algo_kwargs=algo_kwargs,
         dora=bool(cfg.get("DORA", False)),
-        dora_on_output=bool(algo_kwargs.pop("wd_on_out", True)),
+        dora_on_output=(
+            True
+            if cfg.get("ALGO") == "lori"
+            else bool(algo_kwargs.pop("wd_on_out", True))
+        ),
         dora_detach=bool(cfg.get("DORA_DETACH", False)),
         dropout=float(dropout.get("input", 0.0)),
         rank_dropout=float(dropout.get("rank", 0.0)),
