@@ -9,6 +9,7 @@ from safetensors.torch import save_file
 from torch import nn
 
 from kohakumoss.adapters.build.apply import apply
+from kohakumoss.adapters.export import cli
 from kohakumoss.adapters.infer.inference import load
 from kohakumoss.adapters.train.lori import META_KEY, make_sparse_init, read_lori_state
 from tests.adapters.test_lori_build import config, dense_state, operators
@@ -57,6 +58,32 @@ def test_native_roundtrip_without_artifact(tmp_path):
         torch.testing.assert_close(
             a.lyco.bypass_forward_diff(x), b.lyco.bypass_forward_diff(x), rtol=0, atol=0
         )
+
+
+def test_native_cli_export_without_artifact(tmp_path, monkeypatch):
+    aset, artifact = setup_state(tmp_path)
+    path = tmp_path / "native.safetensors"
+    out = tmp_path / "portable.safetensors"
+    aset.save_state(path)
+    artifact.unlink()
+    base = operators()
+    base.fold_scales = None
+    monkeypatch.setattr(cli, "load_backbone", lambda *_args, **_kwargs: (base, None))
+    cli.export_main(
+        {
+            "WEIGHTS": str(tmp_path / "base.safetensors"),
+            "ADAPTER": str(path),
+            "OUT": str(out),
+            "FORMAT": "lycoris",
+            "FUSED_QKV": False,
+        }
+    )
+    saved, meta = read_lori_state(out)
+    expected = aset.state_dict()
+    assert saved.keys() == expected.keys()
+    for key in expected:
+        torch.testing.assert_close(saved[key], expected[key], rtol=0, atol=0)
+    assert meta["kohakumoss_format"] == "kohakumoss_lori"
 
 
 @pytest.mark.parametrize("field", ["version", "rank", "target"])

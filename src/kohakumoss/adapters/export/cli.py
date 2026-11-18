@@ -93,7 +93,7 @@ def export_main(cfg: dict) -> None:
         return
     multiplier = float(cfg.get("MULTIPLIER", 1.0))
     config = inference_config(config_from_meta(meta) or {}, multiplier)
-    aset = apply(model, config)
+    aset = apply(model, config, initial_state=tensors, initial_metadata=meta)
     aset.load_state_dict(tensors)
     aset.export(
         cfg["OUT"],
