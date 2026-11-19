@@ -1,0 +1,4 @@
+# Local-only large binaries (2.46 GB of exports, 191 MB of comparison grids).
+# Whether they enter the repository, and whether Git LFS is used, is still open.
+images/
+weights/

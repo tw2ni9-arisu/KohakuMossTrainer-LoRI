@@ -1,0 +1,2534 @@
+{
+ "audit_id": "task12-a-frozen",
+ "title": "A 是否在训练中被冻结：静态 / 产物 / 运行时 / 导出四层取证",
+ "created_utc": "2026-11-19T02:20:00Z",
+ "reviewer": "review (独立复核子代理)",
+ "workspace": "D:/Develop/KohakuMossTrainer-LoRI",
+ "code_state": {
+  "head": "957ccc3f89c1506db8e41ce4d260f529446e142b",
+  "head_subject": "Restore native LoRI state in the standalone exporter",
+  "head_date": "2026-11-18T13:07:21+08:00",
+  "delivered_artifacts_built_from": "HEAD 957ccc3（交付产物生成时工作树干净；task12 复核前 git status 为空）",
+  "working_tree_when_audited": {
+   "dirty": true,
+   "files": [
+    "docs/concepts/adapters.md",
+    "docs/guides/export-to-comfy.md",
+    "src/kohakumoss/adapters/train/adapter_set.py",
+    "src/kohakumoss/adapters/train/lori.py",
+    "src/kohakumoss/training/drivers/common.py",
+    "src/kohakumoss/training/drivers/pipeline.py",
+    "src/kohakumoss/training/full.py",
+    "src/kohakumoss/types/protocols.py"
+   ],
+   "untracked": [
+    "tests/adapters/test_lori_export_facts.py"
+   ],
+   "diffstat": "8 files changed, 139 insertions(+), 4 deletions(-)",
+   "note": "这不是我改的：复核期间发现工作树带有未提交的导出/检查点元数据补丁（新增 kohakumoss_lori_phase/mechanism/trainable/a=frozen_buffer/a_sha256、kohakumoss_container、kohakumoss_lori_comfy=inference_only_dense_b 与稀疏 comfy 导出的警告）。该补丁**不在任何已交付产物里**（我逐个读取导出文件的 metadata 证实缺少这些键）；它也不触碰 LoRIModule 的 buffer 注册，因此不影响 A 冻结的结论。",
+   "verified_not_touching_A_freeze": "git diff 中 lori.py 只在 124 行后新增 a_sha256/kept_total 两个纯函数；LoRIModule.__init__ 的 47-48 行缓冲区注册无改动。"
+  },
+  "runtime_runs_used": "2 步受控实验在 HEAD 957ccc3 + 上述未提交补丁的工作树上运行；A 冻结机制在提交版本内即成立，补丁只增加元数据。"
+ },
+ "static_evidence": [
+  {
+   "file": "KohakuMossTrainer/src/kohakumoss/adapters/kinds/lori.py",
+   "line": "47-48",
+   "fact": "self.register_buffer(\"A\", a.detach().clone()) 与 register_buffer(\"alpha\", ...) —— A/alpha 是 buffer，不进入 nn.Parameter 集合"
+  },
+  {
+   "file": "KohakuMossTrainer/src/kohakumoss/adapters/kinds/lori.py",
+   "line": "52",
+   "fact": "calibration：self.b_dense = nn.Parameter(self.A.new_zeros((out, dim))) —— 唯一可训练张量"
+  },
+  {
+   "file": "KohakuMossTrainer/src/kohakumoss/adapters/kinds/lori.py",
+   "line": "66-67",
+   "fact": "sparse：register_buffer(\"active_indices\") + nn.Parameter(\"b_values\") 仅保留坐标，掩码外不存在可训练存储"
+  },
+  {
+   "file": "KohakuMossTrainer/src/kohakumoss/adapters/kinds/lori.py",
+   "line": "104-110",
+   "fact": "comfy 导出：lora_up.weight = dense_b()、lora_down.weight = A、alpha = alpha —— A 与 B 平权落盘，文件本身不再区分冻结"
+  },
+  {
+   "file": "KohakuMossTrainer/src/kohakumoss/adapters/kinds/lori.py",
+   "line": "113-122",
+   "fact": "Kind(algos={\"lori\": \"lora\"})：这是 ss_network_args={\"algo\": \"lora\"} 的来源，解释了导出元数据的自相矛盾"
+  },
+  {
+   "file": "KohakuMossTrainer/src/kohakumoss/adapters/train/adapter_set.py",
+   "line": "246-262",
+   "fact": "trainable_params() -> named_trainable() -> _entries() 只遍历 t.lyco.named_parameters() 且要求 requires_grad；buffer 永不出现在此枚举里"
+  },
+  {
+   "file": "KohakuMossTrainer/src/kohakumoss/training/build/loop.py",
+   "line": "173-202",
+   "fact": "build_optim 只从 built.trainable.param_groups(...) 取参数；优化器因此构造性地不可能持有 A"
+  },
+  {
+   "file": "KohakuMossTrainer/src/kohakumoss/training/entry.py",
+   "line": "300",
+   "fact": "训练入口仅调用 build_optim(k, built, ...)，没有第二条向优化器注入参数的路径"
+  },
+  {
+   "file": "KohakuMossTrainer/src/kohakumoss/adapters/build/apply.py",
+   "line": "25-36",
+   "fact": "唯一写 buffer 的地方是构建期的 _place()：把 A/alpha 搬到目标 device（一次），训练循环不触碰"
+  },
+  {
+   "file": "KohakuMossTrainer/src/kohakumoss/adapters/train/lori.py",
+   "line": "180-186",
+   "fact": "read_lori_state 返回普通 Tensor（不包 Parameter、不设 requires_grad），冻结由加载方的 register_buffer 保证"
+  },
+  {
+   "file": "KohakuMossTrainer/src/kohakumoss/adapters/infer/inference.py",
+   "line": "374-382, 383-403",
+   "fact": "推理加载：原生 LoRI 走 LoRIModule（A 变 buffer）；comfy 走通用 lycoris get_module/make_module（A 即 lora_down），随后统一 requires_grad_(False)。冻结是加载方施加的，不是文件里的标记"
+  }
+ ],
+ "artifacts": {
+  "files": [
+   {
+    "label": "task6-cal-step12",
+    "path": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task6/session-20261118-a/calibration/lori-calibration/checkpoints/step_00000012/trainable.safetensors",
+    "bytes": 74397040,
+    "tensors": 756,
+    "A_count": 252,
+    "alpha_count": 252,
+    "b_dense": 252,
+    "b_values": 0,
+    "A_combined": "7f8b433fe34e4caa789e9923e44227acdef677e04edc1852a71d6242b884db19",
+    "alpha_combined": "930ce824c0831386ee6bad65542d768c8b56d2c5a3264511be2d7ae02207c991",
+    "A_matches_ref": true,
+    "alpha_matches_ref": true,
+    "B_total": 10665984,
+    "B_combined": "49e29e06c67fbdd06ccb3a8457b44e65cbf83c95c67da97d3776327f51cc1349"
+   },
+   {
+    "label": "task6-sparse-step32",
+    "path": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task6/session-20261118-a/sparse/lori-sparse/checkpoints/step_00000032/trainable.safetensors",
+    "bytes": 44654812,
+    "tensors": 1008,
+    "A_count": 252,
+    "alpha_count": 252,
+    "b_dense": 0,
+    "b_values": 252,
+    "A_combined": "7f8b433fe34e4caa789e9923e44227acdef677e04edc1852a71d6242b884db19",
+    "alpha_combined": "930ce824c0831386ee6bad65542d768c8b56d2c5a3264511be2d7ae02207c991",
+    "A_matches_ref": true,
+    "alpha_matches_ref": true,
+    "B_total": 1066599,
+    "B_combined": "168e54fa48f0946901205317efe319a6150ad136d8714b31334b18d89a432b38"
+   },
+   {
+    "label": "task8-sparse-step232",
+    "path": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task8/session-20261118-a/training/lori-sparse/checkpoints/step_00000232/trainable.safetensors",
+    "bytes": 44654676,
+    "tensors": 1008,
+    "A_count": 252,
+    "alpha_count": 252,
+    "b_dense": 0,
+    "b_values": 252,
+    "A_combined": "7f8b433fe34e4caa789e9923e44227acdef677e04edc1852a71d6242b884db19",
+    "alpha_combined": "930ce824c0831386ee6bad65542d768c8b56d2c5a3264511be2d7ae02207c991",
+    "A_matches_ref": true,
+    "alpha_matches_ref": true,
+    "B_total": 1066599,
+    "B_combined": "341260f5bfbcd1cbc3be67958494a14bb3a5ac049109b82c89b2263a7c3fa5e4"
+   },
+   {
+    "label": "task9-dense-step232",
+    "path": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task9/session-20261118-a/training/lori-dense/checkpoints/step_00000232/trainable.safetensors",
+    "bytes": 74397040,
+    "tensors": 756,
+    "A_count": 252,
+    "alpha_count": 252,
+    "b_dense": 252,
+    "b_values": 0,
+    "A_combined": "7f8b433fe34e4caa789e9923e44227acdef677e04edc1852a71d6242b884db19",
+    "alpha_combined": "930ce824c0831386ee6bad65542d768c8b56d2c5a3264511be2d7ae02207c991",
+    "A_matches_ref": true,
+    "alpha_matches_ref": true,
+    "B_total": 10665984,
+    "B_combined": "6a93119a221dc964915a37ad8d7e9acfe319c97db52044b03c6ce878aababd7d"
+   },
+   {
+    "label": "task10-dense-step285",
+    "path": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/session-20261118-a/training/lori-dense/checkpoints/step_00000285/trainable.safetensors",
+    "bytes": 74397040,
+    "tensors": 756,
+    "A_count": 252,
+    "alpha_count": 252,
+    "b_dense": 252,
+    "b_values": 0,
+    "A_combined": "7f8b433fe34e4caa789e9923e44227acdef677e04edc1852a71d6242b884db19",
+    "alpha_combined": "930ce824c0831386ee6bad65542d768c8b56d2c5a3264511be2d7ae02207c991",
+    "A_matches_ref": true,
+    "alpha_matches_ref": true,
+    "B_total": 10665984,
+    "B_combined": "1eb12ec723d70d88df5fa13fd86a9706202e1048c146dbc87961f298e2fcb137"
+   },
+   {
+    "label": "task10-dense-step570",
+    "path": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/session-20261118-a/training/lori-dense/checkpoints/step_00000570/trainable.safetensors",
+    "bytes": 74397040,
+    "tensors": 756,
+    "A_count": 252,
+    "alpha_count": 252,
+    "b_dense": 252,
+    "b_values": 0,
+    "A_combined": "7f8b433fe34e4caa789e9923e44227acdef677e04edc1852a71d6242b884db19",
+    "alpha_combined": "930ce824c0831386ee6bad65542d768c8b56d2c5a3264511be2d7ae02207c991",
+    "A_matches_ref": true,
+    "alpha_matches_ref": true,
+    "B_total": 10665984,
+    "B_combined": "214c3f9a1de3a4c98c0cc43290fe5db66a10b46f105450d63caa0e69e33f4c26"
+   },
+   {
+    "label": "task10-dense-step855",
+    "path": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/session-20261118-a/training/lori-dense/checkpoints/step_00000855/trainable.safetensors",
+    "bytes": 74397040,
+    "tensors": 756,
+    "A_count": 252,
+    "alpha_count": 252,
+    "b_dense": 252,
+    "b_values": 0,
+    "A_combined": "7f8b433fe34e4caa789e9923e44227acdef677e04edc1852a71d6242b884db19",
+    "alpha_combined": "930ce824c0831386ee6bad65542d768c8b56d2c5a3264511be2d7ae02207c991",
+    "A_matches_ref": true,
+    "alpha_matches_ref": true,
+    "B_total": 10665984,
+    "B_combined": "e09250b4c3cf44c63b826f0ea1579e4b927b8cd1c6c1d037f01016f94913b1c0"
+   },
+   {
+    "label": "task10-dense-step900",
+    "path": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/session-20261118-a/training/lori-dense/checkpoints/step_00000900/trainable.safetensors",
+    "bytes": 74397040,
+    "tensors": 756,
+    "A_count": 252,
+    "alpha_count": 252,
+    "b_dense": 252,
+    "b_values": 0,
+    "A_combined": "7f8b433fe34e4caa789e9923e44227acdef677e04edc1852a71d6242b884db19",
+    "alpha_combined": "930ce824c0831386ee6bad65542d768c8b56d2c5a3264511be2d7ae02207c991",
+    "A_matches_ref": true,
+    "alpha_matches_ref": true,
+    "B_total": 10665984,
+    "B_combined": "1e793243b138c16ff7606be657312e6d2e26462227dfc7e100c3f6e79f651460"
+   },
+   {
+    "label": "task11-cal-step285",
+    "path": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task11/session-20261119-a/calibration/lori-calibration/checkpoints/step_00000285/trainable.safetensors",
+    "bytes": 74397040,
+    "tensors": 756,
+    "A_count": 252,
+    "alpha_count": 252,
+    "b_dense": 252,
+    "b_values": 0,
+    "A_combined": "7f8b433fe34e4caa789e9923e44227acdef677e04edc1852a71d6242b884db19",
+    "alpha_combined": "930ce824c0831386ee6bad65542d768c8b56d2c5a3264511be2d7ae02207c991",
+    "A_matches_ref": true,
+    "alpha_matches_ref": true,
+    "B_total": 10665984,
+    "B_combined": "4a1fe492948d68f700c6f77719f7601b12902241b4d6892db4182d04cd9d631a"
+   },
+   {
+    "label": "task11-sparse90-step285",
+    "path": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task11/session-20261119-a/runs/lori-sparse90/checkpoints/step_00000285/trainable.safetensors",
+    "bytes": 44654764,
+    "tensors": 1008,
+    "A_count": 252,
+    "alpha_count": 252,
+    "b_dense": 0,
+    "b_values": 252,
+    "A_combined": "7f8b433fe34e4caa789e9923e44227acdef677e04edc1852a71d6242b884db19",
+    "alpha_combined": "930ce824c0831386ee6bad65542d768c8b56d2c5a3264511be2d7ae02207c991",
+    "A_matches_ref": true,
+    "alpha_matches_ref": true,
+    "B_total": 1066599,
+    "B_combined": "225e0e069c95da87ed8270130839b42d50bacc701d525e6f71ca636dd44faafc"
+   },
+   {
+    "label": "task11-sparse90-step570",
+    "path": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task11/session-20261119-a/runs/lori-sparse90/checkpoints/step_00000570/trainable.safetensors",
+    "bytes": 44654764,
+    "tensors": 1008,
+    "A_count": 252,
+    "alpha_count": 252,
+    "b_dense": 0,
+    "b_values": 252,
+    "A_combined": "7f8b433fe34e4caa789e9923e44227acdef677e04edc1852a71d6242b884db19",
+    "alpha_combined": "930ce824c0831386ee6bad65542d768c8b56d2c5a3264511be2d7ae02207c991",
+    "A_matches_ref": true,
+    "alpha_matches_ref": true,
+    "B_total": 1066599,
+    "B_combined": "464c8fa145afa098cbe44673426ae2c5df946d37a9f3ce6f36ea532f0f3204d9"
+   },
+   {
+    "label": "task11-sparse90-step855",
+    "path": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task11/session-20261119-a/runs/lori-sparse90/checkpoints/step_00000855/trainable.safetensors",
+    "bytes": 44654764,
+    "tensors": 1008,
+    "A_count": 252,
+    "alpha_count": 252,
+    "b_dense": 0,
+    "b_values": 252,
+    "A_combined": "7f8b433fe34e4caa789e9923e44227acdef677e04edc1852a71d6242b884db19",
+    "alpha_combined": "930ce824c0831386ee6bad65542d768c8b56d2c5a3264511be2d7ae02207c991",
+    "A_matches_ref": true,
+    "alpha_matches_ref": true,
+    "B_total": 1066599,
+    "B_combined": "26cd7d741e893e1d482a2b370fe7b5760e256bcb5d610d5a34de22cb78db7cca"
+   },
+   {
+    "label": "task11-sparse90-step900",
+    "path": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task11/session-20261119-a/runs/lori-sparse90/checkpoints/step_00000900/trainable.safetensors",
+    "bytes": 44654764,
+    "tensors": 1008,
+    "A_count": 252,
+    "alpha_count": 252,
+    "b_dense": 0,
+    "b_values": 252,
+    "A_combined": "7f8b433fe34e4caa789e9923e44227acdef677e04edc1852a71d6242b884db19",
+    "alpha_combined": "930ce824c0831386ee6bad65542d768c8b56d2c5a3264511be2d7ae02207c991",
+    "A_matches_ref": true,
+    "alpha_matches_ref": true,
+    "B_total": 1066599,
+    "B_combined": "e476caae4e073ad12082df2ad4373b2d5e925e4fe4615e5cbac1fcf4f4fd5785"
+   },
+   {
+    "label": "task11-sparse60-step285",
+    "path": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task11/session-20261119-a/runs/lori-sparse60/checkpoints/step_00000285/trainable.safetensors",
+    "bytes": 83052792,
+    "tensors": 1008,
+    "A_count": 252,
+    "alpha_count": 252,
+    "b_dense": 0,
+    "b_values": 252,
+    "A_combined": "7f8b433fe34e4caa789e9923e44227acdef677e04edc1852a71d6242b884db19",
+    "alpha_combined": "930ce824c0831386ee6bad65542d768c8b56d2c5a3264511be2d7ae02207c991",
+    "A_matches_ref": true,
+    "alpha_matches_ref": true,
+    "B_total": 4266394,
+    "B_combined": "dcd1f311c55f42a2d3bfb895119cc144c4a04e0ae3a62ad82cb65acfb97de3b9"
+   },
+   {
+    "label": "task11-sparse60-step570",
+    "path": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task11/session-20261119-a/runs/lori-sparse60/checkpoints/step_00000570/trainable.safetensors",
+    "bytes": 83052792,
+    "tensors": 1008,
+    "A_count": 252,
+    "alpha_count": 252,
+    "b_dense": 0,
+    "b_values": 252,
+    "A_combined": "7f8b433fe34e4caa789e9923e44227acdef677e04edc1852a71d6242b884db19",
+    "alpha_combined": "930ce824c0831386ee6bad65542d768c8b56d2c5a3264511be2d7ae02207c991",
+    "A_matches_ref": true,
+    "alpha_matches_ref": true,
+    "B_total": 4266394,
+    "B_combined": "099fa5241325b8e2512a10827799a57c2c155a7049d0399e84f0b6154c05a109"
+   },
+   {
+    "label": "task11-sparse60-step855",
+    "path": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task11/session-20261119-a/runs/lori-sparse60/checkpoints/step_00000855/trainable.safetensors",
+    "bytes": 83052792,
+    "tensors": 1008,
+    "A_count": 252,
+    "alpha_count": 252,
+    "b_dense": 0,
+    "b_values": 252,
+    "A_combined": "7f8b433fe34e4caa789e9923e44227acdef677e04edc1852a71d6242b884db19",
+    "alpha_combined": "930ce824c0831386ee6bad65542d768c8b56d2c5a3264511be2d7ae02207c991",
+    "A_matches_ref": true,
+    "alpha_matches_ref": true,
+    "B_total": 4266394,
+    "B_combined": "68572e1dddd1d9374e71cd0951f1e6b43123ad21f307b20bc2c4f410c168489f"
+   },
+   {
+    "label": "task11-sparse60-step900",
+    "path": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task11/session-20261119-a/runs/lori-sparse60/checkpoints/step_00000900/trainable.safetensors",
+    "bytes": 83052792,
+    "tensors": 1008,
+    "A_count": 252,
+    "alpha_count": 252,
+    "b_dense": 0,
+    "b_values": 252,
+    "A_combined": "7f8b433fe34e4caa789e9923e44227acdef677e04edc1852a71d6242b884db19",
+    "alpha_combined": "930ce824c0831386ee6bad65542d768c8b56d2c5a3264511be2d7ae02207c991",
+    "A_matches_ref": true,
+    "alpha_matches_ref": true,
+    "B_total": 4266394,
+    "B_combined": "9c5301ffa879fbdd293bb9ce38744ec596d9aa73ee819a65594babfa3caf0980"
+   },
+   {
+    "label": "task11-sparse30-step285",
+    "path": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task11/session-20261119-a/runs/lori-sparse30/checkpoints/step_00000285/trainable.safetensors",
+    "bytes": 121451196,
+    "tensors": 1008,
+    "A_count": 252,
+    "alpha_count": 252,
+    "b_dense": 0,
+    "b_values": 252,
+    "A_combined": "7f8b433fe34e4caa789e9923e44227acdef677e04edc1852a71d6242b884db19",
+    "alpha_combined": "930ce824c0831386ee6bad65542d768c8b56d2c5a3264511be2d7ae02207c991",
+    "A_matches_ref": true,
+    "alpha_matches_ref": true,
+    "B_total": 7466189,
+    "B_combined": "d3d7a24b2b5892e689d9609a2c287e6ee68f311946410f71702b3923ea1827cf"
+   },
+   {
+    "label": "task11-sparse30-step570",
+    "path": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task11/session-20261119-a/runs/lori-sparse30/checkpoints/step_00000570/trainable.safetensors",
+    "bytes": 121451196,
+    "tensors": 1008,
+    "A_count": 252,
+    "alpha_count": 252,
+    "b_dense": 0,
+    "b_values": 252,
+    "A_combined": "7f8b433fe34e4caa789e9923e44227acdef677e04edc1852a71d6242b884db19",
+    "alpha_combined": "930ce824c0831386ee6bad65542d768c8b56d2c5a3264511be2d7ae02207c991",
+    "A_matches_ref": true,
+    "alpha_matches_ref": true,
+    "B_total": 7466189,
+    "B_combined": "167bf6d936db02b14889a2347a39d514ee7b1f3c3d03d233dd897bbfbd699a68"
+   },
+   {
+    "label": "task11-sparse30-step855",
+    "path": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task11/session-20261119-a/runs/lori-sparse30/checkpoints/step_00000855/trainable.safetensors",
+    "bytes": 121451196,
+    "tensors": 1008,
+    "A_count": 252,
+    "alpha_count": 252,
+    "b_dense": 0,
+    "b_values": 252,
+    "A_combined": "7f8b433fe34e4caa789e9923e44227acdef677e04edc1852a71d6242b884db19",
+    "alpha_combined": "930ce824c0831386ee6bad65542d768c8b56d2c5a3264511be2d7ae02207c991",
+    "A_matches_ref": true,
+    "alpha_matches_ref": true,
+    "B_total": 7466189,
+    "B_combined": "c3afc97b631290554248b9dce245af5c164b82d443e203cf40d0bf70f246171c"
+   },
+   {
+    "label": "task11-sparse30-step900",
+    "path": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task11/session-20261119-a/runs/lori-sparse30/checkpoints/step_00000900/trainable.safetensors",
+    "bytes": 121451196,
+    "tensors": 1008,
+    "A_count": 252,
+    "alpha_count": 252,
+    "b_dense": 0,
+    "b_values": 252,
+    "A_combined": "7f8b433fe34e4caa789e9923e44227acdef677e04edc1852a71d6242b884db19",
+    "alpha_combined": "930ce824c0831386ee6bad65542d768c8b56d2c5a3264511be2d7ae02207c991",
+    "A_matches_ref": true,
+    "alpha_matches_ref": true,
+    "B_total": 7466189,
+    "B_combined": "cb93eef06eec16883d89f02054422951d18df0de7460cf194339e29cb16efbab"
+   },
+   {
+    "label": "task11-mask-90",
+    "path": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task11/session-20261119-a/masks/sparsity-90.safetensors",
+    "bytes": 44654540,
+    "tensors": 1008,
+    "A_count": 252,
+    "alpha_count": 252,
+    "b_dense": 0,
+    "b_values": 252,
+    "A_combined": "7f8b433fe34e4caa789e9923e44227acdef677e04edc1852a71d6242b884db19",
+    "alpha_combined": "930ce824c0831386ee6bad65542d768c8b56d2c5a3264511be2d7ae02207c991",
+    "A_matches_ref": true,
+    "alpha_matches_ref": true,
+    "B_total": 1066599,
+    "B_combined": "859f1da31b226cc3a8f5581bcfe7b50a338ca2eb7d73f13ef8e374d837143e11"
+   },
+   {
+    "label": "task11-mask-60",
+    "path": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task11/session-20261119-a/masks/sparsity-60.safetensors",
+    "bytes": 83052792,
+    "tensors": 1008,
+    "A_count": 252,
+    "alpha_count": 252,
+    "b_dense": 0,
+    "b_values": 252,
+    "A_combined": "7f8b433fe34e4caa789e9923e44227acdef677e04edc1852a71d6242b884db19",
+    "alpha_combined": "930ce824c0831386ee6bad65542d768c8b56d2c5a3264511be2d7ae02207c991",
+    "A_matches_ref": true,
+    "alpha_matches_ref": true,
+    "B_total": 4266394,
+    "B_combined": "71c3c77d9623ec061536f55ad33947cd0354b94743fca53f62191ab4a4b6ea4f"
+   },
+   {
+    "label": "task11-mask-30",
+    "path": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task11/session-20261119-a/masks/sparsity-30.safetensors",
+    "bytes": 121451356,
+    "tensors": 1008,
+    "A_count": 252,
+    "alpha_count": 252,
+    "b_dense": 0,
+    "b_values": 252,
+    "A_combined": "7f8b433fe34e4caa789e9923e44227acdef677e04edc1852a71d6242b884db19",
+    "alpha_combined": "930ce824c0831386ee6bad65542d768c8b56d2c5a3264511be2d7ae02207c991",
+    "A_matches_ref": true,
+    "alpha_matches_ref": true,
+    "B_total": 7466189,
+    "B_combined": "c928fb0ab8e511c13e71723085e86a2a92f0b622ab17c686231c2e85c5d11d9c"
+   }
+  ],
+  "summary": {
+   "files_checked": 24,
+   "A_combined_all_equal": true,
+   "alpha_all_equal": true,
+   "reference_A": "7f8b433fe34e4caa789e9923e44227acdef677e04edc1852a71d6242b884db19",
+   "reference_alpha": "930ce824c0831386ee6bad65542d768c8b56d2c5a3264511be2d7ae02207c991",
+   "B_digests_distinct": true,
+   "note": "24 个文件 = task6(2) + task8(1) + task9(1) + task10(4) + task11 calibration(1) + task11 稀疏 12 + task11 掩码 3；A/alpha 24/24 相同，B 24/24 互不相同（含掩码，其 b_values 恒零）。"
+  }
+ },
+ "optimizers": [
+  {
+   "case": "task10-dense-step900",
+   "entries": 252,
+   "state_shapes": {
+    "(3072, 8)": 210,
+    "(16384, 8)": 42
+   },
+   "A_shaped_state_tensors": [],
+   "moments": {
+    "m": 10665984,
+    "v": 10665984,
+    "sum": 21331968
+   },
+   "B_elems": 10665984,
+   "steps": [
+    900.0
+   ],
+   "dtypes": [
+    "torch.float32"
+   ],
+   "nonfinite": 0,
+   "master_multiset_equals_B": true,
+   "master_tensors": 252,
+   "B_tensors": 252,
+   "A_tensors_in_trainable": 252,
+   "moments_2x_B": true
+  },
+  {
+   "case": "task11-sparse90-step900",
+   "entries": 252,
+   "state_shapes": {
+    "(2046,)": 1,
+    "(1197,)": 1,
+    "(1330,)": 1,
+    "(1687,)": 2,
+    "(9469,)": 1,
+    "(1574,)": 1,
+    "(1675,)": 1,
+    "(1762,)": 2,
+    "(1671,)": 1,
+    "(1723,)": 1,
+    "(9097,)": 1,
+    "(1625,)": 1,
+    "(1645,)": 1,
+    "(1608,)": 1,
+    "(1533,)": 1,
+    "(9181,)": 1,
+    "(1734,)": 1,
+    "(1860,)": 1,
+    "(1778,)": 1,
+    "(1560,)": 1,
+    "(1530,)": 1,
+    "(9631,)": 1,
+    "(1722,)": 1,
+    "(1603,)": 1,
+    "(1565,)": 1,
+    "(1506,)": 1,
+    "(1715,)": 1,
+    "(9664,)": 1,
+    "(1710,)": 1,
+    "(1720,)": 1,
+    "(1712,)": 1,
+    "(1652,)": 1,
+    "(1612,)": 1,
+    "(9462,)": 1,
+    "(1784,)": 2,
+    "(1708,)": 1,
+    "(1651,)": 1,
+    "(1572,)": 1,
+    "(1615,)": 1,
+    "(9614,)": 1,
+    "(1713,)": 3,
+    "(1564,)": 1,
+    "(1721,)": 1,
+    "(1518,)": 1,
+    "(1484,)": 1,
+    "(9520,)": 1,
+    "(1826,)": 1,
+    "(1550,)": 1,
+    "(9839,)": 1,
+    "(1810,)": 1,
+    "(1926,)": 1,
+    "(1858,)": 1,
+    "(1584,)": 1,
+    "(1834,)": 1,
+    "(10174,)": 1,
+    "(1803,)": 1,
+    "(1916,)": 1,
+    "(1806,)": 1,
+    "(1616,)": 1,
+    "(9916,)": 1,
+    "(1914,)": 1,
+    "(1849,)": 1,
+    "(1790,)": 1,
+    "(1641,)": 1,
+    "(1743,)": 1,
+    "(10262,)": 1,
+    "(1931,)": 2,
+    "(1904,)": 1,
+    "(1954,)": 2,
+    "(1917,)": 1,
+    "(10344,)": 1,
+    "(1929,)": 1,
+    "(1960,)": 1,
+    "(1797,)": 1,
+    "(1698,)": 1,
+    "(1959,)": 1,
+    "(10752,)": 1,
+    "(2039,)": 1,
+    "(2082,)": 1,
+    "(2075,)": 1,
+    "(2084,)": 1,
+    "(10877,)": 1,
+    "(2029,)": 1,
+    "(2149,)": 1,
+    "(1986,)": 1,
+    "(2159,)": 1,
+    "(2105,)": 1,
+    "(11269,)": 1,
+    "(2125,)": 1,
+    "(2368,)": 1,
+    "(2106,)": 1,
+    "(2287,)": 1,
+    "(2172,)": 1,
+    "(10742,)": 1,
+    "(2045,)": 1,
+    "(2019,)": 1,
+    "(1967,)": 1,
+    "(2110,)": 1,
+    "(1933,)": 1,
+    "(11587,)": 1,
+    "(2176,)": 1,
+    "(2089,)": 1,
+    "(2174,)": 1,
+    "(2341,)": 1,
+    "(2202,)": 1,
+    "(11164,)": 1,
+    "(1841,)": 1,
+    "(1921,)": 1,
+    "(2049,)": 1,
+    "(2057,)": 1,
+    "(2280,)": 1,
+    "(11487,)": 1,
+    "(2244,)": 1,
+    "(2186,)": 2,
+    "(2245,)": 1,
+    "(2220,)": 2,
+    "(2195,)": 1,
+    "(11672,)": 1,
+    "(2251,)": 1,
+    "(2347,)": 1,
+    "(2167,)": 1,
+    "(2014,)": 1,
+    "(11386,)": 1,
+    "(2297,)": 1,
+    "(1905,)": 1,
+    "(2226,)": 1,
+    "(1961,)": 1,
+    "(12412,)": 1,
+    "(2424,)": 1,
+    "(2118,)": 1,
+    "(2171,)": 1,
+    "(2867,)": 1,
+    "(2611,)": 1,
+    "(14361,)": 1,
+    "(2878,)": 1,
+    "(2971,)": 1,
+    "(2648,)": 1,
+    "(3443,)": 1,
+    "(3056,)": 1,
+    "(17531,)": 1,
+    "(3067,)": 1,
+    "(2903,)": 1,
+    "(3062,)": 1,
+    "(3817,)": 1,
+    "(3853,)": 1,
+    "(18438,)": 1,
+    "(3743,)": 1,
+    "(3357,)": 1,
+    "(3048,)": 1,
+    "(4191,)": 1,
+    "(3600,)": 1,
+    "(18966,)": 1,
+    "(3816,)": 1,
+    "(3332,)": 1,
+    "(3286,)": 1,
+    "(4169,)": 1,
+    "(3533,)": 1,
+    "(18502,)": 1,
+    "(3450,)": 1,
+    "(3343,)": 1,
+    "(3392,)": 1,
+    "(3679,)": 1,
+    "(3583,)": 1,
+    "(20054,)": 1,
+    "(3709,)": 1,
+    "(3219,)": 1,
+    "(3532,)": 1,
+    "(4292,)": 1,
+    "(3347,)": 1,
+    "(20333,)": 1,
+    "(3633,)": 1,
+    "(3623,)": 1,
+    "(3904,)": 1,
+    "(3936,)": 1,
+    "(3640,)": 1,
+    "(21142,)": 1,
+    "(3745,)": 1,
+    "(3871,)": 1,
+    "(3711,)": 1,
+    "(4150,)": 1,
+    "(3693,)": 1,
+    "(20935,)": 1,
+    "(3449,)": 1,
+    "(3172,)": 1,
+    "(3149,)": 1,
+    "(3723,)": 1,
+    "(3566,)": 1,
+    "(20344,)": 1,
+    "(3696,)": 1,
+    "(3963,)": 1,
+    "(3306,)": 1,
+    "(3944,)": 1,
+    "(3794,)": 1,
+    "(19106,)": 1,
+    "(3040,)": 1,
+    "(3457,)": 1,
+    "(3661,)": 1,
+    "(3422,)": 1,
+    "(3390,)": 1,
+    "(16750,)": 1,
+    "(2727,)": 1,
+    "(2786,)": 1,
+    "(3489,)": 1,
+    "(2427,)": 1,
+    "(3057,)": 1,
+    "(14644,)": 1,
+    "(2582,)": 1,
+    "(2958,)": 1,
+    "(3552,)": 1,
+    "(2180,)": 1,
+    "(2387,)": 1,
+    "(13535,)": 1,
+    "(2242,)": 1,
+    "(2489,)": 1,
+    "(2806,)": 1,
+    "(2294,)": 1,
+    "(2684,)": 1,
+    "(12351,)": 1,
+    "(2269,)": 1,
+    "(2485,)": 1,
+    "(2337,)": 1,
+    "(2407,)": 1,
+    "(1451,)": 1,
+    "(11857,)": 1,
+    "(1761,)": 1,
+    "(2685,)": 1,
+    "(2709,)": 1,
+    "(2024,)": 1,
+    "(2498,)": 1,
+    "(13818,)": 1,
+    "(2665,)": 1,
+    "(2780,)": 1,
+    "(2355,)": 1,
+    "(2636,)": 1,
+    "(2314,)": 1,
+    "(12969,)": 1,
+    "(2650,)": 1,
+    "(1976,)": 1,
+    "(2543,)": 1,
+    "(2096,)": 1,
+    "(1800,)": 1,
+    "(11242,)": 1,
+    "(2873,)": 1
+   },
+   "A_shaped_state_tensors": [],
+   "moments": {
+    "m": 1066599,
+    "v": 1066599,
+    "sum": 2133198
+   },
+   "B_elems": 1066599,
+   "steps": [
+    900.0
+   ],
+   "dtypes": [
+    "torch.float32"
+   ],
+   "nonfinite": 0,
+   "master_multiset_equals_B": true,
+   "master_tensors": 252,
+   "B_tensors": 252,
+   "A_tensors_in_trainable": 252,
+   "moments_2x_B": true
+  },
+  {
+   "case": "task11-sparse60-step900",
+   "entries": 252,
+   "state_shapes": {
+    "(9466,)": 2,
+    "(7790,)": 1,
+    "(8125,)": 1,
+    "(8689,)": 1,
+    "(47922,)": 1,
+    "(8652,)": 1,
+    "(8874,)": 1,
+    "(8986,)": 1,
+    "(8805,)": 1,
+    "(8931,)": 1,
+    "(47169,)": 1,
+    "(8713,)": 1,
+    "(8688,)": 1,
+    "(8779,)": 1,
+    "(8643,)": 1,
+    "(8586,)": 1,
+    "(47687,)": 1,
+    "(8812,)": 1,
+    "(9159,)": 1,
+    "(9128,)": 1,
+    "(8694,)": 1,
+    "(8489,)": 1,
+    "(47911,)": 1,
+    "(8788,)": 1,
+    "(8683,)": 1,
+    "(8702,)": 1,
+    "(8470,)": 1,
+    "(8969,)": 1,
+    "(47938,)": 1,
+    "(8791,)": 1,
+    "(8843,)": 1,
+    "(8818,)": 1,
+    "(8721,)": 1,
+    "(8724,)": 1,
+    "(47791,)": 1,
+    "(8934,)": 1,
+    "(8954,)": 1,
+    "(8762,)": 1,
+    "(8559,)": 1,
+    "(8695,)": 1,
+    "(48256,)": 1,
+    "(8867,)": 1,
+    "(8502,)": 1,
+    "(8782,)": 2,
+    "(8507,)": 1,
+    "(8567,)": 1,
+    "(48028,)": 1,
+    "(8826,)": 1,
+    "(9014,)": 1,
+    "(8751,)": 1,
+    "(8624,)": 1,
+    "(8758,)": 1,
+    "(48666,)": 1,
+    "(8987,)": 1,
+    "(9180,)": 1,
+    "(9016,)": 1,
+    "(8830,)": 1,
+    "(8991,)": 1,
+    "(49135,)": 1,
+    "(9010,)": 1,
+    "(9233,)": 1,
+    "(9178,)": 1,
+    "(8425,)": 1,
+    "(8864,)": 1,
+    "(48603,)": 1,
+    "(9087,)": 1,
+    "(9172,)": 1,
+    "(9252,)": 1,
+    "(8605,)": 1,
+    "(8891,)": 1,
+    "(49301,)": 1,
+    "(9168,)": 1,
+    "(9074,)": 1,
+    "(9300,)": 1,
+    "(9054,)": 1,
+    "(9239,)": 1,
+    "(49036,)": 1,
+    "(9257,)": 1,
+    "(9302,)": 1,
+    "(8919,)": 1,
+    "(8772,)": 1,
+    "(9301,)": 1,
+    "(49544,)": 1,
+    "(9160,)": 1,
+    "(9185,)": 1,
+    "(9519,)": 2,
+    "(9670,)": 1,
+    "(9481,)": 1,
+    "(50123,)": 1,
+    "(9416,)": 1,
+    "(9446,)": 1,
+    "(9303,)": 1,
+    "(9516,)": 1,
+    "(9528,)": 1,
+    "(50627,)": 1,
+    "(9417,)": 1,
+    "(9887,)": 1,
+    "(9624,)": 1,
+    "(9622,)": 1,
+    "(9505,)": 1,
+    "(49894,)": 1,
+    "(9340,)": 1,
+    "(9234,)": 2,
+    "(9269,)": 1,
+    "(9485,)": 1,
+    "(9177,)": 1,
+    "(51179,)": 1,
+    "(9561,)": 1,
+    "(9433,)": 1,
+    "(9451,)": 1,
+    "(9796,)": 1,
+    "(9557,)": 1,
+    "(50557,)": 1,
+    "(9049,)": 1,
+    "(9208,)": 1,
+    "(9326,)": 1,
+    "(9617,)": 1,
+    "(50809,)": 1,
+    "(9627,)": 1,
+    "(9691,)": 1,
+    "(9595,)": 1,
+    "(9676,)": 1,
+    "(9594,)": 1,
+    "(51393,)": 1,
+    "(9677,)": 1,
+    "(9868,)": 2,
+    "(9661,)": 1,
+    "(9666,)": 1,
+    "(9317,)": 1,
+    "(50662,)": 1,
+    "(9706,)": 1,
+    "(9069,)": 1,
+    "(9743,)": 1,
+    "(9266,)": 1,
+    "(52485,)": 1,
+    "(9960,)": 1,
+    "(9537,)": 1,
+    "(9578,)": 1,
+    "(10400,)": 1,
+    "(10303,)": 1,
+    "(54722,)": 1,
+    "(10512,)": 1,
+    "(10586,)": 1,
+    "(10116,)": 1,
+    "(11229,)": 1,
+    "(10786,)": 1,
+    "(58468,)": 1,
+    "(10845,)": 1,
+    "(10406,)": 1,
+    "(10686,)": 1,
+    "(11615,)": 1,
+    "(11631,)": 1,
+    "(59309,)": 1,
+    "(11559,)": 1,
+    "(11099,)": 1,
+    "(10750,)": 1,
+    "(11781,)": 1,
+    "(11328,)": 1,
+    "(60387,)": 1,
+    "(11528,)": 1,
+    "(11126,)": 1,
+    "(10787,)": 1,
+    "(11895,)": 1,
+    "(11302,)": 1,
+    "(59847,)": 1,
+    "(11111,)": 1,
+    "(10960,)": 2,
+    "(11135,)": 1,
+    "(11408,)": 2,
+    "(11392,)": 1,
+    "(61422,)": 1,
+    "(11442,)": 1,
+    "(10842,)": 1,
+    "(11154,)": 1,
+    "(12069,)": 1,
+    "(11112,)": 1,
+    "(61991,)": 1,
+    "(11429,)": 1,
+    "(11421,)": 1,
+    "(11679,)": 1,
+    "(11655,)": 1,
+    "(11370,)": 1,
+    "(62463,)": 1,
+    "(11511,)": 1,
+    "(11404,)": 1,
+    "(11790,)": 1,
+    "(11396,)": 1,
+    "(61483,)": 1,
+    "(11098,)": 1,
+    "(10757,)": 1,
+    "(10585,)": 1,
+    "(11192,)": 1,
+    "(11304,)": 1,
+    "(60964,)": 1,
+    "(11406,)": 1,
+    "(11611,)": 1,
+    "(10879,)": 1,
+    "(11486,)": 1,
+    "(11505,)": 1,
+    "(59643,)": 1,
+    "(10597,)": 1,
+    "(11320,)": 1,
+    "(10861,)": 1,
+    "(11030,)": 1,
+    "(57064,)": 1,
+    "(10185,)": 1,
+    "(10120,)": 1,
+    "(10875,)": 1,
+    "(9686,)": 1,
+    "(10718,)": 1,
+    "(54119,)": 1,
+    "(10022,)": 1,
+    "(10523,)": 1,
+    "(10956,)": 1,
+    "(9773,)": 1,
+    "(52387,)": 1,
+    "(9556,)": 1,
+    "(10006,)": 1,
+    "(10268,)": 1,
+    "(9456,)": 1,
+    "(10159,)": 1,
+    "(51057,)": 1,
+    "(9372,)": 1,
+    "(9749,)": 1,
+    "(9626,)": 1,
+    "(9453,)": 1,
+    "(8331,)": 1,
+    "(49505,)": 1,
+    "(8457,)": 1,
+    "(10065,)": 1,
+    "(9758,)": 1,
+    "(8775,)": 1,
+    "(9634,)": 1,
+    "(52694,)": 1,
+    "(9981,)": 1,
+    "(9397,)": 1,
+    "(9922,)": 1,
+    "(9337,)": 1,
+    "(52057,)": 1,
+    "(10297,)": 1,
+    "(8654,)": 1,
+    "(9494,)": 1,
+    "(9058,)": 1,
+    "(49011,)": 1,
+    "(10264,)": 1
+   },
+   "A_shaped_state_tensors": [],
+   "moments": {
+    "m": 4266394,
+    "v": 4266394,
+    "sum": 8532788
+   },
+   "B_elems": 4266394,
+   "steps": [
+    900.0
+   ],
+   "dtypes": [
+    "torch.float32"
+   ],
+   "nonfinite": 0,
+   "master_multiset_equals_B": true,
+   "master_tensors": 252,
+   "B_tensors": 252,
+   "A_tensors_in_trainable": 252,
+   "moments_2x_B": true
+  },
+  {
+   "case": "task11-sparse30-step900",
+   "entries": 252,
+   "state_shapes": {
+    "(16976,)": 1,
+    "(15892,)": 1,
+    "(16222,)": 1,
+    "(16503,)": 1,
+    "(89153,)": 1,
+    "(16429,)": 1,
+    "(16724,)": 1,
+    "(16756,)": 1,
+    "(16660,)": 1,
+    "(16571,)": 1,
+    "(88951,)": 1,
+    "(16599,)": 1,
+    "(16553,)": 1,
+    "(16598,)": 1,
+    "(16468,)": 1,
+    "(16460,)": 1,
+    "(88909,)": 1,
+    "(16639,)": 1,
+    "(16863,)": 2,
+    "(16734,)": 1,
+    "(16419,)": 1,
+    "(16311,)": 1,
+    "(89093,)": 1,
+    "(16622,)": 1,
+    "(16458,)": 1,
+    "(16574,)": 1,
+    "(16299,)": 1,
+    "(16796,)": 2,
+    "(89146,)": 1,
+    "(16623,)": 1,
+    "(16508,)": 1,
+    "(16614,)": 1,
+    "(16581,)": 1,
+    "(16482,)": 1,
+    "(89038,)": 1,
+    "(16685,)": 1,
+    "(16745,)": 1,
+    "(16729,)": 1,
+    "(16436,)": 1,
+    "(16640,)": 1,
+    "(89126,)": 1,
+    "(16611,)": 1,
+    "(16450,)": 1,
+    "(16572,)": 1,
+    "(16403,)": 1,
+    "(16442,)": 1,
+    "(89116,)": 1,
+    "(16610,)": 1,
+    "(16695,)": 1,
+    "(16536,)": 1,
+    "(16551,)": 1,
+    "(16627,)": 1,
+    "(89586,)": 1,
+    "(16671,)": 1,
+    "(16845,)": 1,
+    "(16714,)": 1,
+    "(16631,)": 1,
+    "(16686,)": 1,
+    "(89836,)": 1,
+    "(16773,)": 1,
+    "(16862,)": 1,
+    "(16885,)": 1,
+    "(16389,)": 1,
+    "(16541,)": 1,
+    "(89529,)": 1,
+    "(16871,)": 1,
+    "(16835,)": 1,
+    "(16807,)": 1,
+    "(16369,)": 1,
+    "(16630,)": 1,
+    "(90166,)": 1,
+    "(16859,)": 1,
+    "(16970,)": 1,
+    "(16699,)": 1,
+    "(16799,)": 1,
+    "(89879,)": 1,
+    "(16793,)": 1,
+    "(16892,)": 2,
+    "(16605,)": 1,
+    "(16609,)": 1,
+    "(16914,)": 1,
+    "(90201,)": 1,
+    "(16811,)": 1,
+    "(16838,)": 1,
+    "(17010,)": 1,
+    "(17031,)": 1,
+    "(17041,)": 2,
+    "(90424,)": 1,
+    "(16967,)": 1,
+    "(17036,)": 1,
+    "(16938,)": 1,
+    "(17076,)": 1,
+    "(17122,)": 1,
+    "(90991,)": 1,
+    "(17011,)": 1,
+    "(17371,)": 1,
+    "(17046,)": 1,
+    "(17118,)": 2,
+    "(16946,)": 1,
+    "(90426,)": 1,
+    "(16829,)": 1,
+    "(16973,)": 1,
+    "(17073,)": 1,
+    "(16887,)": 1,
+    "(91140,)": 1,
+    "(16950,)": 1,
+    "(17043,)": 1,
+    "(16953,)": 1,
+    "(17298,)": 1,
+    "(17040,)": 1,
+    "(90521,)": 1,
+    "(16770,)": 1,
+    "(16927,)": 1,
+    "(17063,)": 1,
+    "(17148,)": 1,
+    "(91113,)": 1,
+    "(17144,)": 1,
+    "(17182,)": 1,
+    "(17103,)": 1,
+    "(17091,)": 1,
+    "(17068,)": 1,
+    "(91546,)": 1,
+    "(17130,)": 2,
+    "(17279,)": 1,
+    "(17137,)": 1,
+    "(16912,)": 1,
+    "(90794,)": 1,
+    "(17224,)": 1,
+    "(16758,)": 1,
+    "(17251,)": 1,
+    "(16789,)": 1,
+    "(17071,)": 1,
+    "(91993,)": 1,
+    "(17351,)": 2,
+    "(17004,)": 1,
+    "(17153,)": 1,
+    "(17576,)": 1,
+    "(17553,)": 1,
+    "(93364,)": 1,
+    "(17488,)": 1,
+    "(17812,)": 1,
+    "(17554,)": 1,
+    "(18004,)": 1,
+    "(17792,)": 2,
+    "(95595,)": 1,
+    "(17856,)": 1,
+    "(17549,)": 1,
+    "(17718,)": 1,
+    "(18317,)": 1,
+    "(18337,)": 1,
+    "(95594,)": 1,
+    "(18127,)": 1,
+    "(17904,)": 1,
+    "(18298,)": 1,
+    "(18087,)": 1,
+    "(96607,)": 1,
+    "(18223,)": 2,
+    "(18015,)": 1,
+    "(17769,)": 1,
+    "(18387,)": 1,
+    "(18118,)": 1,
+    "(96247,)": 1,
+    "(18124,)": 1,
+    "(17933,)": 1,
+    "(17980,)": 1,
+    "(18106,)": 1,
+    "(18172,)": 1,
+    "(96876,)": 1,
+    "(18228,)": 1,
+    "(17870,)": 1,
+    "(17954,)": 1,
+    "(18531,)": 1,
+    "(17924,)": 1,
+    "(97241,)": 1,
+    "(18255,)": 1,
+    "(18110,)": 1,
+    "(18361,)": 1,
+    "(18177,)": 1,
+    "(97603,)": 1,
+    "(18218,)": 1,
+    "(18194,)": 1,
+    "(18130,)": 1,
+    "(18331,)": 1,
+    "(18038,)": 1,
+    "(96837,)": 1,
+    "(17985,)": 1,
+    "(17826,)": 1,
+    "(17611,)": 1,
+    "(17991,)": 1,
+    "(18098,)": 1,
+    "(96533,)": 1,
+    "(18134,)": 1,
+    "(18264,)": 1,
+    "(17871,)": 1,
+    "(18155,)": 1,
+    "(18288,)": 1,
+    "(96025,)": 1,
+    "(17755,)": 1,
+    "(17861,)": 1,
+    "(18148,)": 1,
+    "(17855,)": 1,
+    "(17931,)": 1,
+    "(94523,)": 1,
+    "(17213,)": 1,
+    "(17699,)": 1,
+    "(17061,)": 1,
+    "(17818,)": 1,
+    "(92668,)": 1,
+    "(17241,)": 1,
+    "(17547,)": 1,
+    "(17848,)": 1,
+    "(16657,)": 1,
+    "(17202,)": 1,
+    "(91493,)": 1,
+    "(17430,)": 2,
+    "(17461,)": 1,
+    "(17066,)": 1,
+    "(90835,)": 1,
+    "(16986,)": 1,
+    "(17172,)": 1,
+    "(16963,)": 1,
+    "(16305,)": 1,
+    "(89348,)": 1,
+    "(16271,)": 1,
+    "(17354,)": 1,
+    "(16974,)": 1,
+    "(16445,)": 1,
+    "(16975,)": 1,
+    "(91818,)": 1,
+    "(17199,)": 1,
+    "(16955,)": 1,
+    "(16969,)": 1,
+    "(17195,)": 1,
+    "(16893,)": 1,
+    "(91345,)": 1,
+    "(17512,)": 1,
+    "(15515,)": 1,
+    "(16145,)": 1,
+    "(16565,)": 2,
+    "(89411,)": 1,
+    "(17541,)": 1
+   },
+   "A_shaped_state_tensors": [],
+   "moments": {
+    "m": 7466189,
+    "v": 7466189,
+    "sum": 14932378
+   },
+   "B_elems": 7466189,
+   "steps": [
+    900.0
+   ],
+   "dtypes": [
+    "torch.float32"
+   ],
+   "nonfinite": 0,
+   "master_multiset_equals_B": true,
+   "master_tensors": 252,
+   "B_tensors": 252,
+   "A_tensors_in_trainable": 252,
+   "moments_2x_B": true
+  }
+ ],
+ "runtime": {
+  "dense_2step": {
+   "config": "audit_dense_2step.py",
+   "mode": "dense",
+   "built": {
+    "modules": 252,
+    "A": 252,
+    "alpha": 252,
+    "B": 252,
+    "trainable": 252,
+    "phase": "calibration",
+    "A_requires_grad": 0,
+    "alpha_requires_grad": 0,
+    "A_is_parameter": 0,
+    "alpha_is_parameter": 0,
+    "A_in_trainable": 0,
+    "alpha_in_trainable": 0,
+    "trainable_is_exactly_B": true,
+    "B_kind": "b_dense",
+    "B_requires_grad": 252,
+    "B_elems": 10665984,
+    "A_buffer_names": [
+     "A",
+     "alpha"
+    ]
+   },
+   "optimizer_capture": {
+    "source": "HostStateAdamW + torch.optim.Optimizer",
+    "optimizer_objects": 2,
+    "params": 253,
+    "A_in_optimizer": 0,
+    "alpha_in_optimizer": 0,
+    "trainable_equals_optimizer": false,
+    "per_impl": [
+     {
+      "impl": "HostStateAdamW",
+      "params": 252,
+      "groups": 1,
+      "shapes": [
+       [
+        3072,
+        8
+       ],
+       [
+        16384,
+        8
+       ]
+      ]
+     },
+     {
+      "impl": "torch.optim.Optimizer",
+      "params": 1,
+      "groups": 1,
+      "shapes": [
+       [
+        1
+       ]
+      ]
+     }
+    ]
+   },
+   "after_run": {
+    "A_bytes_unchanged": true,
+    "alpha_bytes_unchanged": true,
+    "A_version_unchanged": true,
+    "alpha_version_unchanged": true,
+    "A_digests_unchanged": true,
+    "alpha_digests_unchanged": true,
+    "A_grad_is_none": true,
+    "alpha_grad_is_none": true,
+    "A_hook_hits": 0,
+    "alpha_hook_hits": 0,
+    "B_hook_hits": 252,
+    "B_layers_with_grad": 252,
+    "B_bytes_changed": 252,
+    "B_layers": 252,
+    "A_combined_canonical": "7f8b433fe34e4caa789e9923e44227acdef677e04edc1852a71d6242b884db19",
+    "alpha_combined_canonical": "930ce824c0831386ee6bad65542d768c8b56d2c5a3264511be2d7ae02207c991"
+   },
+   "optimizer_state": {
+    "entries": 252,
+    "moments": 21331968,
+    "m": 10665984,
+    "A_shaped_tensors": 0,
+    "all_shapes_are_B": true,
+    "master_multiset_equals_B": true,
+    "steps": [
+     2.0
+    ],
+    "nonfinite": 0,
+    "moments_equals_2x_B": true,
+    "expected_moments": 21331968
+   },
+   "optimizer_shapes_sample": [
+    [
+     3072,
+     8
+    ],
+    [
+     16384,
+     8
+    ]
+   ],
+   "checkpoint": {
+    "trainable": "D:\\Develop\\KohakuMossTrainer-LoRI\\experiment\\task12-audit\\tmp\\dense\\audit-dense-2step\\checkpoints\\step_00000002\\trainable.safetensors",
+    "A_tensors": 252,
+    "alpha_tensors": 252,
+    "B_tensors": 252,
+    "B_elems": 10665984,
+    "A_digests_match_live": true,
+    "A_combined_disk": "7f8b433fe34e4caa789e9923e44227acdef677e04edc1852a71d6242b884db19"
+   },
+   "metrics": {
+    "rows": 2,
+    "steps": [
+     1,
+     2
+    ],
+    "loss_first": 0.7369208931922913,
+    "loss_last": 0.7248269319534302
+   },
+   "cuda_max_allocated_bytes": 1889433088,
+   "cuda_max_reserved_bytes": 2195718144,
+   "train_wall_seconds": 11.925847599981353,
+   "status": "completed"
+  },
+  "sparse90_2step": {
+   "config": "audit_sparse90_2step.py",
+   "mode": "sparse",
+   "built": {
+    "modules": 252,
+    "A": 252,
+    "alpha": 252,
+    "B": 252,
+    "trainable": 252,
+    "phase": "sparse",
+    "A_requires_grad": 0,
+    "alpha_requires_grad": 0,
+    "A_is_parameter": 0,
+    "alpha_is_parameter": 0,
+    "A_in_trainable": 0,
+    "alpha_in_trainable": 0,
+    "trainable_is_exactly_B": true,
+    "B_kind": "b_values",
+    "B_requires_grad": 252,
+    "B_elems": 1066599,
+    "A_buffer_names": [
+     "A",
+     "alpha",
+     "active_indices"
+    ]
+   },
+   "optimizer_capture": {
+    "source": "HostStateAdamW + torch.optim.Optimizer",
+    "optimizer_objects": 2,
+    "params": 253,
+    "A_in_optimizer": 0,
+    "alpha_in_optimizer": 0,
+    "trainable_equals_optimizer": false,
+    "per_impl": [
+     {
+      "impl": "HostStateAdamW",
+      "params": 252,
+      "groups": 1,
+      "shapes": [
+       [
+        1197
+       ],
+       [
+        1330
+       ],
+       [
+        1451
+       ],
+       [
+        1484
+       ],
+       [
+        1506
+       ],
+       [
+        1518
+       ],
+       [
+        1530
+       ],
+       [
+        1533
+       ],
+       [
+        1550
+       ],
+       [
+        1560
+       ],
+       [
+        1564
+       ],
+       [
+        1565
+       ],
+       [
+        1572
+       ],
+       [
+        1574
+       ],
+       [
+        1584
+       ],
+       [
+        1603
+       ],
+       [
+        1608
+       ],
+       [
+        1612
+       ],
+       [
+        1615
+       ],
+       [
+        1616
+       ],
+       [
+        1625
+       ],
+       [
+        1641
+       ],
+       [
+        1645
+       ],
+       [
+        1651
+       ],
+       [
+        1652
+       ],
+       [
+        1671
+       ],
+       [
+        1675
+       ],
+       [
+        1687
+       ],
+       [
+        1698
+       ],
+       [
+        1708
+       ],
+       [
+        1710
+       ],
+       [
+        1712
+       ],
+       [
+        1713
+       ],
+       [
+        1715
+       ],
+       [
+        1720
+       ],
+       [
+        1721
+       ],
+       [
+        1722
+       ],
+       [
+        1723
+       ],
+       [
+        1734
+       ],
+       [
+        1743
+       ],
+       [
+        1761
+       ],
+       [
+        1762
+       ],
+       [
+        1778
+       ],
+       [
+        1784
+       ],
+       [
+        1790
+       ],
+       [
+        1797
+       ],
+       [
+        1800
+       ],
+       [
+        1803
+       ],
+       [
+        1806
+       ],
+       [
+        1810
+       ],
+       [
+        1826
+       ],
+       [
+        1834
+       ],
+       [
+        1841
+       ],
+       [
+        1849
+       ],
+       [
+        1858
+       ],
+       [
+        1860
+       ],
+       [
+        1904
+       ],
+       [
+        1905
+       ],
+       [
+        1914
+       ],
+       [
+        1916
+       ],
+       [
+        1917
+       ],
+       [
+        1921
+       ],
+       [
+        1926
+       ],
+       [
+        1929
+       ],
+       [
+        1931
+       ],
+       [
+        1933
+       ],
+       [
+        1954
+       ],
+       [
+        1959
+       ],
+       [
+        1960
+       ],
+       [
+        1961
+       ],
+       [
+        1967
+       ],
+       [
+        1976
+       ],
+       [
+        1986
+       ],
+       [
+        2014
+       ],
+       [
+        2019
+       ],
+       [
+        2024
+       ],
+       [
+        2029
+       ],
+       [
+        2039
+       ],
+       [
+        2045
+       ],
+       [
+        2046
+       ],
+       [
+        2049
+       ],
+       [
+        2057
+       ],
+       [
+        2075
+       ],
+       [
+        2082
+       ],
+       [
+        2084
+       ],
+       [
+        2089
+       ],
+       [
+        2096
+       ],
+       [
+        2105
+       ],
+       [
+        2106
+       ],
+       [
+        2110
+       ],
+       [
+        2118
+       ],
+       [
+        2125
+       ],
+       [
+        2149
+       ],
+       [
+        2159
+       ],
+       [
+        2167
+       ],
+       [
+        2171
+       ],
+       [
+        2172
+       ],
+       [
+        2174
+       ],
+       [
+        2176
+       ],
+       [
+        2180
+       ],
+       [
+        2186
+       ],
+       [
+        2195
+       ],
+       [
+        2202
+       ],
+       [
+        2220
+       ],
+       [
+        2226
+       ],
+       [
+        2242
+       ],
+       [
+        2244
+       ],
+       [
+        2245
+       ],
+       [
+        2251
+       ],
+       [
+        2269
+       ],
+       [
+        2280
+       ],
+       [
+        2287
+       ],
+       [
+        2294
+       ],
+       [
+        2297
+       ],
+       [
+        2314
+       ],
+       [
+        2337
+       ],
+       [
+        2341
+       ],
+       [
+        2347
+       ],
+       [
+        2355
+       ],
+       [
+        2368
+       ],
+       [
+        2387
+       ],
+       [
+        2407
+       ],
+       [
+        2424
+       ],
+       [
+        2427
+       ],
+       [
+        2485
+       ],
+       [
+        2489
+       ],
+       [
+        2498
+       ],
+       [
+        2543
+       ],
+       [
+        2582
+       ],
+       [
+        2611
+       ],
+       [
+        2636
+       ],
+       [
+        2648
+       ],
+       [
+        2650
+       ],
+       [
+        2665
+       ],
+       [
+        2684
+       ],
+       [
+        2685
+       ],
+       [
+        2709
+       ],
+       [
+        2727
+       ],
+       [
+        2780
+       ],
+       [
+        2786
+       ],
+       [
+        2806
+       ],
+       [
+        2867
+       ],
+       [
+        2873
+       ],
+       [
+        2878
+       ],
+       [
+        2903
+       ],
+       [
+        2958
+       ],
+       [
+        2971
+       ],
+       [
+        3040
+       ],
+       [
+        3048
+       ],
+       [
+        3056
+       ],
+       [
+        3057
+       ],
+       [
+        3062
+       ],
+       [
+        3067
+       ],
+       [
+        3149
+       ],
+       [
+        3172
+       ],
+       [
+        3219
+       ],
+       [
+        3286
+       ],
+       [
+        3306
+       ],
+       [
+        3332
+       ],
+       [
+        3343
+       ],
+       [
+        3347
+       ],
+       [
+        3357
+       ],
+       [
+        3390
+       ],
+       [
+        3392
+       ],
+       [
+        3422
+       ],
+       [
+        3443
+       ],
+       [
+        3449
+       ],
+       [
+        3450
+       ],
+       [
+        3457
+       ],
+       [
+        3489
+       ],
+       [
+        3532
+       ],
+       [
+        3533
+       ],
+       [
+        3552
+       ],
+       [
+        3566
+       ],
+       [
+        3583
+       ],
+       [
+        3600
+       ],
+       [
+        3623
+       ],
+       [
+        3633
+       ],
+       [
+        3640
+       ],
+       [
+        3661
+       ],
+       [
+        3679
+       ],
+       [
+        3693
+       ],
+       [
+        3696
+       ],
+       [
+        3709
+       ],
+       [
+        3711
+       ],
+       [
+        3723
+       ],
+       [
+        3743
+       ],
+       [
+        3745
+       ],
+       [
+        3794
+       ],
+       [
+        3816
+       ],
+       [
+        3817
+       ],
+       [
+        3853
+       ],
+       [
+        3871
+       ],
+       [
+        3904
+       ],
+       [
+        3936
+       ],
+       [
+        3944
+       ],
+       [
+        3963
+       ],
+       [
+        4150
+       ],
+       [
+        4169
+       ],
+       [
+        4191
+       ],
+       [
+        4292
+       ],
+       [
+        9097
+       ],
+       [
+        9181
+       ],
+       [
+        9462
+       ],
+       [
+        9469
+       ],
+       [
+        9520
+       ],
+       [
+        9614
+       ],
+       [
+        9631
+       ],
+       [
+        9664
+       ],
+       [
+        9839
+       ],
+       [
+        9916
+       ],
+       [
+        10174
+       ],
+       [
+        10262
+       ],
+       [
+        10344
+       ],
+       [
+        10742
+       ],
+       [
+        10752
+       ],
+       [
+        10877
+       ],
+       [
+        11164
+       ],
+       [
+        11242
+       ],
+       [
+        11269
+       ],
+       [
+        11386
+       ],
+       [
+        11487
+       ],
+       [
+        11587
+       ],
+       [
+        11672
+       ],
+       [
+        11857
+       ],
+       [
+        12351
+       ],
+       [
+        12412
+       ],
+       [
+        12969
+       ],
+       [
+        13535
+       ],
+       [
+        13818
+       ],
+       [
+        14361
+       ],
+       [
+        14644
+       ],
+       [
+        16750
+       ],
+       [
+        17531
+       ],
+       [
+        18438
+       ],
+       [
+        18502
+       ],
+       [
+        18966
+       ],
+       [
+        19106
+       ],
+       [
+        20054
+       ],
+       [
+        20333
+       ],
+       [
+        20344
+       ],
+       [
+        20935
+       ],
+       [
+        21142
+       ]
+      ]
+     },
+     {
+      "impl": "torch.optim.Optimizer",
+      "params": 1,
+      "groups": 1,
+      "shapes": [
+       [
+        1
+       ]
+      ]
+     }
+    ]
+   },
+   "after_run": {
+    "A_bytes_unchanged": true,
+    "alpha_bytes_unchanged": true,
+    "A_version_unchanged": true,
+    "alpha_version_unchanged": true,
+    "A_digests_unchanged": true,
+    "alpha_digests_unchanged": true,
+    "A_grad_is_none": true,
+    "alpha_grad_is_none": true,
+    "A_hook_hits": 0,
+    "alpha_hook_hits": 0,
+    "B_hook_hits": 252,
+    "B_layers_with_grad": 252,
+    "B_bytes_changed": 252,
+    "B_layers": 252,
+    "A_combined_canonical": "7f8b433fe34e4caa789e9923e44227acdef677e04edc1852a71d6242b884db19",
+    "alpha_combined_canonical": "930ce824c0831386ee6bad65542d768c8b56d2c5a3264511be2d7ae02207c991"
+   },
+   "optimizer_state": {
+    "entries": 252,
+    "moments": 2133198,
+    "m": 1066599,
+    "A_shaped_tensors": 0,
+    "all_shapes_are_B": true,
+    "master_multiset_equals_B": true,
+    "steps": [
+     2.0
+    ],
+    "nonfinite": 0,
+    "moments_equals_2x_B": true,
+    "expected_moments": 2133198
+   },
+   "optimizer_shapes_sample": [
+    [
+     1197
+    ],
+    [
+     1330
+    ],
+    [
+     1451
+    ],
+    [
+     1484
+    ]
+   ],
+   "checkpoint": {
+    "trainable": "D:\\Develop\\KohakuMossTrainer-LoRI\\experiment\\task12-audit\\tmp\\sparse90\\audit-sparse90-2step\\checkpoints\\step_00000002\\trainable.safetensors",
+    "A_tensors": 252,
+    "alpha_tensors": 252,
+    "B_tensors": 252,
+    "B_elems": 1066599,
+    "A_digests_match_live": true,
+    "A_combined_disk": "7f8b433fe34e4caa789e9923e44227acdef677e04edc1852a71d6242b884db19"
+   },
+   "metrics": {
+    "rows": 2,
+    "steps": [
+     1,
+     2
+    ],
+    "loss_first": 0.7369208931922913,
+    "loss_last": 0.7241922616958618
+   },
+   "cuda_max_allocated_bytes": 1816400384,
+   "cuda_max_reserved_bytes": 2122317824,
+   "train_wall_seconds": 12.322938800032716,
+   "status": "completed"
+  }
+ },
+ "export_semantics": {
+  "comfy": {
+   "tensors": 504,
+   "bytes": 49601320,
+   "keys": "lora_unet_*.lora_down.weight / lora_up.weight / alpha",
+   "generic_loader_result": {
+    "module": "LoConModule",
+    "params": {
+     "lora_down.weight": {
+      "shape": [
+       8,
+       8192
+      ],
+      "is_Parameter": true,
+      "requires_grad": true
+     },
+     "lora_up.weight": {
+      "shape": [
+       3072,
+       8
+      ],
+      "is_Parameter": true,
+      "requires_grad": true
+     }
+    },
+    "buffers": [
+     "dtype_tensor",
+     "alpha",
+     "scalar"
+    ]
+   },
+   "sparse_export_also_trainable": {
+    "module": "LoConModule",
+    "params": {
+     "lora_down.weight": {
+      "shape": [
+       8,
+       8192
+      ],
+      "is_Parameter": true,
+      "requires_grad": true
+     },
+     "lora_up.weight": {
+      "shape": [
+       3072,
+       8
+      ],
+      "is_Parameter": true,
+      "requires_grad": true
+     }
+    },
+    "buffers": [
+     "dtype_tensor",
+     "alpha",
+     "scalar"
+    ]
+   },
+   "densification": {
+    "dense": {
+     "bytes": 49601320,
+     "lora_up_elems": 16859136,
+     "lora_up_nonzero": 10665984,
+     "layer_up_nonzero": 24576,
+     "layer_shape": [
+      3072,
+      8
+     ],
+     "down_shape": [
+      8,
+      8192
+     ],
+     "dtype": "torch.bfloat16"
+    },
+    "sparse90": {
+     "bytes": 49601320,
+     "lora_up_elems": 16859136,
+     "lora_up_nonzero": 1066599,
+     "layer_up_nonzero": 1574,
+     "layer_shape": [
+      3072,
+      8
+     ],
+     "down_shape": [
+      8,
+      8192
+     ],
+     "dtype": "torch.bfloat16"
+    },
+    "sparse90_comfy_vs_native": {
+     "layer": "lora_unet_layers_0_proj_ffn_down",
+     "lora_up_equals_zero_filled_dense_b": false,
+     "lora_down_equals_A": false,
+     "lora_up_nonzero": 1574,
+     "b_values": 1574,
+     "max_abs_diff_up": 2.9488466680049896e-05
+    }
+   },
+   "conclusion": "标准 kohya/LoCon 布局：通用加载器把 lora_down(A) 与 lora_up(B) 都建为 nn.Parameter(requires_grad=True)，文件里没有任何 frozen 标记，因此可以被当普通 LoRA 继续训练并把 A 一起训掉；稀疏 comfy 导出还把 mask 展开成稠密 B（同尺寸 49,601,320 B，非零数等于保留数），sparsity 不可见。"
+  },
+  "native": {
+   "dense": {
+    "tensors": 756,
+    "types": [
+     [
+      "Tensor",
+      false
+     ]
+    ],
+    "meta_keys": [
+     "kohakumoss_adapter_state",
+     "kohakumoss_algo",
+     "kohakumoss_fold",
+     "kohakumoss_format",
+     "kohakumoss_spec",
+     "kohakumoss_step"
+    ],
+    "phase": "calibration",
+    "sparsity": 0.0,
+    "has_lori_meta": false,
+    "lori_meta_keys": null,
+    "layer0_keys": null,
+    "frozen_markers": []
+   },
+   "sparse90": {
+    "tensors": 1008,
+    "types": [
+     [
+      "Tensor",
+      false
+     ]
+    ],
+    "meta_keys": [
+     "kohakumoss_adapter_state",
+     "kohakumoss_algo",
+     "kohakumoss_fold",
+     "kohakumoss_format",
+     "kohakumoss_lori",
+     "kohakumoss_spec",
+     "kohakumoss_step"
+    ],
+    "phase": "sparse",
+    "sparsity": 0.9,
+    "has_lori_meta": true,
+    "lori_meta_keys": [
+     "actual_density",
+     "calibration_digest",
+     "layers",
+     "nnz",
+     "phase",
+     "sparsity",
+     "threshold",
+     "total",
+     "version"
+    ],
+    "layer0_keys": [
+     "a_digest",
+     "alpha",
+     "alpha_digest",
+     "indices_digest",
+     "nnz",
+     "rank",
+     "scale",
+     "target_shape"
+    ],
+    "frozen_markers": []
+   },
+   "generic_loader_on_native": {
+    "parts": [
+     "A",
+     "alpha",
+     "b_dense"
+    ],
+    "matched": null,
+    "generic_loader_can_read": false
+   },
+   "conclusion": "私有格式（A/alpha/b_dense 或 b_values/active_indices）：read_lori_state 读回全是普通 Tensor；通用 lycoris 算法匹配返回 None，无法直接加载，必须走训练器的 lori_layer_init → LoRIModule，A 在那一步才成为 buffer。sparse 版元数据记录了 phase/sparsity/calibration_digest/a_digest/indices_digest，但也没有显式 frozen 布尔。"
+  }
+ },
+ "concept": {
+  "calibration_phase": "phase=calibration：固定 A（buffer）+ 稠密 B（nn.Parameter，10,665,984）+ 全量 AdamW 状态（21,331,968）→ 等价于固定 A 的稠密 LoRA（论文称 s=0 为 LoRA-FA 极限），不是 LoRI 的稀疏机制",
+  "sparse_phase": "phase=sparse：A 固定 + active_indices（buffer）+ b_values（nn.Parameter，1,066,599/4,266,394/7,466,189）+ 紧凑优化器状态（2×保留数）→ 这才是论文定义的 LoRI-S（局部稀疏更新）",
+  "deliverable_naming": "lori-dense-step900-comfy.safetensors 是 comfy 容器 + kohya 命名，metadata 同时写 kohakumoss_algo=lori 与 ss_network_args={\"algo\": \"lora\"}；文件名与容器名都在暗示 LoRI，但内容是可被通用 LoRA 训练器接续训练的 A+B"
+ },
+ "overstatements": [
+  {
+   "file": "docs/execution/dit-lori/task-10-comparison-report.md",
+   "line": 1,
+   "current": "# LoRI 稠密 B 第 285 步与第 900 步：24 行三列同种子出图",
+   "suggested": "# 固定 A 的稠密 B（LoRA-FA 形态）第 285 步与第 900 步：24 行三列同种子出图",
+   "why": "「LoRI 稠密 B」把项目代号当成算法名；该 run 是 phase=calibration、sparsity=0，没有 sparse mask/紧凑状态"
+  },
+  {
+   "file": "docs/execution/dit-lori/task-10-570-comparison-report.md",
+   "line": 1,
+   "current": "# LoRI 稠密 B 第 570 步：单列补测与 Base / 285 / 570 / 900 四列轨迹",
+   "suggested": "# 固定 A 的稠密 B（LoRA-FA 形态）第 570 步：单列补测与 Base / 285 / 570 / 900 四列轨迹",
+   "why": "同上"
+  },
+  {
+   "file": "docs/execution/dit-lori/task-10-data-preparation-report.md",
+   "line": 3,
+   "current": "## MOSS-Image DiT LoRI · 全量 285 图文对 · 稠密 B · 900 步",
+   "suggested": "## MOSS-Image DiT 固定 A 的稠密 B（LoRA-FA 形态）· 全量 285 图文对 · 900 步",
+   "why": "同一节另起一行已写「稠密 B，不建掩码」，标题却用 LoRI 总称"
+  },
+  {
+   "file": "docs/execution/dit-lori/task-10-data-preparation-report.md",
+   "line": 218,
+   "current": "| LoRI 形态 | ALGO=\"lori\"、DIM=8、ALPHA=16.0、ALGO_KWARGS={\"phase\":\"calibration\",\"sparsity\":0.0}（稠密 B，不建掩码） | 通过 |",
+   "suggested": "| 固定 A + 稠密 B（LoRA-FA 形态，非 LoRI-S） | ... | 通过 |",
+   "why": "把 phase=calibration 称作「LoRI 形态」会与稀疏 LoRI 混淆"
+  },
+  {
+   "file": "docs/execution/dit-lori/task-10-independent-review.md",
+   "line": 1,
+   "current": "# Task 10 独立复核（LoRI 稠密 B · 全量 285 图 · 900 步）",
+   "suggested": "# Task 10 独立复核（固定 A 的稠密 B · 全量 285 图 · 900 步）",
+   "why": "本复核文档自己的标题；已在 §10 说明，未改动原题"
+  },
+  {
+   "file": "docs/execution/dit-lori/task-10-dense-training-report.md",
+   "line": 203,
+   "current": "…把稀疏 LoRI 也训到 900 步…",
+   "suggested": "保留（此处指真正的稀疏 LoRI，表述正确）",
+   "why": "无需改"
+  }
+ ],
+ "verdict": {
+  "a_frozen": true,
+  "one_line": "A 在训练中确实冻结，而且是构造性冻结（buffer 而非 Parameter）——静态、产物、运行时三层都独立成立；但**交付的导出文件没有把这一约束编码进去**，comfy 版可被当普通 LoRA 继续训练并训到 A。",
+  "is_dense_900_lori": "不是。按论文定义（稀疏掩码 + 紧凑优化器状态），dense 900 是「固定 A 的稠密校准训练（dense-B / LoRA-FA 形态）」；Task 11 的三档稀疏（90/60/30%）才是 LoRI-S。",
+  "open_items": [
+   "未识别出运行时第二个 optimizer（torch.optim.Optimizer，1 个 [1] 形状参数）的来源；它与 A 无关，也不在 optim.pt 的 252 个 entry 里，建议维护者确认。",
+   "交付产物缺少 LoRI 事实元数据（工作树已有未提交补丁补齐）；已交付文件需要在下一轮重新导出。"
+  ]
+ }
+}

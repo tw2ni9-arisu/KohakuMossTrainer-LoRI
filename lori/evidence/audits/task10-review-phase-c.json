@@ -1,0 +1,577 @@
+{
+ "review_id": "task10-phase-c-independent-review",
+ "reviewer": "review (独立复核子代理)",
+ "phase": "C: 第四列 step 570 与四列轨迹（CPU-only，未训练、未出图、未占用 GPU）",
+ "created_utc": "2026-11-18T14:30:00Z",
+ "workspace": "D:/Develop/KohakuMossTrainer-LoRI",
+ "audited_artifacts": {
+  "comparison-570": {
+   "render_single.py": "0815c27defab07e855dca67edaa4d680bf045fa2d8638ce18437c7b3d0270b6b",
+   "run_single.py": "7a02efce6ea395857f1cc647780170fca3a971c68fa95c17a3d4c2d263000705",
+   "run.py": "2a710039f33c418ddc271b7de623495b89ecf4cde0d8afaf7f6357b13b9f104b",
+   "freeze-570.json": "9631b3d3c503a70e76c461868a20383d6645b3fe4602b2d1a4433649b25fd989",
+   "pixel-audit-570.json": "684f06e7e4fa3e2717fbeeb6aac29add1acb1cb05e6f95126e096ab69ab6429f",
+   "blind-quad-key.json": "91dcb9ba478eb9b630e410f150c0c6cde00ebd6f0344a6ef7ab61acfa62f9829",
+   "blind-quad-sheet.md": "57c491164a72378a959544491999446607a4b7801fed5720074ec5c8301813d5",
+   "canary-single.json": "885066a7edc892f7eab43216ad1f53926cb43ef73eb8eec8cc97f42cd12d6e28",
+   "canary-mismatch.json": "59c83681a39ae111ce513623e162ef6ac609b00c66dd6f5990b03f7b590ed977",
+   "audit-hashes/rgb-sha256.json": "a90dc2b8c68c96242767b741a837ae7f02f4a0315ee588267cc9411bb5f0c4b8",
+   "quad-grid.png": "7fe853b2ed30e772a879fbf80ab606f6dd960d48a9029d33a71590060d741f89",
+   "quad-contact-sheet.png": "7577868bed8c1aa4c96fb850af393c7e478023d9f33bc7135bddcc136fcb66cf",
+   "blind-quad-grid.png": "6cca7559e5ff92301c1da60673e71099c18be9c07479f8a9d6f7178e9127a33b"
+  },
+  "archived_columns": {
+   "base_285_900_untouched": true,
+   "mtime_range": "19:12"
+  }
+ },
+ "method": [
+  "四列共 96 张 PNG 全部用 PIL 解码成 8-bit RGB，MAE 与哈希均自算；不采信 pixel-audit-570.json 的数值。",
+  "quad-grid / quad-contact-sheet / blind-quad-grid 的图块用 array_equal 位级比较；contact sheet 先复刻 run.py 的 LANCZOS(230) 再比。",
+  "canary 与 sample.py 不等价都用我自己 decode 的 RGB 哈希判定，不复用 JSON 里的 identical 布尔值。",
+  "耗时与显存属记录值（无法在不重跑的前提下复算），只做 result.json 与 launcher-failure.json 的交叉核对。"
+ ],
+ "summary": {
+  "total": 31,
+  "passed": 30,
+  "failed": 1,
+  "unverifiable": 0
+ },
+ "checks": [
+  {
+   "id": "V-01",
+   "area": "images",
+   "assertion": "24 张 570 单图存在且命名 r00..r23_c570.png；images-570/ 共 25 文件（24 PNG + metadata.json）",
+   "method": "目录枚举 + 集合比较",
+   "actual": {
+    "png": 24,
+    "names_exact": true
+   },
+   "expected": 24,
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-570-20261118-a/images-570"
+  },
+  {
+   "id": "V-02",
+   "area": "images",
+   "assertion": "四列共 96 张图全部 512x512 RGB",
+   "method": "PIL size/mode 逐张",
+   "actual": {
+    "checked": 96,
+    "bad": 0
+   },
+   "expected": 96,
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-570-20261118-a/images-570 与 D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-20261118-a/images"
+  },
+  {
+   "id": "V-03",
+   "area": "images",
+   "assertion": "96 张图的解码 RGB sha256 全部等于 audit-hashes/rgb-sha256.json（同时证明归档 Base/285/900 未变）",
+   "method": "逐张 decode -> sha256 后与记录比较",
+   "actual": {
+    "checked": 96,
+    "bad": 0
+   },
+   "expected": 96,
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-570-20261118-a/audit-hashes/rgb-sha256.json"
+  },
+  {
+   "id": "V-04",
+   "area": "images",
+   "assertion": "570 与 285 的 48 个 PNG 字节哈希与记录一致",
+   "method": "全量 sha256",
+   "actual": {
+    "checked": 48,
+    "bad": 0
+   },
+   "expected": 48,
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-570-20261118-a/audit-hashes/rgb-sha256.json"
+  },
+  {
+   "id": "V-05",
+   "area": "images",
+   "assertion": "24 行 x 6 组对比 = 144 个 MAE 全部独立重算命中（最大偏差 0.0）",
+   "method": "PIL/numpy 逐像素 |a-b| 全通道均值",
+   "actual": {
+    "cells": 144,
+    "max_abs_deviation": 0.0
+   },
+   "expected": "0 偏差",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-570-20261118-a/pixel-audit-570.json"
+  },
+  {
+   "id": "V-06",
+   "area": "images",
+   "assertion": "四列均值 Base->285 30.36 / Base->570 31.44 / Base->900 34.15；285->570 21.93 / 570->900 20.78 / 285->900 24.62",
+   "method": "独立求均值",
+   "actual": {
+    "base_285": 30.364247269100613,
+    "base_570": 31.43940978580051,
+    "base_900": 34.154167864057754,
+    "285_570": 21.92621734407213,
+    "570_900": 20.775626553429497,
+    "285_900": 24.61810302734375
+   },
+   "expected": "同左",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-570-20261118-a/pixel-audit-570.json"
+  },
+  {
+   "id": "V-07",
+   "area": "trajectory",
+   "assertion": "13/24 行的 570 落在 285 与 900 之间（含 1 行 570>900 与 10 行 570<285 之外的其余行）",
+   "method": "用自己算的 base_285/base_570/base_900 判 between",
+   "actual": {
+    "between": 13,
+    "rows": [
+     1,
+     3,
+     6,
+     7,
+     8,
+     11,
+     12,
+     15,
+     19,
+     20,
+     21,
+     22,
+     23
+    ]
+   },
+   "expected": 13,
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-570-20261118-a/pixel-audit-570.json"
+  },
+  {
+   "id": "V-08",
+   "area": "trajectory",
+   "assertion": "12/24 行严格递增 285 < 570 < 900，且与 audit 的行集合逐行一致",
+   "method": "自算集合与 audit 布尔数组比较",
+   "actual": {
+    "increasing": 12,
+    "rows": [
+     1,
+     3,
+     6,
+     7,
+     8,
+     11,
+     15,
+     19,
+     20,
+     21,
+     22,
+     23
+    ]
+   },
+   "expected": 12,
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-570-20261118-a/pixel-audit-570.json"
+  },
+  {
+   "id": "V-09",
+   "area": "trajectory",
+   "assertion": "11/24 行 570 不在 285/900 之间，与 audit 的 reversed_rows 完全相同（含 r10 的 570>900 与 r9 的 570<285）",
+   "method": "自算 not-between 集合与 audit 比较",
+   "actual": {
+    "not_between": [
+     0,
+     2,
+     4,
+     5,
+     9,
+     10,
+     13,
+     14,
+     16,
+     17,
+     18
+    ]
+   },
+   "expected": "逐行相同",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-570-20261118-a/pixel-audit-570.json"
+  },
+  {
+   "id": "V-10",
+   "area": "trajectory",
+   "assertion": "5/6 组单调（Base->285<Base->570<Base->900），唯一非单调组是第 4 组图书馆（38.90 -> 35.15 -> 38.88，570 回落）",
+   "method": "分组求均值后判单调",
+   "actual": {
+    "monotone_groups": [
+     1,
+     2,
+     3,
+     5,
+     6
+    ],
+    "non_monotone": 4,
+    "library": {
+     "base_285": 38.898214975992836,
+     "base_570": 35.146881421407066,
+     "base_900": 38.88270378112793
+    }
+   },
+   "expected": "5/6",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-570-20261118-a/pixel-audit-570.json"
+  },
+  {
+   "id": "V-11",
+   "area": "trajectory",
+   "assertion": "六组均值与 audit 的 group_means 逐项相等",
+   "method": "逐组比较",
+   "actual": {
+    "match": true
+   },
+   "expected": "一致",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-570-20261118-a/pixel-audit-570.json"
+  },
+  {
+   "id": "V-12",
+   "area": "trajectory",
+   "assertion": "相邻步均值为 285->570 21.93 与 570->900 20.78，后一段略小但同量级（不是陡降）",
+   "method": "自算",
+   "actual": {
+    "285_570": 21.92621734407213,
+    "570_900": 20.775626553429497,
+    "diff": 1.1505907906426334
+   },
+   "expected": "同左",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-570-20261118-a/pixel-audit-570.json"
+  },
+  {
+   "id": "V-13",
+   "area": "grid",
+   "assertion": "quad-grid.png 2463x12324，几何 side=415 / header=36 / cell=512，列序恰为 Base,285,570,900",
+   "method": "PIL + 与四列单图逐块比对反解列序",
+   "actual": {
+    "size": [
+     2463,
+     12324
+    ],
+    "order": [
+     0,
+     1,
+     2,
+     3
+    ]
+   },
+   "expected": "同左",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-570-20261118-a/quad-grid.png"
+  },
+  {
+   "id": "V-14",
+   "area": "grid",
+   "assertion": "quad-grid 抽 12 块（跨 6 组 x 4 列）与单图逐块位级一致",
+   "method": "array_equal",
+   "actual": {
+    "checked": 12,
+    "bad": 0
+   },
+   "expected": 12,
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-570-20261118-a/quad-grid.png"
+  },
+  {
+   "id": "V-15",
+   "area": "grid",
+   "assertion": "quad-grid 全部 96 个图块与单图逐块位级一致",
+   "method": "array_equal 全量",
+   "actual": {
+    "checked": 96,
+    "bad": 0
+   },
+   "expected": 96,
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-570-20261118-a/quad-grid.png"
+  },
+  {
+   "id": "V-16",
+   "area": "grid",
+   "assertion": "quad-contact-sheet.png 2004x3028，几何与 run.py 的常量一致（thumb 230 / pad 10 / label 62 / header 40 / title 30 / legend 78）",
+   "method": "按 run.py:411-416 复算尺寸",
+   "actual": {
+    "size": [
+     2004,
+     3028
+    ],
+    "computed": [
+     2004,
+     3028
+    ]
+   },
+   "expected": "同左",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-570-20261118-a/quad-contact-sheet.png"
+  },
+  {
+   "id": "V-17",
+   "area": "grid",
+   "assertion": "contact sheet 的 96 个缩略图与单图 LANCZOS(230x230) 逐块位级一致",
+   "method": "复刻 resize 后 array_equal",
+   "actual": {
+    "checked": 96,
+    "bad": 0
+   },
+   "expected": 96,
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-570-20261118-a/quad-contact-sheet.png"
+  },
+  {
+   "id": "V-18",
+   "area": "images",
+   "assertion": "归档 Base/285/900 的 72 张 PNG 未被本阶段改写（mtime 19:12，早于 570 的 22:04；哈希与归档 audit 及本阶段 audit-hashes 双向一致）",
+   "method": "mtime + 哈希三方比对",
+   "actual": {
+    "archived_r00_mtime": "19:12:03",
+    "new_570_mtime": "22:04:56",
+    "hashes_match": true
+   },
+   "expected": "只读复用",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-20261118-a/images"
+  },
+  {
+   "id": "V-19",
+   "area": "canary",
+   "assertion": "render_single.py 的单列 canary 与归档 step285 列位级相同：r00(seed42) a77ac81d…、r14(seed43) a8df90e2…（我自己算的 RGB 哈希）",
+   "method": "两边 decode -> sha256 比较",
+   "actual": {
+    "checks": 2,
+    "identical": 2,
+    "rgb": [
+     "a77ac81d21a5cf85",
+     "a8df90e214130731"
+    ]
+   },
+   "expected": "2/2",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-570-20261118-a/images-canary-285-single"
+  },
+  {
+   "id": "V-20",
+   "area": "canary",
+   "assertion": "canary-single.json 记录的两个哈希与我重算一致",
+   "method": "逐项比较",
+   "actual": {
+    "match": 2
+   },
+   "expected": 2,
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-570-20261118-a/canary-single.json"
+  },
+  {
+   "id": "V-21",
+   "area": "canary",
+   "assertion": "sample.py canary 不等价属实：Base 列 2/2 位级相同，adapter 列 2/2 不同（r00 MAE 3.23 / r14 MAE 4.52）",
+   "method": "我自己 decode 比较四个文件",
+   "actual": {
+    "base_identical": "2/2",
+    "adapter_identical": "0/2",
+    "adapter_mae": [
+     3.2311553955078125,
+     4.5195668538411455
+    ]
+   },
+   "expected": "记录属实",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-570-20261118-a/canary-mismatch.json"
+  },
+  {
+   "id": "V-22",
+   "area": "blind",
+   "assertion": "blind-quad-grid 2463x12324，96 个图块 = 单图按 [3,0,2,1] 重排后逐块位级一致",
+   "method": "crop + array_equal 全量",
+   "actual": {
+    "tiles": 96,
+    "bad": 0,
+    "derived_order": [
+     3,
+     0,
+     2,
+     1
+    ]
+   },
+   "expected": "96/96",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-570-20261118-a/blind-quad-grid.png"
+  },
+  {
+   "id": "V-23",
+   "area": "blind",
+   "assertion": "盲评列序 [3,0,2,1] 只用图块像素反解即得，与 blind-quad-key.json 完全一致；标签 A=900 / B=Base / C=570 / D=285 自洽",
+   "method": "先反解后对照 key",
+   "actual": {
+    "derived": [
+     3,
+     0,
+     2,
+     1
+    ],
+    "key": [
+     3,
+     0,
+     2,
+     1
+    ],
+    "labels_ok": true
+   },
+   "expected": "一致",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-570-20261118-a/blind-quad-key.json"
+  },
+  {
+   "id": "V-24",
+   "area": "blind",
+   "assertion": "blind-quad-sheet.md 评分表 24 行、16 栏（行/场景/seed/触发词 + A/B/C/D x 画风线索/提示遵循/结构瑕疵），且不把 A/B/C/D 映射到具体列",
+   "method": "解析 markdown 表头与行",
+   "actual": {
+    "score_rows": 24,
+    "columns": 16,
+    "label_mapping_leaked": false
+   },
+   "expected": "同左",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-570-20261118-a/blind-quad-sheet.md"
+  },
+  {
+   "id": "V-25",
+   "area": "blind",
+   "assertion": "audit-hashes/ 隔离有效：根目录 pixel-audit-570.json 的 rows_detail 只存指标，不存逐图哈希，哈希单独放在 audit-hashes/rgb-sha256.json",
+   "method": "检查根 audit 的字段与 hashes 指针",
+   "actual": {
+    "root_inline_hashes": false,
+    "hashes_file": "audit-hashes/rgb-sha256.json"
+   },
+   "expected": "隔离",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-570-20261118-a/pixel-audit-570.json"
+  },
+  {
+   "id": "V-26",
+   "area": "blind",
+   "assertion": "但隔离在目录层面失效：未打乱的 quad-grid.png（以及 quad-contact-sheet.png）就在同一目录，任何人可用图块比对在数秒内复原盲评列序，完全不需要打开 blind-quad-key.json 或 audit-hashes/",
+   "method": "仅用 570 目录内文件做图块匹配",
+   "actual": {
+    "recovered_without_key": true,
+    "quad_grid_in_same_dir": true
+   },
+   "expected": "盲评应不可旁路",
+   "status": "fail",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-570-20261118-a/quad-grid.png"
+  },
+  {
+   "id": "V-27",
+   "area": "freeze",
+   "assertion": "freeze-570.json 的 11 条 sha256 全部与磁盘一致",
+   "method": "全量重算",
+   "actual": {
+    "entries": 11,
+    "bad": 0
+   },
+   "expected": 11,
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-570-20261118-a/freeze-570.json"
+  },
+  {
+   "id": "V-28",
+   "area": "freeze",
+   "assertion": "amendments 单跳：run_single.py b08b00c6… -> 7a02efce…，且新值等于当前磁盘哈希；理由（launcher 的 CONFIGS 键名 KeyError）与事故记录一致",
+   "method": "重算当前哈希与记录比对",
+   "actual": {
+    "old": "b08b00c613a6",
+    "new": "7a02efce6ea3",
+    "current": "7a02efce6ea3",
+    "hops": 1
+   },
+   "expected": "自洽",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-570-20261118-a/freeze-570.json:amendments"
+  },
+  {
+   "id": "V-29",
+   "area": "incident",
+   "assertion": "single-generate 阶段没有 exit.json 与 launch.json，只有 launcher-failure.json + start.json + stdout.log + result.json，与事故描述一致",
+   "method": "目录枚举",
+   "actual": {
+    "files": [
+     "launcher-failure.json",
+     "result.json",
+     "start.json",
+     "stdout.log"
+    ]
+   },
+   "expected": "同左",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-570-20261118-a/stages/single-generate"
+  },
+  {
+   "id": "V-30",
+   "area": "incident",
+   "assertion": "worker 侧完整：result.json exit_code=0、native_exit_code=0、images=24、render_wall 1,562.74 s、CUDA 峰值 2,120,034,816 / 2,212,495,360 B",
+   "method": "读 result.json（记录值，无法复算）",
+   "actual": {
+    "exit_code": 0,
+    "images": 24,
+    "render_wall_seconds": 1562.7412914000452,
+    "cuda_alloc": 2120034816,
+    "cuda_reserved": 2212495360
+   },
+   "expected": "exit 0",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-570-20261118-a/stages/single-generate/result.json"
+  },
+  {
+   "id": "V-31",
+   "area": "incident",
+   "assertion": "result.json 列出的 24 个文件全部存在于 images-570/，无缺失",
+   "method": "集合比较",
+   "actual": {
+    "missing": [],
+    "png": 24
+   },
+   "expected": 24,
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-570-20261118-a/images-570"
+  }
+ ],
+ "trajectory": {
+  "means": {
+   "base_285": 30.364247269100613,
+   "base_570": 31.43940978580051,
+   "base_900": 34.154167864057754,
+   "285_570": 21.92621734407213,
+   "570_900": 20.775626553429497,
+   "285_900": 24.61810302734375
+  },
+  "between_rows": 13,
+  "strictly_increasing_rows": 12,
+  "not_between_rows": 11,
+  "group_monotone": "5/6（第 4 组图书馆 38.90 -> 35.15 -> 38.88 为唯一非单调组）",
+  "reading": "570 在均值上位于 285 与 900 之间，但只有一半行严格递增；推进是行相关不均匀的，不是整组匀速前进。"
+ },
+ "verdict_impact": {
+  "training_integrity": "不变（达标）",
+  "visual_signal": "仍为未达到方案第 73 行门槛",
+  "why_unchanged": [
+   "第四列只增加了一个中间检查点，没有引入真人盲评、没有引入独立留出集，方案门槛的两条前置条件（评分方向一致 + 结构质量没有重复退化）依然无法满足。",
+   "570 反而把「重复退化」的证据提前：r00 的布偶分离手套手、r06 的提示外光环、r08 右侧空白脸、r12 的闭眼/无眼 + 手部融合，在 570 已经出现，说明退化不是 900 独有，而是随训练推进逐步累积、且行相关。",
+   "单调性只有 12/24 行严格递增、5/6 组单调，图书馆组 570 还回落，说明「更多步数 = 更强画风」在行/组层面并不成立。"
+  ],
+  "what_changed": "四列轨迹把「900 更强」细化为「570 已进入同一退化家族，且推进不均匀」，因此下一步更应优先补真人盲评与独立留出集，而不是继续加步数或加列。"
+ },
+ "implementation_findings": {
+  "sample_py_adapter_mismatch": "我独立确认：scripts/sample/sample.py 路径下 Base 列 2/2 位级相同，但加载 adapter 的列 2/2 不同（r00 MAE 3.2312、r14 MAE 4.5196）。报告把它定位到 attach_after_plan 挂载后未 bind_ops，属于 trainer 侧实现问题，本轮未改源码；建议由 trainer 维护者在模型-Free 测试里补一个 canary（同一 adapter、同一 seed，compare_grid 与 sample.py 必须位级一致）。",
+  "launcher_keyerror": "run_single.py 的 launch 阶段把 stage 名当 CONFIGS 键导致 KeyError('generate')，启动器崩溃但 worker 已在后台跑完（result.json exit 0、24 文件完整）。freeze-570 的 amendments 记录了 run_single.py 的旧/新哈希，新值等于当前磁盘。产物完整性不受影响：图像由 worker 直接写出，启动器只负责包装。",
+  "blind_isolation": "audit-hashes/ 的文件级隔离是有效的（根目录 audit 不再内联逐图哈希），但目录级隔离无效：未打乱的 quad-grid.png 与 quad-contact-sheet.png 就在同一目录，可用图块比对在数秒内反解列序。"
+ }
+}

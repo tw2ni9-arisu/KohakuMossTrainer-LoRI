@@ -1,0 +1,669 @@
+{
+ "review_id": "task11-phase-d-independent-review",
+ "reviewer": "review (独立复核子代理)",
+ "phase": "D: Task 11 稀疏度对比（90/60/30% x 900 步）+ 13 列出图（CPU-only）",
+ "created_utc": "2026-11-19T01:10:00Z",
+ "workspace": "D:/Develop/KohakuMossTrainer-LoRI",
+ "audited_artifacts": {
+  "session": {
+   "freeze.json": "23c36c4db19bc8c3d14f7688bf5be2a5134427dabb50007d79d614fe1b3e59b8",
+   "freeze-amendment.json": "e5f4419dcec03071d1adc96214b0464031608cede5a4bb27065583c2babd9dda",
+   "sparse90-final-audit.json": "53f51db0c2afe59f8a96b383ad38e7b562856feeaf32b1f4ae94d2e2f63de5ef"
+  },
+  "comparison": {
+   "freeze.json": "843791653e84047034c46b303f7e482ad5d32c798d43b3a95d536a0b32558288",
+   "pixel-audit.json": "178f99f6df8946211d8bdafe5d8df828e039eb6886063f9bb88adc5612afa6d1",
+   "grid-13col.png": "bc5603cc402f0a385310567236199b863337f7faaaf58d616aa31e23499a9fba"
+  },
+  "masks": {
+   "90": "23df6144faa11c7a561da9d3ad8170cd6c70dfc0d4358702d1d02f3cbf2f5e40",
+   "60": "9af51d994227640661bb0b9cf4a90b8a1ccdbddc647b42bd904571d12cb34485",
+   "30": "53c3e2f0d6103192829b8c4ede549eb093f394f134ba0478942763e3041f9ab1"
+  }
+ },
+ "method": [
+  "掩码/检查点/导出全部用 safetensors 自读并在块内 clone，digest 用 sha256('<dtype>:<shape>:'+原始字节) 复刻。",
+  "12 个检查点逐个 torch.load(map_location='cpu')；CUDA_VISIBLE_DEVICES='' 全程未初始化 CUDA。",
+  "156 张图全部 PIL 解码成 8-bit RGB 重算 MAE 与哈希；grid/sheet 用 array_equal 位级比较（sheet 先复刻 audit.py 的 LANCZOS 尺寸）。",
+  "报告与 pixel-audit 只作为待核对断言，不采信其数值。"
+ ],
+ "summary": {
+  "total": 30,
+  "passed": 30,
+  "failed": 0,
+  "unverifiable": 0
+ },
+ "checks": [
+  {
+   "id": "M-01",
+   "area": "masks",
+   "assertion": "三档掩码各 1008 张量 = 252 x {A, alpha, b_values, active_indices}",
+   "method": "safetensors 全量读取 + 后缀计数",
+   "actual": {
+    "each": 1008,
+    "layers": 252
+   },
+   "expected": 1008,
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task11/session-20261119-a/masks"
+  },
+  {
+   "id": "M-02",
+   "area": "masks",
+   "assertion": "保留数 1,066,599 / 4,266,394 / 7,466,189，比例 0.10000006 / 0.40000004 / 0.70000002",
+   "method": "对 b_values 逐张累加 numel",
+   "actual": {
+    "90": [
+     1066599,
+     0.10000005625360023
+    ],
+    "60": [
+     4266394,
+     0.40000003750240015
+    ],
+    "30": [
+     7466189,
+     0.7000000187512001
+    ]
+   },
+   "expected": "同左",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task11/session-20261119-a/masks"
+  },
+  {
+   "id": "M-03",
+   "area": "masks",
+   "assertion": "三份掩码 sha256 前缀 23df6144 / 9af51d99 / 53c3e2f0",
+   "method": "整文件 sha256",
+   "actual": {
+    "90": "23df6144faa11c7a",
+    "60": "9af51d9942276406",
+    "30": "53c3e2f0d6103192"
+   },
+   "expected": "同左",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task11/session-20261119-a/masks"
+  },
+  {
+   "id": "M-04",
+   "area": "masks",
+   "assertion": "三份掩码的 A/alpha 与 calibration checkpoint 逐张量相同，且各自组合摘要等于 7f8b433f… / 930ce824…",
+   "method": "逐张量 _digest + 组合摘要复现",
+   "actual": {
+    "A": "7f8b433f…",
+    "alpha": "930ce824…",
+    "per_mask_match": "252+252"
+   },
+   "expected": "504",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task11/session-20261119-a/calibration/lori-calibration/checkpoints/step_00000285/trainable.safetensors"
+  },
+  {
+   "id": "M-05",
+   "area": "masks",
+   "assertion": "三份掩码之间 A/alpha 完全相同（不是各自重新初始化）",
+   "method": "三份各自的组合摘要比较",
+   "actual": {
+    "identical": true
+   },
+   "expected": "相同",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task11/session-20261119-a/masks"
+  },
+  {
+   "id": "M-06",
+   "area": "masks",
+   "assertion": "掩码外 B 全零：掩码工件里的 b_values 全为 0（sparse 从清零后的 B 开始），且 active_indices 数与 b_values 长度相等",
+   "method": "逐张量全零判定 + 长度比较",
+   "actual": {
+    "all_zero": true,
+    "len_equal": true
+   },
+   "expected": "全零",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task11/session-20261119-a/masks"
+  },
+  {
+   "id": "M-07",
+   "area": "masks",
+   "assertion": "逐层包含关系 90% ⊆ 60% ⊆ 30%：252 层零违反",
+   "method": "每层 active_indices 集合包含判定",
+   "actual": {
+    "90<=60": {
+     "violating": 0
+    },
+    "60<=30": {
+     "violating": 0
+    }
+   },
+   "expected": 0,
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task11/session-20261119-a/masks"
+  },
+  {
+   "id": "M-08",
+   "area": "masks",
+   "assertion": "每层保留数与阈值单调（1197/7790/15515 最小值；21142/62463/97603 最大值）",
+   "method": "逐层 numel 统计",
+   "actual": {
+    "kept_min": [
+     1197,
+     7790,
+     15515
+    ],
+    "kept_max": [
+     21142,
+     62463,
+     97603
+    ]
+   },
+   "expected": "单调",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task11/session-20261119-a/masks"
+  },
+  {
+   "id": "R-01",
+   "area": "runs",
+   "assertion": "12 个检查点（3 档 x 285/570/855/900）的 state.json：step=samples=目录步、world=1、loader={seed:42,start:step}",
+   "method": "逐份读取比对",
+   "actual": {
+    "bad": 0,
+    "checked": 12
+   },
+   "expected": 12,
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task11/session-20261119-a/runs"
+  },
+  {
+   "id": "R-02",
+   "area": "runs",
+   "assertion": "optim.pt：252 entry x (master, exp_avg, exp_avg_sq, step)，两列矩合计恰为 2x保留数（2,133,198 / 8,532,788 / 14,932,378），fp32、有限、计数全 900",
+   "method": "torch.load + 逐 entry 统计",
+   "actual": {
+    "90": {
+     "m": 1066599,
+     "v": 1066599
+    },
+    "60": {
+     "m": 4266394,
+     "v": 4266394
+    },
+    "30": {
+     "m": 7466189,
+     "v": 7466189
+    },
+    "steps": [
+     900.0
+    ],
+    "dtypes": [
+     "torch.float32"
+    ],
+    "nonfinite": 0
+   },
+   "expected": "2x保留数",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task11/session-20261119-a/runs"
+  },
+  {
+   "id": "R-03",
+   "area": "runs",
+   "assertion": "trainable：A/alpha 组合摘要等于初始；b_values 总数 == 保留数；active_indices 与掩码逐层相同（252/252）",
+   "method": "逐 run 读取 + 摘要 + 索引比较",
+   "actual": {
+    "A_ok": true,
+    "alpha_ok": true,
+    "idx_match": 252
+   },
+   "expected": "同左",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task11/session-20261119-a/runs"
+  },
+  {
+   "id": "R-04",
+   "area": "runs",
+   "assertion": "每个 run 的 252 层在 285->570、570->900 全部发生变化（不是部分层冻结）",
+   "method": "逐层 b_values 相等判定",
+   "actual": {
+    "changed_285_570": 252,
+    "changed_570_900": 252
+   },
+   "expected": 252,
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task11/session-20261119-a/runs"
+  },
+  {
+   "id": "R-05",
+   "area": "runs",
+   "assertion": "三个 run 的 B 全局 L2 随步数单调增长：90% 3.324/4.278/5.225；60% 4.414/5.776/7.176；30% 5.000/6.857/8.587",
+   "method": "逐 step 求 L2",
+   "actual": {
+    "90": [
+     3.3241,
+     4.2784,
+     5.2254
+    ],
+    "60": [
+     4.4144,
+     5.7764,
+     7.176
+    ],
+    "30": [
+     5.0,
+     6.857,
+     8.5873
+    ]
+   },
+   "expected": "单调",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task11/session-20261119-a/runs"
+  },
+  {
+   "id": "R-06",
+   "area": "runs",
+   "assertion": "三个 run 的 metrics 各 900 行、step 1..900、无 skip/非有限；loss 均值 0.70588 / 0.70404 / 0.70424；步时中位 1.7166 / 1.7220 / 1.7201 s",
+   "method": "自读 metrics.jsonl 重算",
+   "actual": {
+    "90": {
+     "loss": 0.705880636009905,
+     "median": 1.7166055999987293
+    },
+    "60": {
+     "loss": 0.7040446153614256,
+     "median": 1.7219829500245396
+    },
+    "30": {
+     "loss": 0.7042447422941526,
+     "median": 1.7200586500111967
+    },
+    "rows": 900
+   },
+   "expected": "同左",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task11/session-20261119-a/runs"
+  },
+  {
+   "id": "R-07",
+   "area": "runs",
+   "assertion": "12 份 lycoris 导出可读、1008 张量、A/alpha 等于初始、b_values 非零且数量正确；字节数 44,654,756 / 83,053,008 / 121,451,580",
+   "method": "safetensors 全量读取 + 逐张量比较",
+   "actual": {
+    "sizes": {
+     "90": 44654756,
+     "60": 83053008,
+     "30": 121451580
+    },
+    "b_nonzero_equal_total": true
+   },
+   "expected": "同左",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task11/session-20261119-a/runs"
+  },
+  {
+   "id": "R-08",
+   "area": "runs",
+   "assertion": "运行级 export 与 step900 检查点内导出：1008/1008 张量位级相同，但字节 sha256 不同（仅头部序列化差异，与 task10 的 ISS-03 同型）",
+   "method": "逐张量 torch.equal + 整文件 sha256",
+   "actual": {
+    "tensors_equal": 1008,
+    "bytes_equal": false
+   },
+   "expected": "内容相同",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task11/session-20261119-a/runs"
+  },
+  {
+   "id": "I-01",
+   "area": "images",
+   "assertion": "images-sparse/ 恰 108 张 512x512 RGB，命名 r00..r11 x c04..c12，另有 metadata.json",
+   "method": "目录枚举 + PIL 逐张",
+   "actual": {
+    "png": 108,
+    "bad": 0
+   },
+   "expected": 108,
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task11/comparison-20261119-a/images-sparse"
+  },
+  {
+   "id": "I-02",
+   "area": "images",
+   "assertion": "12 行 x 13 列共 156 张图的解码 RGB sha256 全部等于 audit-hashes（含归档 4 列）",
+   "method": "逐张 decode + sha256",
+   "actual": {
+    "checked": 156,
+    "bad": 0
+   },
+   "expected": 156,
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task11/comparison-20261119-a/audit-hashes/rgb-sha256.json"
+  },
+  {
+   "id": "I-03",
+   "area": "images",
+   "assertion": "24 种对比（12 vs Base + 9 稀疏vs稠密 + 9 跨稀疏度 + 12 跨步）全部独立重算：最大绝对偏差 0.0",
+   "method": "PIL/numpy 重算后与 rows_detail 比较",
+   "actual": {
+    "cells": 312,
+    "max_abs_deviation": 0.0
+   },
+   "expected": "0 偏差",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task11/comparison-20261119-a/pixel-audit.json"
+  },
+  {
+   "id": "I-04",
+   "area": "images",
+   "assertion": "四张聚合表与 audit 的 overall 逐项相等（vs_base / sparse_vs_dense / sparsity_pairs / step_pairs）",
+   "method": "对 12 行求均值后比较",
+   "actual": {
+    "vs_base_D285_D570_D900": [
+     28.5836787753635,
+     30.781013276841904,
+     33.59912215338813
+    ],
+    "90%_285_570_900": [
+     28.281992594401043,
+     28.276444223192,
+     29.059656567043728
+    ],
+    "60%_285_570_900": [
+     32.83055803510878,
+     30.823330879211426,
+     31.269994629753963
+    ],
+    "30%_285_570_900": [
+     32.3677896923489,
+     31.575275315178768,
+     33.76460986667209
+    ]
+   },
+   "expected": "同左",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task11/comparison-20261119-a/pixel-audit.json"
+  },
+  {
+   "id": "I-05",
+   "area": "images",
+   "assertion": "grid-13col.png 7071x6180（side 415 / header 36 / 13x12 格）与全部 156 个图块位级一致；sha256 命中 audit",
+   "method": "crop + array_equal 全量",
+   "actual": {
+    "size": [
+     7071,
+     6180
+    ],
+    "tiles": 156,
+    "bad": 0
+   },
+   "expected": 156,
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task11/comparison-20261119-a/visual/grid-13col.png"
+  },
+  {
+   "id": "I-06",
+   "area": "images",
+   "assertion": "3 张 group sheet（2304x832）各 52 个缩略图 = LANCZOS(170)，overview（1498x1448）156 个 = LANCZOS(108)，全部位级一致",
+   "method": "复刻 audit.py 的 PAD/LW/HEAD/TITLE 与 resize 后比较",
+   "actual": {
+    "g1": 0,
+    "g2": 0,
+    "g3": 0,
+    "overview": 0,
+    "bad": 0
+   },
+   "expected": 0,
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task11/comparison-20261119-a/visual"
+  },
+  {
+   "id": "A-01",
+   "area": "archive",
+   "assertion": "归档的 Base/D285/D570/D900 未被本轮改动：48 个图块与 task10 两份 audit 记录的哈希全部一致",
+   "method": "自算 rgb sha256 与 task10 审计比较",
+   "actual": {
+    "checked": 48,
+    "bad": 0
+   },
+   "expected": 48,
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10"
+  },
+  {
+   "id": "A-02",
+   "area": "canary",
+   "assertion": "canary 4/4 位级相同：r00/r14 的 dense 285 与 570 重放 == 归档（我自己算哈希）",
+   "method": "两侧 decode + sha256 比较",
+   "actual": {
+    "checks": 4,
+    "bad": 0
+   },
+   "expected": 4,
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task11/comparison-20261119-a/canary.json"
+  },
+  {
+   "id": "A-03",
+   "area": "anomaly",
+   "assertion": "calibration B 与 task10 dense285 非逐值复现：0/252 层相同、最大绝对差 8.99e-3、L2 5.25258 vs 5.49861；A 252/252 相同；首步 loss 完全相同",
+   "method": "逐层 torch.equal + 最大差 + L2 + 首步 loss",
+   "actual": {
+    "layers_equal": 0,
+    "max_abs_diff": 0.00899354275316,
+    "l2_cal": 5.252582432329619,
+    "l2_task10": 5.498606416419802,
+    "A_equal": 252,
+    "first_loss_equal": true
+   },
+   "expected": "记录并解释",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task11/session-20261119-a/calibration"
+  },
+  {
+   "id": "A-04",
+   "area": "anomaly",
+   "assertion": "进一步定位：config 仅 STEPS 不同（285 vs 900），首步 loss 相同但**首步 grad_norm 已不同**（0.144279 vs 0.143461），且 calibration 在 step 14/16/20/100/179 出现 3-34x 的孤立 grad 尖峰",
+   "method": "逐 step 比较 loss 与 grad_norm",
+   "actual": {
+    "step1_loss_equal": true,
+    "step1_grad": [
+     0.144279,
+     0.143461
+    ],
+    "identical_loss_rows": "1/285",
+    "grad_spikes": [
+     14,
+     16,
+     20,
+     100,
+     179
+    ],
+    "loss_max_dev": 0.0006
+   },
+   "expected": "指向反向非确定性",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task11/session-20261119-a/calibration/lori-calibration/metrics.jsonl"
+  },
+  {
+   "id": "A-05",
+   "area": "anomaly",
+   "assertion": "sparse90 第一次训练成功但审计脚本 exit 1，证据保留（result.attempt1.json / exit.attempt1.json / run.py.attempt1.sha256）；recheck 不重训（worker 2.87 s）后 exit 0；amendment ba73721e… -> c9478a0d… 与磁盘一致",
+   "method": "读 stages/sparse90 与 freeze-amendment.json",
+   "actual": {
+    "attempt1_exit": 1,
+    "recheck_exit": 0,
+    "retrained": false,
+    "amendment_current_match": true
+   },
+   "expected": "自洽",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task11/session-20261119-a/stages/sparse90"
+  },
+  {
+   "id": "A-06",
+   "area": "stages",
+   "assertion": "session 5 个 stage（calibration/masks/sparse30/60/90）exit 0；comparison 5 个 stage（prepare/training/canary/generate/audit）exit 0，generate 7,385.72 s",
+   "method": "逐 stage 读 exit.json",
+   "actual": {
+    "session": {
+     "calibration": 0,
+     "masks": 0,
+     "sparse30": 0,
+     "sparse60": 0,
+     "sparse90": 0
+    },
+    "comparison": {
+     "prepare": 0,
+     "training": 0,
+     "canary": 0,
+     "generate": 0,
+     "audit": 0
+    },
+    "generate_wall": 7385.7208675
+   },
+   "expected": "exit 0",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task11/comparison-20261119-a/stages"
+  },
+  {
+   "id": "A-07",
+   "area": "freeze",
+   "assertion": "comparison freeze：28 条 sha256 全部命中；6 条 amendment（audit.py 2 跳、run.py 4 跳）链式自洽且最后一个新值等于磁盘哈希",
+   "method": "全量重算 + 逐文件链比较",
+   "actual": {
+    "entries": 28,
+    "bad": 0,
+    "amendments": 6,
+    "chains_ok": true
+   },
+   "expected": "自洽",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task11/comparison-20261119-a/freeze.json"
+  },
+  {
+   "id": "A-08",
+   "area": "freeze",
+   "assertion": "session freeze 的 8 个冻结文件与 manifest/缓存/权重/570 源文件仍与记录一致（recheck 记录的 freeze_before.matches_freeze = true）",
+   "method": "读 recheck.json 的 freeze_before 并与当前磁盘比较",
+   "actual": {
+    "matches_freeze": true,
+    "frozen_files": 8
+   },
+   "expected": "一致",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task11/session-20261119-a/stages/sparse90/recheck.json"
+  }
+ ],
+ "key_numbers": {
+  "masks": {
+   "90": {
+    "kept": 1066599,
+    "density": 0.10000005625360023
+   },
+   "60": {
+    "kept": 4266394,
+    "density": 0.40000003750240015
+   },
+   "30": {
+    "kept": 7466189,
+    "density": 0.7000000187512001
+   }
+  },
+  "optimizer_moments": {
+   "90": 2133198,
+   "60": 8532788,
+   "30": 14932378
+  },
+  "l2_by_step": {
+   "90": [
+    3.3241396213655596,
+    4.278360323670554,
+    5.225429335024016
+   ],
+   "60": [
+    4.4143920058761505,
+    5.776434164728841,
+    7.175986484820873
+   ],
+   "30": [
+    5.000027837308636,
+    6.856870237931803,
+    8.587346930295082
+   ]
+  },
+  "vs_base": {
+   "D285": 28.5836787753635,
+   "D570": 30.781013276841904,
+   "D900": 33.59912215338813,
+   "90": [
+    28.281992594401043,
+    28.276444223192,
+    29.059656567043728
+   ],
+   "60": [
+    32.83055803510878,
+    30.823330879211426,
+    31.269994629753963
+   ],
+   "30": [
+    32.3677896923489,
+    31.575275315178768,
+    33.76460986667209
+   ]
+  },
+  "sparse_vs_dense": {
+   "90": [
+    16.858665042453342,
+    22.957292874654133,
+    23.920386632283527
+   ],
+   "60": [
+    19.442559666103786,
+    17.882714483473034,
+    18.0840851465861
+   ],
+   "30": [
+    19.144507196214466,
+    14.524727821350098,
+    15.232954449123804
+   ]
+  },
+  "step_pairs": {
+   "dense": [
+    23.765807257758244,
+    22.217387941148544
+   ],
+   "90": [
+    15.74528831905789,
+    12.178901778327095
+   ],
+   "60": [
+    25.08038584391276,
+    17.78794542948405
+   ],
+   "30": [
+    26.34559440612793,
+    20.574938350253635
+   ]
+  },
+  "anomaly": {
+   "cal_vs_task10_dense285_layers_equal": 0,
+   "max_abs_diff": 0.00899354275316,
+   "step1_loss_equal": true,
+   "step1_grad": [
+    0.144279,
+    0.143461
+   ]
+  }
+ },
+ "verdict": {
+  "integrity": "三档掩码与三条 900 步训练链完整：掩码计数/比例/包含关系/A/alpha 一致/清零起点全部成立；12 个检查点与 12 份导出可读且与掩码、初始摘要一致；优化器矩元素恰为 2x 保留数。",
+  "repeatable_visual_difference": "稀疏度带来可重复的画面差异：90% 与 60%/30% 的 vs-Base 距离从 ~28.3 跳到 ~32.4-32.8（60/30 与稠密 33.6 同量级），三档之间 900 步时 90-vs-30 达 23.13；同一稀疏度的三列在 90% 上几乎不变（570->900 仅 12.18），在 60/30 上继续变化（17.79/20.57）。",
+  "does_90_barely_learn": "像素层面成立、参数层面不成立：90% 的三列几乎一样（285->570 15.75、570->900 12.18，均为四组最小），但它的 B 全局 L2 仍从 3.32 长到 5.23（+57%），说明参数在动而画面饱和。可解释为『容量不足导致的早期饱和』而非『没学到』：其 285 步时已与 Base 相距 28.28。",
+  "do_60_30_follow_dense": "部分成立：570/900 步时 60/30 与稠密的距离随保留率单调下降（570: 22.96/17.88/14.52；900: 23.92/18.08/15.23），且 60/30 的跨步移动与稠密同量级（25.08/17.79 与 26.35/20.57 对 23.77/22.22）；但 285 步时反而是 90% 最接近稠密（16.86 < 19.44/19.14）——第一条轮次能跟上，之后跟不上。",
+  "open_questions": [
+   "无独立留出集：12 个提示仍是定型组合观察，不能声称泛化。",
+   "无真人盲评：视觉判断只有我一个人，且我知道列的身份。",
+   "calibration 的 B 与 task10 dense285 非逐值一致（0/252 层），而像素对比的 Dense 三列取自 task10 归档：稠密 vs 稀疏的差异里混入了这层基线差异（掩码成员按 calibration B 选，受影响的是阈值附近的坐标）。",
+   "像素差不是质量排名：MAE 只度量同种子偏移幅度。"
+  ]
+ }
+}

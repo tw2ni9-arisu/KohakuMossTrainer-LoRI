@@ -1,0 +1,62 @@
+{
+  "updates": 232,
+  "checkpoint_state": {
+    "loader": {
+      "seed": 42,
+      "start": 232
+    },
+    "tokens": 54562,
+    "samples": 232,
+    "joint_sq": 93675804,
+    "text_tokens": 92566,
+    "world": 1,
+    "step": 232
+  },
+  "unchanged_fixed_tensors": 504,
+  "changed_dense_B_layers": 252,
+  "dense_B_values": 10665984,
+  "optimizer_states_at_232": 252,
+  "optimizer_moment_elements": 21331968,
+  "loss_first": 0.5428468585014343,
+  "loss_final": 0.42150017619132996,
+  "loss_min": 0.40381646156311035,
+  "loss_max": 0.937869131565094,
+  "loss_mean": 0.7122634325561852,
+  "all_losses_and_gradient_norms_finite": true,
+  "skip_nonfinite_zero": true,
+  "median_step_s_33_232": 1.5186905500013381,
+  "artifacts": {
+    "checkpoints\\step_00000232\\optim.pt": {
+      "size": 128213819,
+      "sha256": "ff6715388a98b1a6e2bcad83cf879f7426630d7f8a3128915ff68a5619e41c33"
+    },
+    "checkpoints\\step_00000232\\rng.0.pt": {
+      "size": 20105,
+      "sha256": "8525e6b81910bcf0821c3b1a437dca8d25939d5aeb06f55ea07a1885909a6c8c"
+    },
+    "checkpoints\\step_00000232\\state.json": {
+      "size": 179,
+      "sha256": "cfffad27b8d5cfb7661af353772d32271f0ba82cdcfc53659ea588c613471c64"
+    },
+    "checkpoints\\step_00000232\\trainable.safetensors": {
+      "size": 74397040,
+      "sha256": "9245157f8da4fb04f503817cd851195a5b0c4a7994c748c6b89c4eee21536a92"
+    },
+    "checkpoints\\step_00000232\\export\\lori-dense-comfy.safetensors": {
+      "size": 49601320,
+      "sha256": "437b7e07531bf3c4caf5a5f5737003e0c9986ba3f8d979f38f04c4f671a154da"
+    },
+    "checkpoints\\step_00000232\\export\\lori-dense-lycoris.safetensors": {
+      "size": 74397152,
+      "sha256": "54d4ffa32c562bda9a0411a78827f3c4429d36758a28552f71462a7d6655e3ee"
+    },
+    "export\\lori-dense-comfy.safetensors": {
+      "size": 49601320,
+      "sha256": "8b5cdfa5ae88242d6c2d10bac7c9952cfe8af6365cc71ffad6cead5e81ee0fdf"
+    },
+    "export\\lori-dense-lycoris.safetensors": {
+      "size": 74397152,
+      "sha256": "f6cb7c213d9ccc5c0d5e66f58b7e05d8d0328638cdb8acbdafa94833efcaa4cf"
+    }
+  }
+}

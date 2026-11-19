@@ -1,0 +1,449 @@
+{
+ "review_id": "task13-native-phase-e",
+ "title": "原生分辨率 90% 稀疏 900 步 + 6 列出图：独立复核（phase E）",
+ "created_utc": "2026-11-19T07:10:00Z",
+ "reviewer": "review (独立复核子代理)",
+ "workspace": "D:/Develop/KohakuMossTrainer-LoRI",
+ "summary": {
+  "total": 26,
+  "passed": 26,
+  "failed": 0,
+  "unverifiable": 0
+ },
+ "checks": [
+  {
+   "id": "T-01",
+   "area": "training",
+   "assertion": "4 个检查点 step/samples/loader start == 250/550/850/900，且 lori 块字段正确（sparse / sparse_mask / b_values / 0.9 / 1,066,599 / 976522f0…）",
+   "method": "逐份读 state.json",
+   "actual": {
+    "steps": [
+     250,
+     550,
+     850,
+     900
+    ],
+    "lori": "4/4 一致"
+   },
+   "status": "pass"
+  },
+  {
+   "id": "T-02",
+   "area": "training",
+   "assertion": "A/alpha canonical 摘要 4/4 为 7f8b433f… / 930ce824…",
+   "method": "逐张量 digest 复算",
+   "actual": {
+    "A": "7f8b433f…",
+    "alpha": "930ce824…"
+   },
+   "status": "pass"
+  },
+  {
+   "id": "T-03",
+   "area": "training",
+   "assertion": "b_values 252 层共 1,066,599、全非零；active_indices 与 task11 90% 掩码 252/252 相同",
+   "method": "逐层比较 + 集合相等",
+   "actual": {
+    "b_total": 1066599,
+    "b_nonzero": 1066599,
+    "idx_equal": 252
+   },
+   "status": "pass"
+  },
+  {
+   "id": "T-04",
+   "area": "training",
+   "assertion": "optim.pt 252 entry、矩 2,133,198、update_count == step；master 元素数 1,066,599、252 个一维形状",
+   "method": "torch.load + 统计",
+   "actual": {
+    "entries": 252,
+    "moments": 2133198,
+    "steps": [
+     250,
+     550,
+     850,
+     900
+    ]
+   },
+   "status": "pass"
+  },
+  {
+   "id": "T-05",
+   "area": "training",
+   "assertion": "B 全局 L2 2.1050 → 3.3265 → 4.3083 → 4.3976；相邻检查点 252/252 层变化",
+   "method": "逐层比较 + L2",
+   "actual": {
+    "l2": [
+     2.105,
+     3.3265,
+     4.3083,
+     4.3976
+    ],
+    "changed": "252/252"
+   },
+   "status": "pass"
+  },
+  {
+   "id": "T-06",
+   "area": "training",
+   "assertion": "metrics 900 行、step 1..900、无 skipped/nonfinite；中位步时 6.0546 s、均值 6.1049 s；loss 均值 0.37517",
+   "method": "自读 metrics.jsonl",
+   "actual": {
+    "rows": 900,
+    "median": 6.0546,
+    "mean": 6.1049,
+    "loss_mean": 0.37517148
+   },
+   "status": "pass"
+  },
+  {
+   "id": "T-07",
+   "area": "training",
+   "assertion": "步时伪影仅出现在 251/551/851（0.046 / 0.0215 / 0.0161 s），loss 正常，不是跳步",
+   "method": "逐行检查 + step 连续性",
+   "actual": {
+    "artifacts": {
+     "251": 0.0463,
+     "551": 0.0215,
+     "851": 0.0161
+    }
+   },
+   "status": "pass"
+  },
+  {
+   "id": "T-08",
+   "area": "training",
+   "assertion": "四段 + 探针全部 exit 0；token 段墙钟 1463.03+1831.93+1931.77+355.38 = 5,582.11 s，加探针 31.48 s = 5,613.59 s",
+   "method": "逐 stage exit/result",
+   "actual": {
+    "segments": [
+     1463.0278,
+     1831.9255,
+     1931.7744,
+     355.3815
+    ],
+    "probe": 31.479,
+    "sum": 5613.59
+   },
+   "status": "pass"
+  },
+  {
+   "id": "T-09",
+   "area": "training",
+   "assertion": "每段 CUDA 峰值均为 2,605,227,520 / 2,925,527,040 B（探针与四段一致）",
+   "method": "读 result.json",
+   "actual": {
+    "peak_alloc": 2605227520,
+    "peak_reserved": 2925527040
+   },
+   "status": "pass"
+  },
+  {
+   "id": "T-10",
+   "area": "training",
+   "assertion": "零缩放：target_area 1,048,576、UPSCALE=never、285/285 target==source、面积比恒 1.0、裁掉像素 0",
+   "method": "读 final-audit.zero_scale",
+   "actual": {
+    "target_equals_source": 285,
+    "area_ratio": 1.0,
+    "drop": 0
+   },
+   "status": "pass"
+  },
+  {
+   "id": "T-11",
+   "area": "training",
+   "assertion": "cache 新建 catalog 285 / text 286 / latents 285、图像 token 合计 1,135,799",
+   "method": "读 freeze.cache_counts",
+   "actual": {
+    "catalog": 285,
+    "text": 286,
+    "latents": 285,
+    "tokens": 1135799
+   },
+   "status": "pass"
+  },
+  {
+   "id": "T-12",
+   "area": "training",
+   "assertion": "session freeze 13 条 sha256 全部命中；两次 amendment 链 160af90f→948aea1c→f411c940，末值 == 磁盘",
+   "method": "全量重算 + 链比较",
+   "actual": {
+    "entries": 13,
+    "amended": "run.py 2 次"
+   },
+   "status": "pass"
+  },
+  {
+   "id": "T-13",
+   "area": "training",
+   "assertion": "seg550 attempt1 exit 1 证据保留（未跑步：train_wall 12.17 s 仅模型加载），失败原因为构建期 B 非零断言；RESUME 重新 staging 成功",
+   "method": "读 result/exit.attempt1",
+   "actual": {
+    "attempt1_exit": 1,
+    "attempt1_train_wall": 12.1705
+   },
+   "status": "pass"
+  },
+  {
+   "id": "T-14",
+   "area": "training",
+   "assertion": "cache attempt1 exit 1 由审计统计 bug 引起（native catalog/text/latents 三段均 exit 0），recheck exit 0 不重建",
+   "method": "读 cache attempt1 + recheck.json",
+   "actual": {
+    "attempt1_exit": 1,
+    "recheck_exit": 0,
+    "passes": "catalog/text/latents 0"
+   },
+   "status": "pass"
+  },
+  {
+   "id": "T-15",
+   "area": "exports",
+   "assertion": "4×2 检查点导出 + 2 份 run 级导出的 facts 完整（phase/mechanism/trainable/a/sparsity/a_sha256/kept_total/rank），comfy 带 inference_only + container + {\"algo\":\"lora\"}",
+   "method": "safetensors metadata 全量读取",
+   "actual": {
+    "chk_exports": 8,
+    "run_level": 2
+   },
+   "status": "pass"
+  },
+  {
+   "id": "T-16",
+   "area": "exports",
+   "assertion": "sparse lycoris 每层恰 {A, alpha, b_values, active_indices}，无 b_dense；四步 B 摘要互不相同（不是同一个文件复制）",
+   "method": "逐层字段集合 + B digest",
+   "actual": {
+    "fields": "A/alpha/b_values/active_indices",
+    "distinct": 4
+   },
+   "status": "pass"
+  },
+  {
+   "id": "I-01",
+   "area": "images",
+   "assertion": "images-native 48 张 512×512 RGB（+metadata.json）",
+   "method": "目录枚举 + PIL",
+   "actual": {
+    "n": 48
+   },
+   "status": "pass"
+  },
+  {
+   "id": "I-02",
+   "area": "images",
+   "assertion": "12 行 × 6 列共 72 张解码哈希全部等于 audit-hashes",
+   "method": "逐张 decode + sha256",
+   "actual": {
+    "checked": 72,
+    "bad": 0
+   },
+   "status": "pass"
+  },
+  {
+   "id": "I-03",
+   "area": "images",
+   "assertion": "372 个 MAE/像素字段单元独立重算：MAE 最大偏差 0.0，changed_pixels 与 max_channel 全等",
+   "method": "PIL/numpy 重算 vs rows_detail",
+   "actual": {
+    "cells": 372,
+    "max_abs_dev": 0.0,
+    "pixel_bad": 0
+   },
+   "status": "pass"
+  },
+  {
+   "id": "I-04",
+   "area": "images",
+   "assertion": "聚合与 overall 相等：vs_base 33.60/16.16/23.26/26.45/26.07；vs_ref 32.30/29.88/28.12/28.04；steps 18.00/14.46/6.09/21.61",
+   "method": "12 行均值复算",
+   "actual": {
+    "ok": true
+   },
+   "status": "pass"
+  },
+  {
+   "id": "I-05",
+   "area": "images",
+   "assertion": "grid-6col 3487×6180（side 415/header 36）与 72/72 图块位级一致，sha256 命中",
+   "method": "crop + array_equal",
+   "actual": {
+    "size": [
+     3487,
+     6180
+    ],
+    "tiles": 72
+   },
+   "status": "pass"
+  },
+  {
+   "id": "I-06",
+   "area": "images",
+   "assertion": "3 张 group sheet（1114×832，24 块）与 overview（994×1952，72 块）逐块等于 LANCZOS(170/150)",
+   "method": "复刻 audit.py 几何",
+   "actual": {
+    "g1": 24,
+    "g2": 24,
+    "g3": 24,
+    "overview": 72
+   },
+   "status": "pass"
+  },
+  {
+   "id": "I-07",
+   "area": "images",
+   "assertion": "canary 4/4 位级相同（r00/r14 的 dense 285/570 对 task10 归档）",
+   "method": "自算解码哈希",
+   "actual": {
+    "checks": 4
+   },
+   "status": "pass"
+  },
+  {
+   "id": "I-08",
+   "area": "images",
+   "assertion": "归档未变：task10 Base/D900 共 24 块哈希与 task10 audit 一致；task11 90% 掩码 sha256 仍为 23df6144…",
+   "method": "自算哈希 vs 记录",
+   "actual": {
+    "task10_tiles": 24,
+    "mask": "23df6144…"
+   },
+   "status": "pass"
+  },
+  {
+   "id": "I-09",
+   "area": "images",
+   "assertion": "comparison freeze 21 条 sha256 全命中；5 条 amendment 末值 == 磁盘（run.py/plan.md/canary-dense.py）",
+   "method": "全量重算 + 链比较",
+   "actual": {
+    "entries": 21,
+    "amendments": 5
+   },
+   "status": "pass"
+  },
+  {
+   "id": "I-10",
+   "area": "images",
+   "assertion": "6 个 comparison stage 全部有 exit 记录；canary-attempt1 exit 1 → canary exit 0（358.1 s）；generate 3,415.7 s；audit 18.4 s",
+   "method": "逐 stage 读 exit.json",
+   "actual": {
+    "generate_stage_wall": 3415.7154,
+    "render_wall_seconds": 3412.3154,
+    "render_s": 3390.8262,
+    "cuda_alloc": 2120034816,
+    "cuda_reserved": 2193620992,
+    "audit_wall": 18.4,
+    "canary_wall": 358.1
+   },
+   "status": "pass"
+  }
+ ],
+ "key_numbers": {
+  "training": {
+   "steps": 900,
+   "median_step_s": 6.0546,
+   "sum_segment_wall_s": 5582.11,
+   "probe_wall_s": 31.479,
+   "peak_alloc": 2605227520,
+   "peak_reserved": 2925527040,
+   "target_area": 1048576,
+   "target_equals_source": 285,
+   "cache": {
+    "catalog": 285,
+    "text": 286,
+    "latents": 285,
+    "tokens": 1135799
+   },
+   "l2": [
+    2.105,
+    3.3265,
+    4.3083,
+    4.3976
+   ],
+   "optim": {
+    "entries": 252,
+    "moments": 2133198
+   }
+  },
+  "images": {
+   "tiles": 48,
+   "vs_base": {
+    "c01": 33.5991,
+    "c02": 16.1622,
+    "c03": 23.2614,
+    "c04": 26.4476,
+    "c05": 26.0728
+   },
+   "vs_ref": {
+    "c02": 32.301,
+    "c03": 29.8818,
+    "c04": 28.1164,
+    "c05": 28.0391
+   },
+   "steps": {
+    "250_vs_550": 18.0011,
+    "550_vs_850": 14.458,
+    "850_vs_900": 6.0885,
+    "250_vs_900": 21.6099
+   },
+   "group_means_vs_base": {
+    "g1": [
+     43.78,
+     20.02,
+     33.34,
+     36.8,
+     36.91
+    ],
+    "g2": [
+     33.12,
+     17.44,
+     23.76,
+     26.58,
+     26.14
+    ],
+    "g3": [
+     23.89,
+     11.03,
+     12.69,
+     15.96,
+     15.16
+    ]
+   },
+   "n900_vs_base_range": [
+    10.7,
+    41.4
+   ],
+   "n900_vs_ref_range": [
+    14.4,
+    53.0
+   ],
+   "generate": {
+    "render_wall_seconds": 3412.3154,
+    "images": 48,
+    "cuda_alloc": 2120034816,
+    "cuda_reserved": 2193620992
+   }
+  },
+  "task10_inventory": {
+   "total_files": 3350,
+   "images": 74,
+   "images_570": 25,
+   "freeze_comparison": "18/18",
+   "freeze_570": "11/11",
+   "session_freeze": "9/9",
+   "conclusion": "关键产物齐备；文件数差异只能落在未被任何 manifest 记录的 runtime/（372+1,386）与 __pycache__ 缓存中"
+  }
+ },
+ "verdict": {
+  "integrity": "训练链与产物完整：4 检查点 + 4×2 导出 facts 齐全、A/alpha 与掩码逐层一致、优化器 252 entry 且计数对齐；48 张图、72 图块网格、3+1 张 sheet、canary 与归档全部复核通过。",
+  "trajectory": "四步方向一致：vs-Base 16.16→23.26→26.45→26.07、与 256² 稠密参考距离 32.30→29.88→28.12→28.04 单调下降、相邻位移 18.00→14.46→6.09、B L2 3.33→4.31→4.40。850 后基本饱和（相邻位移 6.09、L2 增量 0.09、参考距离只降 0.08）；但 vs-Base 在 850→900 略有回落（26.45→26.07），所以是「饱和」而非「严格单调增强」。",
+  "weaker_than_256": "在 512² 采样下，原生训练 90% 稀疏的画面改写幅度（vs-Base 26.07）明显小于 256² 稠密 900 参考（33.60），且两者间距仍有 ~28；方向上一致但幅度更弱。尺度不匹配（~1.02 MP 训练、512² 采样）是合理解释之一，但**本轮无法归因**：没有 native 训练 @ native 采样、也没有 512² 训练 @ 512² 采样的对照臂，训练数据分辨率、loss 尺度与采样分辨率三重混杂。",
+  "cannot_say": [
+   "无独立留出集：285 张全部入训，不能声称泛化",
+   "无真人盲评：视觉结论只有我一人且知道列身份",
+   "掩码来自 256² 校准（task11），不是原生分辨率校准",
+   "跨分辨率 MAE 不可比（512² 采样 vs 256² 采样、不同文本/像素分布）",
+   "loss 尺度不同（0.375 vs 0.705），不能与 256² run 横向比较"
+  ]
+ }
+}

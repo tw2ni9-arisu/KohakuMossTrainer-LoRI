@@ -1,0 +1,2970 @@
+{
+  "tiles": 108,
+  "rows": 12,
+  "columns": 13,
+  "archived_tiles_verified": 48,
+  "grid_13col": {
+    "file": "grid-13col.png",
+    "size": [
+      7071,
+      6180
+    ],
+    "sha256": "bc5603cc402f0a385310567236199b863337f7faaaf58d616aa31e23499a9fba"
+  },
+  "sheets": {
+    "sheet-group1.png": {
+      "size": [
+        2304,
+        832
+      ],
+      "sha256": "af259050352ba9af9d1195301f156396696f2e557b5ee0c889ea7d06464fa688"
+    },
+    "sheet-group2.png": {
+      "size": [
+        2304,
+        832
+      ],
+      "sha256": "185b406938b9b6ae26d2d70d6c8fe39f65b1d68485ff0943ccf3230bde36eea6"
+    },
+    "sheet-group3.png": {
+      "size": [
+        2304,
+        832
+      ],
+      "sha256": "16cebcc413eeaf161b7e989cd26e87e16251f2650446108af8dfadd6bdeaf7f7"
+    },
+    "sheet-overview.png": {
+      "size": [
+        1498,
+        1448
+      ],
+      "sha256": "841e993026c9ce737fcef585157f45b96ce18405bfe9c4fa50ebf91bad1447f6"
+    }
+  },
+  "overall": {
+    "vs_base": {
+      "c01": 28.5836787753635,
+      "c02": 30.781013276841904,
+      "c03": 33.59912215338813,
+      "c04": 28.281992594401043,
+      "c05": 28.276444223192,
+      "c06": 29.059656567043728,
+      "c07": 32.83055803510878,
+      "c08": 30.823330879211426,
+      "c09": 31.269994629753963,
+      "c10": 32.3677896923489,
+      "c11": 31.575275315178768,
+      "c12": 33.76460986667209
+    },
+    "sparse_vs_dense": {
+      "90%_at_285": 16.858665042453342,
+      "90%_at_570": 22.957292874654133,
+      "90%_at_900": 23.920386632283527,
+      "60%_at_285": 19.442559666103786,
+      "60%_at_570": 17.882714483473034,
+      "60%_at_900": 18.0840851465861,
+      "30%_at_285": 19.144507196214466,
+      "30%_at_570": 14.524727821350098,
+      "30%_at_900": 15.232954449123804
+    },
+    "sparsity_pairs": {
+      "285:90_vs_60": 19.04155847761366,
+      "285:90_vs_30": 17.74101670583089,
+      "285:60_vs_30": 8.072954177856445,
+      "570:90_vs_60": 16.861691580878365,
+      "570:90_vs_30": 20.342266930474175,
+      "570:60_vs_30": 14.261498557196724,
+      "900:90_vs_60": 18.189345783657497,
+      "900:90_vs_30": 23.13125695122613,
+      "900:60_vs_30": 16.154877026875813
+    },
+    "step_pairs": {
+      "dense:285_vs_570": 23.765807257758244,
+      "dense:570_vs_900": 22.217387941148544,
+      "dense:285_vs_900": 27.87470605638292,
+      "90:285_vs_570": 15.74528831905789,
+      "90:570_vs_900": 12.178901778327095,
+      "90:285_vs_900": 18.768055386013454,
+      "60:285_vs_570": 25.08038584391276,
+      "60:570_vs_900": 17.78794542948405,
+      "60:285_vs_900": 27.738744099934895,
+      "30:285_vs_570": 26.34559440612793,
+      "30:570_vs_900": 20.574938350253635,
+      "30:285_vs_900": 28.468230459425186
+    }
+  },
+  "group_means": [
+    {
+      "group": 1,
+      "scene": "pink studio duo + plush",
+      "vs_base": {
+        "c01": 35.47663879394531,
+        "c02": 38.985358238220215,
+        "c03": 43.784568786621094,
+        "c04": 36.96587530771891,
+        "c05": 35.03736082712809,
+        "c06": 37.107614835103355,
+        "c07": 41.813032468159996,
+        "c08": 40.172661463419594,
+        "c09": 40.84743754069011,
+        "c10": 41.12359587351481,
+        "c11": 40.44115034739177,
+        "c12": 43.93619155883789
+      },
+      "sparse_vs_dense": {
+        "90%_at_285": 21.18277136484782,
+        "90%_at_570": 30.365266799926758,
+        "90%_at_900": 32.72877470652262,
+        "60%_at_285": 27.9473606745402,
+        "60%_at_570": 23.78004741668701,
+        "60%_at_900": 21.24309794108073,
+        "30%_at_285": 25.39978567759196,
+        "30%_at_570": 17.09593454996745,
+        "30%_at_900": 14.781885147094727
+      },
+      "sparsity_pairs": {
+        "285:90_vs_60": 20.41820526123047,
+        "285:90_vs_30": 18.281380971272785,
+        "285:60_vs_30": 9.086430231730143,
+        "570:90_vs_60": 25.065168698628742,
+        "570:90_vs_30": 27.39856020609538,
+        "570:60_vs_30": 19.402181943257652,
+        "900:90_vs_60": 27.376362800598145,
+        "900:90_vs_30": 33.30859661102295,
+        "900:60_vs_30": 21.152787526448567
+      },
+      "step_pairs": {
+        "dense:285_vs_570": 30.36895529429118,
+        "dense:570_vs_900": 28.59638563791911,
+        "dense:285_vs_900": 34.41982078552246,
+        "90:285_vs_570": 21.944013595581055,
+        "90:570_vs_900": 17.834733963012695,
+        "90:285_vs_900": 28.246118545532227,
+        "60:285_vs_570": 33.44877020517985,
+        "60:570_vs_900": 23.35537656148275,
+        "60:285_vs_900": 40.00622526804606,
+        "30:285_vs_570": 35.9817091623942,
+        "30:570_vs_900": 25.35546080271403,
+        "30:285_vs_900": 41.017120043436684
+      }
+    },
+    {
+      "group": 2,
+      "scene": "lavender starfield single",
+      "vs_base": {
+        "c01": 29.776769320170082,
+        "c02": 30.204995473225914,
+        "c03": 33.118401845296226,
+        "c04": 29.115604082743328,
+        "c05": 29.985618591308594,
+        "c06": 31.02055867513021,
+        "c07": 33.08013439178467,
+        "c08": 30.29902203877767,
+        "c09": 31.885395685831703,
+        "c10": 32.28425757090251,
+        "c11": 30.309233029683433,
+        "c12": 33.28288873036703
+      },
+      "sparse_vs_dense": {
+        "90%_at_285": 18.478759765625,
+        "90%_at_570": 22.574954986572266,
+        "90%_at_900": 24.27842648824056,
+        "60%_at_285": 16.365326563517254,
+        "60%_at_570": 17.54003079732259,
+        "60%_at_900": 20.12793223063151,
+        "30%_at_285": 17.88557243347168,
+        "30%_at_570": 15.628586133321125,
+        "30%_at_900": 21.1878080368042
+      },
+      "sparsity_pairs": {
+        "285:90_vs_60": 19.907739639282227,
+        "285:90_vs_30": 17.6127192179362,
+        "285:60_vs_30": 9.827166875203451,
+        "570:90_vs_60": 14.907614390055338,
+        "570:90_vs_30": 18.270970344543457,
+        "570:60_vs_30": 12.786709785461426,
+        "900:90_vs_60": 16.74420229593913,
+        "900:90_vs_30": 20.807735761006672,
+        "900:60_vs_30": 15.802491823832193
+      },
+      "step_pairs": {
+        "dense:285_vs_570": 24.49575964609782,
+        "dense:570_vs_900": 23.765221913655598,
+        "dense:285_vs_900": 31.927916526794434,
+        "90:285_vs_570": 13.804399808247885,
+        "90:570_vs_900": 10.110949198404947,
+        "90:285_vs_900": 16.19702879587809,
+        "60:285_vs_570": 21.57852586110433,
+        "60:570_vs_900": 17.021968205769856,
+        "60:285_vs_900": 21.850658098856606,
+        "30:285_vs_570": 22.277764638264973,
+        "30:570_vs_900": 22.44629224141439,
+        "30:285_vs_900": 23.238269805908203
+      }
+    },
+    {
+      "group": 3,
+      "scene": "seaside sunset duo + sparkler",
+      "vs_base": {
+        "c01": 20.497628211975098,
+        "c02": 23.15268611907959,
+        "c03": 23.89439582824707,
+        "c04": 18.764498392740887,
+        "c05": 19.80635325113932,
+        "c06": 19.050796190897625,
+        "c07": 23.598507245381676,
+        "c08": 21.99830913543701,
+        "c09": 21.077150662740074,
+        "c10": 23.695515632629395,
+        "c11": 23.975442568461098,
+        "c12": 24.07474931081136
+      },
+      "sparse_vs_dense": {
+        "90%_at_285": 10.914463996887207,
+        "90%_at_570": 15.931656837463379,
+        "90%_at_900": 14.753958702087402,
+        "60%_at_285": 14.014991760253906,
+        "60%_at_570": 12.328065236409504,
+        "60%_at_900": 12.881225268046062,
+        "30%_at_285": 14.148163477579754,
+        "30%_at_570": 10.849662780761719,
+        "30%_at_900": 9.729170163472492
+      },
+      "sparsity_pairs": {
+        "285:90_vs_60": 16.79873053232829,
+        "285:90_vs_30": 17.32894992828369,
+        "285:60_vs_30": 5.305265426635742,
+        "570:90_vs_60": 10.61229165395101,
+        "570:90_vs_30": 15.357270240783691,
+        "570:60_vs_30": 10.595603942871094,
+        "900:90_vs_60": 10.44747225443522,
+        "900:90_vs_30": 15.277438481648762,
+        "900:60_vs_30": 11.50935173034668
+      },
+      "step_pairs": {
+        "dense:285_vs_570": 16.432706832885742,
+        "dense:570_vs_900": 14.29055627187093,
+        "dense:285_vs_900": 17.276380856831867,
+        "90:285_vs_570": 11.487451553344727,
+        "90:570_vs_900": 8.591022173563639,
+        "90:285_vs_900": 11.861018816630045,
+        "60:285_vs_570": 20.2138614654541,
+        "60:570_vs_900": 12.986491521199545,
+        "60:285_vs_900": 21.35934893290202,
+        "30:285_vs_570": 20.77730941772461,
+        "30:570_vs_900": 13.923062006632486,
+        "30:285_vs_900": 21.149301528930664
+      }
+    }
+  ],
+  "rows_detail": [
+    {
+      "row": 0,
+      "pair": 0,
+      "scene": "pink studio duo + plush",
+      "seed": 42,
+      "trigger": true,
+      "vs_base": {
+        "c01": {
+          "changed_pixels": 262143,
+          "mean_absolute_rgb_0_to_255": 41.61175537109375,
+          "max_absolute_channel": 255
+        },
+        "c02": {
+          "changed_pixels": 262144,
+          "mean_absolute_rgb_0_to_255": 39.157142639160156,
+          "max_absolute_channel": 255
+        },
+        "c03": {
+          "changed_pixels": 262144,
+          "mean_absolute_rgb_0_to_255": 44.49862289428711,
+          "max_absolute_channel": 255
+        },
+        "c04": {
+          "changed_pixels": 262144,
+          "mean_absolute_rgb_0_to_255": 41.59095001220703,
+          "max_absolute_channel": 255
+        },
+        "c05": {
+          "changed_pixels": 262144,
+          "mean_absolute_rgb_0_to_255": 41.28240712483724,
+          "max_absolute_channel": 255
+        },
+        "c06": {
+          "changed_pixels": 262143,
+          "mean_absolute_rgb_0_to_255": 42.41651407877604,
+          "max_absolute_channel": 255
+        },
+        "c07": {
+          "changed_pixels": 262144,
+          "mean_absolute_rgb_0_to_255": 44.749552408854164,
+          "max_absolute_channel": 255
+        },
+        "c08": {
+          "changed_pixels": 262143,
+          "mean_absolute_rgb_0_to_255": 42.99858856201172,
+          "max_absolute_channel": 255
+        },
+        "c09": {
+          "changed_pixels": 262144,
+          "mean_absolute_rgb_0_to_255": 40.77442932128906,
+          "max_absolute_channel": 255
+        },
+        "c10": {
+          "changed_pixels": 262144,
+          "mean_absolute_rgb_0_to_255": 44.351481119791664,
+          "max_absolute_channel": 255
+        },
+        "c11": {
+          "changed_pixels": 262144,
+          "mean_absolute_rgb_0_to_255": 41.27319844563802,
+          "max_absolute_channel": 255
+        },
+        "c12": {
+          "changed_pixels": 262144,
+          "mean_absolute_rgb_0_to_255": 44.32482020060221,
+          "max_absolute_channel": 255
+        }
+      },
+      "sparse_vs_dense": {
+        "90%_at_285": {
+          "changed_pixels": 262080,
+          "mean_absolute_rgb_0_to_255": 18.506131490071613,
+          "max_absolute_channel": 210
+        },
+        "90%_at_570": {
+          "changed_pixels": 262079,
+          "mean_absolute_rgb_0_to_255": 20.831614176432293,
+          "max_absolute_channel": 223
+        },
+        "90%_at_900": {
+          "changed_pixels": 262091,
+          "mean_absolute_rgb_0_to_255": 30.48471959431966,
+          "max_absolute_channel": 215
+        },
+        "60%_at_285": {
+          "changed_pixels": 260984,
+          "mean_absolute_rgb_0_to_255": 23.743052164713543,
+          "max_absolute_channel": 207
+        },
+        "60%_at_570": {
+          "changed_pixels": 261960,
+          "mean_absolute_rgb_0_to_255": 20.69152069091797,
+          "max_absolute_channel": 222
+        },
+        "60%_at_900": {
+          "changed_pixels": 262037,
+          "mean_absolute_rgb_0_to_255": 24.811242421468098,
+          "max_absolute_channel": 236
+        },
+        "30%_at_285": {
+          "changed_pixels": 260494,
+          "mean_absolute_rgb_0_to_255": 20.83148956298828,
+          "max_absolute_channel": 212
+        },
+        "30%_at_570": {
+          "changed_pixels": 261687,
+          "mean_absolute_rgb_0_to_255": 16.418848673502605,
+          "max_absolute_channel": 222
+        },
+        "30%_at_900": {
+          "changed_pixels": 260127,
+          "mean_absolute_rgb_0_to_255": 10.782330830891928,
+          "max_absolute_channel": 225
+        }
+      },
+      "sparsity_pairs": {
+        "285:90_vs_60": {
+          "changed_pixels": 261808,
+          "mean_absolute_rgb_0_to_255": 21.4724858601888,
+          "max_absolute_channel": 206
+        },
+        "285:90_vs_30": {
+          "changed_pixels": 261701,
+          "mean_absolute_rgb_0_to_255": 20.308448791503906,
+          "max_absolute_channel": 207
+        },
+        "285:60_vs_30": {
+          "changed_pixels": 251384,
+          "mean_absolute_rgb_0_to_255": 8.174575805664062,
+          "max_absolute_channel": 232
+        },
+        "570:90_vs_60": {
+          "changed_pixels": 261023,
+          "mean_absolute_rgb_0_to_255": 18.22418975830078,
+          "max_absolute_channel": 208
+        },
+        "570:90_vs_30": {
+          "changed_pixels": 261700,
+          "mean_absolute_rgb_0_to_255": 17.012227376302082,
+          "max_absolute_channel": 205
+        },
+        "570:60_vs_30": {
+          "changed_pixels": 261432,
+          "mean_absolute_rgb_0_to_255": 15.665199279785156,
+          "max_absolute_channel": 213
+        },
+        "900:90_vs_60": {
+          "changed_pixels": 261875,
+          "mean_absolute_rgb_0_to_255": 22.199132283528645,
+          "max_absolute_channel": 221
+        },
+        "900:90_vs_30": {
+          "changed_pixels": 262126,
+          "mean_absolute_rgb_0_to_255": 30.949535369873047,
+          "max_absolute_channel": 213
+        },
+        "900:60_vs_30": {
+          "changed_pixels": 262064,
+          "mean_absolute_rgb_0_to_255": 26.48542658487956,
+          "max_absolute_channel": 237
+        }
+      },
+      "step_pairs": {
+        "dense:285_vs_570": {
+          "changed_pixels": 262051,
+          "mean_absolute_rgb_0_to_255": 21.64063262939453,
+          "max_absolute_channel": 221
+        },
+        "dense:570_vs_900": {
+          "changed_pixels": 262083,
+          "mean_absolute_rgb_0_to_255": 35.11604690551758,
+          "max_absolute_channel": 222
+        },
+        "dense:285_vs_900": {
+          "changed_pixels": 262134,
+          "mean_absolute_rgb_0_to_255": 30.023014068603516,
+          "max_absolute_channel": 217
+        },
+        "90:285_vs_570": {
+          "changed_pixels": 262052,
+          "mean_absolute_rgb_0_to_255": 14.756886800130209,
+          "max_absolute_channel": 207
+        },
+        "90:570_vs_900": {
+          "changed_pixels": 260862,
+          "mean_absolute_rgb_0_to_255": 11.272410074869791,
+          "max_absolute_channel": 206
+        },
+        "90:285_vs_900": {
+          "changed_pixels": 262100,
+          "mean_absolute_rgb_0_to_255": 16.963333129882812,
+          "max_absolute_channel": 215
+        },
+        "60:285_vs_570": {
+          "changed_pixels": 260794,
+          "mean_absolute_rgb_0_to_255": 20.575907389322918,
+          "max_absolute_channel": 214
+        },
+        "60:570_vs_900": {
+          "changed_pixels": 262100,
+          "mean_absolute_rgb_0_to_255": 25.7333246866862,
+          "max_absolute_channel": 221
+        },
+        "60:285_vs_900": {
+          "changed_pixels": 261688,
+          "mean_absolute_rgb_0_to_255": 30.989151000976562,
+          "max_absolute_channel": 217
+        },
+        "30:285_vs_570": {
+          "changed_pixels": 262034,
+          "mean_absolute_rgb_0_to_255": 24.6208012898763,
+          "max_absolute_channel": 213
+        },
+        "30:570_vs_900": {
+          "changed_pixels": 262114,
+          "mean_absolute_rgb_0_to_255": 32.61543655395508,
+          "max_absolute_channel": 221
+        },
+        "30:285_vs_900": {
+          "changed_pixels": 262138,
+          "mean_absolute_rgb_0_to_255": 33.691890716552734,
+          "max_absolute_channel": 216
+        }
+      }
+    },
+    {
+      "row": 1,
+      "pair": 0,
+      "scene": "pink studio duo + plush",
+      "seed": 42,
+      "trigger": false,
+      "vs_base": {
+        "c01": {
+          "changed_pixels": 262136,
+          "mean_absolute_rgb_0_to_255": 27.07919184366862,
+          "max_absolute_channel": 218
+        },
+        "c02": {
+          "changed_pixels": 262139,
+          "mean_absolute_rgb_0_to_255": 29.493279774983723,
+          "max_absolute_channel": 222
+        },
+        "c03": {
+          "changed_pixels": 262140,
+          "mean_absolute_rgb_0_to_255": 37.06651306152344,
+          "max_absolute_channel": 218
+        },
+        "c04": {
+          "changed_pixels": 262141,
+          "mean_absolute_rgb_0_to_255": 24.383689880371094,
+          "max_absolute_channel": 217
+        },
+        "c05": {
+          "changed_pixels": 262140,
+          "mean_absolute_rgb_0_to_255": 27.535598754882812,
+          "max_absolute_channel": 216
+        },
+        "c06": {
+          "changed_pixels": 262047,
+          "mean_absolute_rgb_0_to_255": 31.96483866373698,
+          "max_absolute_channel": 215
+        },
+        "c07": {
+          "changed_pixels": 262142,
+          "mean_absolute_rgb_0_to_255": 29.076100667317707,
+          "max_absolute_channel": 218
+        },
+        "c08": {
+          "changed_pixels": 262136,
+          "mean_absolute_rgb_0_to_255": 30.967320760091145,
+          "max_absolute_channel": 213
+        },
+        "c09": {
+          "changed_pixels": 262136,
+          "mean_absolute_rgb_0_to_255": 33.95900344848633,
+          "max_absolute_channel": 221
+        },
+        "c10": {
+          "changed_pixels": 262137,
+          "mean_absolute_rgb_0_to_255": 28.762274424235027,
+          "max_absolute_channel": 217
+        },
+        "c11": {
+          "changed_pixels": 262140,
+          "mean_absolute_rgb_0_to_255": 30.121047973632812,
+          "max_absolute_channel": 230
+        },
+        "c12": {
+          "changed_pixels": 262128,
+          "mean_absolute_rgb_0_to_255": 35.31192270914713,
+          "max_absolute_channel": 226
+        }
+      },
+      "sparse_vs_dense": {
+        "90%_at_285": {
+          "changed_pixels": 261084,
+          "mean_absolute_rgb_0_to_255": 10.653321584065756,
+          "max_absolute_channel": 205
+        },
+        "90%_at_570": {
+          "changed_pixels": 262011,
+          "mean_absolute_rgb_0_to_255": 23.34530512491862,
+          "max_absolute_channel": 210
+        },
+        "90%_at_900": {
+          "changed_pixels": 262038,
+          "mean_absolute_rgb_0_to_255": 24.134310404459637,
+          "max_absolute_channel": 220
+        },
+        "60%_at_285": {
+          "changed_pixels": 261955,
+          "mean_absolute_rgb_0_to_255": 18.391290028889973,
+          "max_absolute_channel": 219
+        },
+        "60%_at_570": {
+          "changed_pixels": 262055,
+          "mean_absolute_rgb_0_to_255": 25.80654017130534,
+          "max_absolute_channel": 214
+        },
+        "60%_at_900": {
+          "changed_pixels": 261937,
+          "mean_absolute_rgb_0_to_255": 13.510331471761068,
+          "max_absolute_channel": 205
+        },
+        "30%_at_285": {
+          "changed_pixels": 261641,
+          "mean_absolute_rgb_0_to_255": 14.814214070638021,
+          "max_absolute_channel": 202
+        },
+        "30%_at_570": {
+          "changed_pixels": 256934,
+          "mean_absolute_rgb_0_to_255": 14.229139963785807,
+          "max_absolute_channel": 203
+        },
+        "30%_at_900": {
+          "changed_pixels": 261599,
+          "mean_absolute_rgb_0_to_255": 9.541475931803385,
+          "max_absolute_channel": 194
+        }
+      },
+      "sparsity_pairs": {
+        "285:90_vs_60": {
+          "changed_pixels": 261585,
+          "mean_absolute_rgb_0_to_255": 16.7083002726237,
+          "max_absolute_channel": 211
+        },
+        "285:90_vs_30": {
+          "changed_pixels": 258696,
+          "mean_absolute_rgb_0_to_255": 13.62729517618815,
+          "max_absolute_channel": 206
+        },
+        "285:60_vs_30": {
+          "changed_pixels": 255056,
+          "mean_absolute_rgb_0_to_255": 8.222278594970703,
+          "max_absolute_channel": 196
+        },
+        "570:90_vs_60": {
+          "changed_pixels": 260843,
+          "mean_absolute_rgb_0_to_255": 15.175994873046875,
+          "max_absolute_channel": 214
+        },
+        "570:90_vs_30": {
+          "changed_pixels": 260480,
+          "mean_absolute_rgb_0_to_255": 16.397608439127605,
+          "max_absolute_channel": 226
+        },
+        "570:60_vs_30": {
+          "changed_pixels": 259643,
+          "mean_absolute_rgb_0_to_255": 18.739847819010418,
+          "max_absolute_channel": 218
+        },
+        "900:90_vs_60": {
+          "changed_pixels": 262099,
+          "mean_absolute_rgb_0_to_255": 20.28329340616862,
+          "max_absolute_channel": 211
+        },
+        "900:90_vs_30": {
+          "changed_pixels": 262106,
+          "mean_absolute_rgb_0_to_255": 21.85906473795573,
+          "max_absolute_channel": 217
+        },
+        "900:60_vs_30": {
+          "changed_pixels": 258796,
+          "mean_absolute_rgb_0_to_255": 8.045998891194662,
+          "max_absolute_channel": 200
+        }
+      },
+      "step_pairs": {
+        "dense:285_vs_570": {
+          "changed_pixels": 262087,
+          "mean_absolute_rgb_0_to_255": 21.40295664469401,
+          "max_absolute_channel": 208
+        },
+        "dense:570_vs_900": {
+          "changed_pixels": 262120,
+          "mean_absolute_rgb_0_to_255": 28.969979604085285,
+          "max_absolute_channel": 219
+        },
+        "dense:285_vs_900": {
+          "changed_pixels": 262133,
+          "mean_absolute_rgb_0_to_255": 30.09201939900716,
+          "max_absolute_channel": 223
+        },
+        "90:285_vs_570": {
+          "changed_pixels": 257166,
+          "mean_absolute_rgb_0_to_255": 8.655301411946615,
+          "max_absolute_channel": 195
+        },
+        "90:570_vs_900": {
+          "changed_pixels": 262099,
+          "mean_absolute_rgb_0_to_255": 28.168479919433594,
+          "max_absolute_channel": 222
+        },
+        "90:285_vs_900": {
+          "changed_pixels": 262078,
+          "mean_absolute_rgb_0_to_255": 28.069437662760418,
+          "max_absolute_channel": 221
+        },
+        "60:285_vs_570": {
+          "changed_pixels": 261773,
+          "mean_absolute_rgb_0_to_255": 14.329884847005209,
+          "max_absolute_channel": 201
+        },
+        "60:570_vs_900": {
+          "changed_pixels": 262110,
+          "mean_absolute_rgb_0_to_255": 28.407026926676433,
+          "max_absolute_channel": 214
+        },
+        "60:285_vs_900": {
+          "changed_pixels": 262116,
+          "mean_absolute_rgb_0_to_255": 30.45833969116211,
+          "max_absolute_channel": 227
+        },
+        "30:285_vs_570": {
+          "changed_pixels": 260737,
+          "mean_absolute_rgb_0_to_255": 21.685242970784504,
+          "max_absolute_channel": 225
+        },
+        "30:570_vs_900": {
+          "changed_pixels": 262120,
+          "mean_absolute_rgb_0_to_255": 27.27788798014323,
+          "max_absolute_channel": 223
+        },
+        "30:285_vs_900": {
+          "changed_pixels": 262131,
+          "mean_absolute_rgb_0_to_255": 31.67855707804362,
+          "max_absolute_channel": 224
+        }
+      }
+    },
+    {
+      "row": 2,
+      "pair": 0,
+      "scene": "pink studio duo + plush",
+      "seed": 43,
+      "trigger": true,
+      "vs_base": {
+        "c01": {
+          "changed_pixels": 261725,
+          "mean_absolute_rgb_0_to_255": 40.817892710367836,
+          "max_absolute_channel": 251
+        },
+        "c02": {
+          "changed_pixels": 258466,
+          "mean_absolute_rgb_0_to_255": 35.67885208129883,
+          "max_absolute_channel": 250
+        },
+        "c03": {
+          "changed_pixels": 261436,
+          "mean_absolute_rgb_0_to_255": 40.004486083984375,
+          "max_absolute_channel": 252
+        },
+        "c04": {
+          "changed_pixels": 261898,
+          "mean_absolute_rgb_0_to_255": 48.4763298034668,
+          "max_absolute_channel": 246
+        },
+        "c05": {
+          "changed_pixels": 261619,
+          "mean_absolute_rgb_0_to_255": 37.873453776041664,
+          "max_absolute_channel": 246
+        },
+        "c06": {
+          "changed_pixels": 261758,
+          "mean_absolute_rgb_0_to_255": 38.95114771525065,
+          "max_absolute_channel": 241
+        },
+        "c07": {
+          "changed_pixels": 262116,
+          "mean_absolute_rgb_0_to_255": 54.963513692220054,
+          "max_absolute_channel": 247
+        },
+        "c08": {
+          "changed_pixels": 261782,
+          "mean_absolute_rgb_0_to_255": 37.670223236083984,
+          "max_absolute_channel": 241
+        },
+        "c09": {
+          "changed_pixels": 261180,
+          "mean_absolute_rgb_0_to_255": 39.53851826985677,
+          "max_absolute_channel": 246
+        },
+        "c10": {
+          "changed_pixels": 262071,
+          "mean_absolute_rgb_0_to_255": 53.249376932779946,
+          "max_absolute_channel": 246
+        },
+        "c11": {
+          "changed_pixels": 261299,
+          "mean_absolute_rgb_0_to_255": 38.124107360839844,
+          "max_absolute_channel": 246
+        },
+        "c12": {
+          "changed_pixels": 261433,
+          "mean_absolute_rgb_0_to_255": 39.64213180541992,
+          "max_absolute_channel": 252
+        }
+      },
+      "sparse_vs_dense": {
+        "90%_at_285": {
+          "changed_pixels": 261721,
+          "mean_absolute_rgb_0_to_255": 34.282666524251304,
+          "max_absolute_channel": 225
+        },
+        "90%_at_570": {
+          "changed_pixels": 260571,
+          "mean_absolute_rgb_0_to_255": 28.630334218343098,
+          "max_absolute_channel": 226
+        },
+        "90%_at_900": {
+          "changed_pixels": 261333,
+          "mean_absolute_rgb_0_to_255": 29.003467559814453,
+          "max_absolute_channel": 235
+        },
+        "60%_at_285": {
+          "changed_pixels": 262081,
+          "mean_absolute_rgb_0_to_255": 41.411749521891274,
+          "max_absolute_channel": 215
+        },
+        "60%_at_570": {
+          "changed_pixels": 261727,
+          "mean_absolute_rgb_0_to_255": 26.13512929280599,
+          "max_absolute_channel": 234
+        },
+        "60%_at_900": {
+          "changed_pixels": 258198,
+          "mean_absolute_rgb_0_to_255": 21.586283365885418,
+          "max_absolute_channel": 223
+        },
+        "30%_at_285": {
+          "changed_pixels": 262013,
+          "mean_absolute_rgb_0_to_255": 39.34958012898763,
+          "max_absolute_channel": 214
+        },
+        "30%_at_570": {
+          "changed_pixels": 255141,
+          "mean_absolute_rgb_0_to_255": 20.014883677164715,
+          "max_absolute_channel": 221
+        },
+        "30%_at_900": {
+          "changed_pixels": 254149,
+          "mean_absolute_rgb_0_to_255": 17.024102528889973,
+          "max_absolute_channel": 222
+        }
+      },
+      "sparsity_pairs": {
+        "285:90_vs_60": {
+          "changed_pixels": 261551,
+          "mean_absolute_rgb_0_to_255": 22.310474395751953,
+          "max_absolute_channel": 217
+        },
+        "285:90_vs_30": {
+          "changed_pixels": 260520,
+          "mean_absolute_rgb_0_to_255": 19.213293711344402,
+          "max_absolute_channel": 202
+        },
+        "285:60_vs_30": {
+          "changed_pixels": 253785,
+          "mean_absolute_rgb_0_to_255": 11.303217569986979,
+          "max_absolute_channel": 227
+        },
+        "570:90_vs_60": {
+          "changed_pixels": 258538,
+          "mean_absolute_rgb_0_to_255": 20.582047780354817,
+          "max_absolute_channel": 222
+        },
+        "570:90_vs_30": {
+          "changed_pixels": 260629,
+          "mean_absolute_rgb_0_to_255": 27.514729817708332,
+          "max_absolute_channel": 224
+        },
+        "570:60_vs_30": {
+          "changed_pixels": 261571,
+          "mean_absolute_rgb_0_to_255": 24.78896204630534,
+          "max_absolute_channel": 228
+        },
+        "900:90_vs_60": {
+          "changed_pixels": 259560,
+          "mean_absolute_rgb_0_to_255": 22.783018747965496,
+          "max_absolute_channel": 232
+        },
+        "900:90_vs_30": {
+          "changed_pixels": 261142,
+          "mean_absolute_rgb_0_to_255": 28.72515106201172,
+          "max_absolute_channel": 237
+        },
+        "900:60_vs_30": {
+          "changed_pixels": 259485,
+          "mean_absolute_rgb_0_to_255": 22.905162811279297,
+          "max_absolute_channel": 227
+        }
+      },
+      "step_pairs": {
+        "dense:285_vs_570": {
+          "changed_pixels": 260893,
+          "mean_absolute_rgb_0_to_255": 32.09877268473307,
+          "max_absolute_channel": 242
+        },
+        "dense:570_vs_900": {
+          "changed_pixels": 257361,
+          "mean_absolute_rgb_0_to_255": 22.64278284708659,
+          "max_absolute_channel": 239
+        },
+        "dense:285_vs_900": {
+          "changed_pixels": 261182,
+          "mean_absolute_rgb_0_to_255": 31.01076380411784,
+          "max_absolute_channel": 234
+        },
+        "90:285_vs_570": {
+          "changed_pixels": 261759,
+          "mean_absolute_rgb_0_to_255": 39.51532872517904,
+          "max_absolute_channel": 224
+        },
+        "90:570_vs_900": {
+          "changed_pixels": 260735,
+          "mean_absolute_rgb_0_to_255": 18.245344797770183,
+          "max_absolute_channel": 227
+        },
+        "90:285_vs_900": {
+          "changed_pixels": 261627,
+          "mean_absolute_rgb_0_to_255": 41.31091562906901,
+          "max_absolute_channel": 228
+        },
+        "60:285_vs_570": {
+          "changed_pixels": 262102,
+          "mean_absolute_rgb_0_to_255": 50.53820673624674,
+          "max_absolute_channel": 232
+        },
+        "60:570_vs_900": {
+          "changed_pixels": 261660,
+          "mean_absolute_rgb_0_to_255": 19.220836639404297,
+          "max_absolute_channel": 223
+        },
+        "60:285_vs_900": {
+          "changed_pixels": 262073,
+          "mean_absolute_rgb_0_to_255": 51.35822296142578,
+          "max_absolute_channel": 229
+        },
+        "30:285_vs_570": {
+          "changed_pixels": 262037,
+          "mean_absolute_rgb_0_to_255": 48.39844004313151,
+          "max_absolute_channel": 231
+        },
+        "30:570_vs_900": {
+          "changed_pixels": 258985,
+          "mean_absolute_rgb_0_to_255": 16.868157704671223,
+          "max_absolute_channel": 223
+        },
+        "30:285_vs_900": {
+          "changed_pixels": 261746,
+          "mean_absolute_rgb_0_to_255": 46.920118967692055,
+          "max_absolute_channel": 233
+        }
+      }
+    },
+    {
+      "row": 3,
+      "pair": 0,
+      "scene": "pink studio duo + plush",
+      "seed": 43,
+      "trigger": false,
+      "vs_base": {
+        "c01": {
+          "changed_pixels": 261651,
+          "mean_absolute_rgb_0_to_255": 32.39771525065104,
+          "max_absolute_channel": 216
+        },
+        "c02": {
+          "changed_pixels": 261692,
+          "mean_absolute_rgb_0_to_255": 51.61215845743815,
+          "max_absolute_channel": 248
+        },
+        "c03": {
+          "changed_pixels": 261838,
+          "mean_absolute_rgb_0_to_255": 53.56865310668945,
+          "max_absolute_channel": 226
+        },
+        "c04": {
+          "changed_pixels": 262109,
+          "mean_absolute_rgb_0_to_255": 33.41253153483073,
+          "max_absolute_channel": 220
+        },
+        "c05": {
+          "changed_pixels": 261877,
+          "mean_absolute_rgb_0_to_255": 33.45798365275065,
+          "max_absolute_channel": 228
+        },
+        "c06": {
+          "changed_pixels": 262129,
+          "mean_absolute_rgb_0_to_255": 35.09795888264974,
+          "max_absolute_channel": 234
+        },
+        "c07": {
+          "changed_pixels": 261992,
+          "mean_absolute_rgb_0_to_255": 38.46296310424805,
+          "max_absolute_channel": 229
+        },
+        "c08": {
+          "changed_pixels": 261841,
+          "mean_absolute_rgb_0_to_255": 49.05451329549154,
+          "max_absolute_channel": 227
+        },
+        "c09": {
+          "changed_pixels": 261764,
+          "mean_absolute_rgb_0_to_255": 49.11779912312826,
+          "max_absolute_channel": 236
+        },
+        "c10": {
+          "changed_pixels": 261998,
+          "mean_absolute_rgb_0_to_255": 38.1312510172526,
+          "max_absolute_channel": 227
+        },
+        "c11": {
+          "changed_pixels": 261887,
+          "mean_absolute_rgb_0_to_255": 52.24624760945638,
+          "max_absolute_channel": 245
+        },
+        "c12": {
+          "changed_pixels": 261737,
+          "mean_absolute_rgb_0_to_255": 56.46589152018229,
+          "max_absolute_channel": 238
+        }
+      },
+      "sparse_vs_dense": {
+        "90%_at_285": {
+          "changed_pixels": 261964,
+          "mean_absolute_rgb_0_to_255": 21.288965861002605,
+          "max_absolute_channel": 210
+        },
+        "90%_at_570": {
+          "changed_pixels": 262035,
+          "mean_absolute_rgb_0_to_255": 48.65381368001302,
+          "max_absolute_channel": 244
+        },
+        "90%_at_900": {
+          "changed_pixels": 262102,
+          "mean_absolute_rgb_0_to_255": 47.29260126749674,
+          "max_absolute_channel": 232
+        },
+        "60%_at_285": {
+          "changed_pixels": 261973,
+          "mean_absolute_rgb_0_to_255": 28.243350982666016,
+          "max_absolute_channel": 216
+        },
+        "60%_at_570": {
+          "changed_pixels": 259334,
+          "mean_absolute_rgb_0_to_255": 22.48699951171875,
+          "max_absolute_channel": 226
+        },
+        "60%_at_900": {
+          "changed_pixels": 259221,
+          "mean_absolute_rgb_0_to_255": 25.064534505208332,
+          "max_absolute_channel": 227
+        },
+        "30%_at_285": {
+          "changed_pixels": 261919,
+          "mean_absolute_rgb_0_to_255": 26.603858947753906,
+          "max_absolute_channel": 215
+        },
+        "30%_at_570": {
+          "changed_pixels": 257226,
+          "mean_absolute_rgb_0_to_255": 17.720865885416668,
+          "max_absolute_channel": 236
+        },
+        "30%_at_900": {
+          "changed_pixels": 258507,
+          "mean_absolute_rgb_0_to_255": 21.77963129679362,
+          "max_absolute_channel": 218
+        }
+      },
+      "sparsity_pairs": {
+        "285:90_vs_60": {
+          "changed_pixels": 261893,
+          "mean_absolute_rgb_0_to_255": 21.181560516357422,
+          "max_absolute_channel": 214
+        },
+        "285:90_vs_30": {
+          "changed_pixels": 261878,
+          "mean_absolute_rgb_0_to_255": 19.976486206054688,
+          "max_absolute_channel": 215
+        },
+        "285:60_vs_30": {
+          "changed_pixels": 254805,
+          "mean_absolute_rgb_0_to_255": 8.645648956298828,
+          "max_absolute_channel": 186
+        },
+        "570:90_vs_60": {
+          "changed_pixels": 262064,
+          "mean_absolute_rgb_0_to_255": 46.2784423828125,
+          "max_absolute_channel": 230
+        },
+        "570:90_vs_30": {
+          "changed_pixels": 262071,
+          "mean_absolute_rgb_0_to_255": 48.66967519124349,
+          "max_absolute_channel": 244
+        },
+        "570:60_vs_30": {
+          "changed_pixels": 259626,
+          "mean_absolute_rgb_0_to_255": 18.414718627929688,
+          "max_absolute_channel": 228
+        },
+        "900:90_vs_60": {
+          "changed_pixels": 258320,
+          "mean_absolute_rgb_0_to_255": 44.24000676472982,
+          "max_absolute_channel": 233
+        },
+        "900:90_vs_30": {
+          "changed_pixels": 262109,
+          "mean_absolute_rgb_0_to_255": 51.700635274251304,
+          "max_absolute_channel": 234
+        },
+        "900:60_vs_30": {
+          "changed_pixels": 259647,
+          "mean_absolute_rgb_0_to_255": 27.174561818440754,
+          "max_absolute_channel": 228
+        }
+      },
+      "step_pairs": {
+        "dense:285_vs_570": {
+          "changed_pixels": 261891,
+          "mean_absolute_rgb_0_to_255": 46.3334592183431,
+          "max_absolute_channel": 233
+        },
+        "dense:570_vs_900": {
+          "changed_pixels": 259746,
+          "mean_absolute_rgb_0_to_255": 27.65673319498698,
+          "max_absolute_channel": 235
+        },
+        "dense:285_vs_900": {
+          "changed_pixels": 261898,
+          "mean_absolute_rgb_0_to_255": 46.55348587036133,
+          "max_absolute_channel": 225
+        },
+        "90:285_vs_570": {
+          "changed_pixels": 260120,
+          "mean_absolute_rgb_0_to_255": 24.84853744506836,
+          "max_absolute_channel": 231
+        },
+        "90:570_vs_900": {
+          "changed_pixels": 252618,
+          "mean_absolute_rgb_0_to_255": 13.652701059977213,
+          "max_absolute_channel": 221
+        },
+        "90:285_vs_900": {
+          "changed_pixels": 261990,
+          "mean_absolute_rgb_0_to_255": 26.640787760416668,
+          "max_absolute_channel": 233
+        },
+        "60:285_vs_570": {
+          "changed_pixels": 261931,
+          "mean_absolute_rgb_0_to_255": 48.35108184814453,
+          "max_absolute_channel": 230
+        },
+        "60:570_vs_900": {
+          "changed_pixels": 259187,
+          "mean_absolute_rgb_0_to_255": 20.060317993164062,
+          "max_absolute_channel": 232
+        },
+        "60:285_vs_900": {
+          "changed_pixels": 262063,
+          "mean_absolute_rgb_0_to_255": 47.21918741861979,
+          "max_absolute_channel": 235
+        },
+        "30:285_vs_570": {
+          "changed_pixels": 262007,
+          "mean_absolute_rgb_0_to_255": 49.22235234578451,
+          "max_absolute_channel": 242
+        },
+        "30:570_vs_900": {
+          "changed_pixels": 260382,
+          "mean_absolute_rgb_0_to_255": 24.66036097208659,
+          "max_absolute_channel": 232
+        },
+        "30:285_vs_900": {
+          "changed_pixels": 262036,
+          "mean_absolute_rgb_0_to_255": 51.777913411458336,
+          "max_absolute_channel": 233
+        }
+      }
+    },
+    {
+      "row": 4,
+      "pair": 1,
+      "scene": "lavender starfield single",
+      "seed": 42,
+      "trigger": true,
+      "vs_base": {
+        "c01": {
+          "changed_pixels": 262108,
+          "mean_absolute_rgb_0_to_255": 25.832230885823567,
+          "max_absolute_channel": 255
+        },
+        "c02": {
+          "changed_pixels": 262094,
+          "mean_absolute_rgb_0_to_255": 24.42535654703776,
+          "max_absolute_channel": 246
+        },
+        "c03": {
+          "changed_pixels": 262119,
+          "mean_absolute_rgb_0_to_255": 27.867120107014973,
+          "max_absolute_channel": 250
+        },
+        "c04": {
+          "changed_pixels": 262105,
+          "mean_absolute_rgb_0_to_255": 25.205486297607422,
+          "max_absolute_channel": 252
+        },
+        "c05": {
+          "changed_pixels": 261996,
+          "mean_absolute_rgb_0_to_255": 25.497425079345703,
+          "max_absolute_channel": 255
+        },
+        "c06": {
+          "changed_pixels": 262076,
+          "mean_absolute_rgb_0_to_255": 26.004491170247395,
+          "max_absolute_channel": 255
+        },
+        "c07": {
+          "changed_pixels": 262109,
+          "mean_absolute_rgb_0_to_255": 27.33485285441081,
+          "max_absolute_channel": 253
+        },
+        "c08": {
+          "changed_pixels": 262134,
+          "mean_absolute_rgb_0_to_255": 24.209014892578125,
+          "max_absolute_channel": 245
+        },
+        "c09": {
+          "changed_pixels": 262129,
+          "mean_absolute_rgb_0_to_255": 24.71781285603841,
+          "max_absolute_channel": 247
+        },
+        "c10": {
+          "changed_pixels": 262127,
+          "mean_absolute_rgb_0_to_255": 26.588191986083984,
+          "max_absolute_channel": 252
+        },
+        "c11": {
+          "changed_pixels": 262118,
+          "mean_absolute_rgb_0_to_255": 24.434885660807293,
+          "max_absolute_channel": 251
+        },
+        "c12": {
+          "changed_pixels": 262093,
+          "mean_absolute_rgb_0_to_255": 28.541229248046875,
+          "max_absolute_channel": 253
+        }
+      },
+      "sparse_vs_dense": {
+        "90%_at_285": {
+          "changed_pixels": 261873,
+          "mean_absolute_rgb_0_to_255": 17.33728535970052,
+          "max_absolute_channel": 243
+        },
+        "90%_at_570": {
+          "changed_pixels": 262073,
+          "mean_absolute_rgb_0_to_255": 24.68650182088216,
+          "max_absolute_channel": 237
+        },
+        "90%_at_900": {
+          "changed_pixels": 262098,
+          "mean_absolute_rgb_0_to_255": 24.152093251546223,
+          "max_absolute_channel": 242
+        },
+        "60%_at_285": {
+          "changed_pixels": 261848,
+          "mean_absolute_rgb_0_to_255": 13.108952840169271,
+          "max_absolute_channel": 224
+        },
+        "60%_at_570": {
+          "changed_pixels": 261588,
+          "mean_absolute_rgb_0_to_255": 11.474957784016928,
+          "max_absolute_channel": 231
+        },
+        "60%_at_900": {
+          "changed_pixels": 261645,
+          "mean_absolute_rgb_0_to_255": 13.35064951578776,
+          "max_absolute_channel": 235
+        },
+        "30%_at_285": {
+          "changed_pixels": 261954,
+          "mean_absolute_rgb_0_to_255": 16.415924072265625,
+          "max_absolute_channel": 235
+        },
+        "30%_at_570": {
+          "changed_pixels": 260841,
+          "mean_absolute_rgb_0_to_255": 10.421915690104166,
+          "max_absolute_channel": 224
+        },
+        "30%_at_900": {
+          "changed_pixels": 261986,
+          "mean_absolute_rgb_0_to_255": 23.59311803181966,
+          "max_absolute_channel": 240
+        }
+      },
+      "sparsity_pairs": {
+        "285:90_vs_60": {
+          "changed_pixels": 260764,
+          "mean_absolute_rgb_0_to_255": 15.219571431477865,
+          "max_absolute_channel": 245
+        },
+        "285:90_vs_30": {
+          "changed_pixels": 260844,
+          "mean_absolute_rgb_0_to_255": 9.406341552734375,
+          "max_absolute_channel": 227
+        },
+        "285:60_vs_30": {
+          "changed_pixels": 261853,
+          "mean_absolute_rgb_0_to_255": 13.507209777832031,
+          "max_absolute_channel": 237
+        },
+        "570:90_vs_60": {
+          "changed_pixels": 262081,
+          "mean_absolute_rgb_0_to_255": 23.21182632446289,
+          "max_absolute_channel": 245
+        },
+        "570:90_vs_30": {
+          "changed_pixels": 261919,
+          "mean_absolute_rgb_0_to_255": 22.25875981648763,
+          "max_absolute_channel": 240
+        },
+        "570:60_vs_30": {
+          "changed_pixels": 260705,
+          "mean_absolute_rgb_0_to_255": 10.388956705729166,
+          "max_absolute_channel": 226
+        },
+        "900:90_vs_60": {
+          "changed_pixels": 261813,
+          "mean_absolute_rgb_0_to_255": 20.662354787190754,
+          "max_absolute_channel": 241
+        },
+        "900:90_vs_30": {
+          "changed_pixels": 261862,
+          "mean_absolute_rgb_0_to_255": 21.11450449625651,
+          "max_absolute_channel": 237
+        },
+        "900:60_vs_30": {
+          "changed_pixels": 261363,
+          "mean_absolute_rgb_0_to_255": 21.747997283935547,
+          "max_absolute_channel": 241
+        }
+      },
+      "step_pairs": {
+        "dense:285_vs_570": {
+          "changed_pixels": 262132,
+          "mean_absolute_rgb_0_to_255": 25.646610260009766,
+          "max_absolute_channel": 238
+        },
+        "dense:570_vs_900": {
+          "changed_pixels": 262035,
+          "mean_absolute_rgb_0_to_255": 18.004100799560547,
+          "max_absolute_channel": 229
+        },
+        "dense:285_vs_900": {
+          "changed_pixels": 262106,
+          "mean_absolute_rgb_0_to_255": 29.0906499226888,
+          "max_absolute_channel": 243
+        },
+        "90:285_vs_570": {
+          "changed_pixels": 260919,
+          "mean_absolute_rgb_0_to_255": 9.577527364095053,
+          "max_absolute_channel": 217
+        },
+        "90:570_vs_900": {
+          "changed_pixels": 260512,
+          "mean_absolute_rgb_0_to_255": 7.799963633219401,
+          "max_absolute_channel": 217
+        },
+        "90:285_vs_900": {
+          "changed_pixels": 261468,
+          "mean_absolute_rgb_0_to_255": 12.904674530029297,
+          "max_absolute_channel": 216
+        },
+        "60:285_vs_570": {
+          "changed_pixels": 262132,
+          "mean_absolute_rgb_0_to_255": 24.676830291748047,
+          "max_absolute_channel": 242
+        },
+        "60:570_vs_900": {
+          "changed_pixels": 261919,
+          "mean_absolute_rgb_0_to_255": 15.734366099039713,
+          "max_absolute_channel": 236
+        },
+        "60:285_vs_900": {
+          "changed_pixels": 262110,
+          "mean_absolute_rgb_0_to_255": 24.385177612304688,
+          "max_absolute_channel": 241
+        },
+        "30:285_vs_570": {
+          "changed_pixels": 262076,
+          "mean_absolute_rgb_0_to_255": 22.857179005940754,
+          "max_absolute_channel": 238
+        },
+        "30:570_vs_900": {
+          "changed_pixels": 262117,
+          "mean_absolute_rgb_0_to_255": 25.523104349772137,
+          "max_absolute_channel": 234
+        },
+        "30:285_vs_900": {
+          "changed_pixels": 261746,
+          "mean_absolute_rgb_0_to_255": 24.050172170003254,
+          "max_absolute_channel": 244
+        }
+      }
+    },
+    {
+      "row": 5,
+      "pair": 1,
+      "scene": "lavender starfield single",
+      "seed": 42,
+      "trigger": false,
+      "vs_base": {
+        "c01": {
+          "changed_pixels": 262053,
+          "mean_absolute_rgb_0_to_255": 28.544044494628906,
+          "max_absolute_channel": 255
+        },
+        "c02": {
+          "changed_pixels": 262119,
+          "mean_absolute_rgb_0_to_255": 25.293848673502605,
+          "max_absolute_channel": 252
+        },
+        "c03": {
+          "changed_pixels": 261040,
+          "mean_absolute_rgb_0_to_255": 28.78976313273112,
+          "max_absolute_channel": 244
+        },
+        "c04": {
+          "changed_pixels": 262047,
+          "mean_absolute_rgb_0_to_255": 19.660826365152996,
+          "max_absolute_channel": 253
+        },
+        "c05": {
+          "changed_pixels": 261789,
+          "mean_absolute_rgb_0_to_255": 21.37649663289388,
+          "max_absolute_channel": 255
+        },
+        "c06": {
+          "changed_pixels": 262069,
+          "mean_absolute_rgb_0_to_255": 23.554426829020183,
+          "max_absolute_channel": 255
+        },
+        "c07": {
+          "changed_pixels": 261979,
+          "mean_absolute_rgb_0_to_255": 29.730711619059246,
+          "max_absolute_channel": 255
+        },
+        "c08": {
+          "changed_pixels": 262103,
+          "mean_absolute_rgb_0_to_255": 24.952423095703125,
+          "max_absolute_channel": 255
+        },
+        "c09": {
+          "changed_pixels": 262063,
+          "mean_absolute_rgb_0_to_255": 28.253312428792317,
+          "max_absolute_channel": 254
+        },
+        "c10": {
+          "changed_pixels": 262066,
+          "mean_absolute_rgb_0_to_255": 27.527481079101562,
+          "max_absolute_channel": 255
+        },
+        "c11": {
+          "changed_pixels": 262112,
+          "mean_absolute_rgb_0_to_255": 25.231131235758465,
+          "max_absolute_channel": 249
+        },
+        "c12": {
+          "changed_pixels": 261536,
+          "mean_absolute_rgb_0_to_255": 29.73192850748698,
+          "max_absolute_channel": 255
+        }
+      },
+      "sparse_vs_dense": {
+        "90%_at_285": {
+          "changed_pixels": 261305,
+          "mean_absolute_rgb_0_to_255": 22.308673858642578,
+          "max_absolute_channel": 251
+        },
+        "90%_at_570": {
+          "changed_pixels": 262085,
+          "mean_absolute_rgb_0_to_255": 22.86019515991211,
+          "max_absolute_channel": 242
+        },
+        "90%_at_900": {
+          "changed_pixels": 262041,
+          "mean_absolute_rgb_0_to_255": 24.224838256835938,
+          "max_absolute_channel": 244
+        },
+        "60%_at_285": {
+          "changed_pixels": 259005,
+          "mean_absolute_rgb_0_to_255": 5.587151845296224,
+          "max_absolute_channel": 218
+        },
+        "60%_at_570": {
+          "changed_pixels": 262014,
+          "mean_absolute_rgb_0_to_255": 18.427452087402344,
+          "max_absolute_channel": 242
+        },
+        "60%_at_900": {
+          "changed_pixels": 262071,
+          "mean_absolute_rgb_0_to_255": 24.9940185546875,
+          "max_absolute_channel": 242
+        },
+        "30%_at_285": {
+          "changed_pixels": 260093,
+          "mean_absolute_rgb_0_to_255": 9.1207275390625,
+          "max_absolute_channel": 237
+        },
+        "30%_at_570": {
+          "changed_pixels": 260872,
+          "mean_absolute_rgb_0_to_255": 12.64114761352539,
+          "max_absolute_channel": 233
+        },
+        "30%_at_900": {
+          "changed_pixels": 261845,
+          "mean_absolute_rgb_0_to_255": 26.16806411743164,
+          "max_absolute_channel": 250
+        }
+      },
+      "sparsity_pairs": {
+        "285:90_vs_60": {
+          "changed_pixels": 261718,
+          "mean_absolute_rgb_0_to_255": 23.953776041666668,
+          "max_absolute_channel": 249
+        },
+        "285:90_vs_30": {
+          "changed_pixels": 261803,
+          "mean_absolute_rgb_0_to_255": 21.646895090738933,
+          "max_absolute_channel": 251
+        },
+        "285:60_vs_30": {
+          "changed_pixels": 260200,
+          "mean_absolute_rgb_0_to_255": 9.155757904052734,
+          "max_absolute_channel": 239
+        },
+        "570:90_vs_60": {
+          "changed_pixels": 261758,
+          "mean_absolute_rgb_0_to_255": 14.950539906819662,
+          "max_absolute_channel": 231
+        },
+        "570:90_vs_30": {
+          "changed_pixels": 262022,
+          "mean_absolute_rgb_0_to_255": 21.387664794921875,
+          "max_absolute_channel": 238
+        },
+        "570:60_vs_30": {
+          "changed_pixels": 262005,
+          "mean_absolute_rgb_0_to_255": 16.43458429972331,
+          "max_absolute_channel": 242
+        },
+        "900:90_vs_60": {
+          "changed_pixels": 261758,
+          "mean_absolute_rgb_0_to_255": 19.002344767252605,
+          "max_absolute_channel": 246
+        },
+        "900:90_vs_30": {
+          "changed_pixels": 261969,
+          "mean_absolute_rgb_0_to_255": 23.773629506429035,
+          "max_absolute_channel": 245
+        },
+        "900:60_vs_30": {
+          "changed_pixels": 261290,
+          "mean_absolute_rgb_0_to_255": 13.22463862101237,
+          "max_absolute_channel": 236
+        }
+      },
+      "step_pairs": {
+        "dense:285_vs_570": {
+          "changed_pixels": 262042,
+          "mean_absolute_rgb_0_to_255": 28.24523417154948,
+          "max_absolute_channel": 244
+        },
+        "dense:570_vs_900": {
+          "changed_pixels": 262026,
+          "mean_absolute_rgb_0_to_255": 20.73465347290039,
+          "max_absolute_channel": 243
+        },
+        "dense:285_vs_900": {
+          "changed_pixels": 262040,
+          "mean_absolute_rgb_0_to_255": 32.70643997192383,
+          "max_absolute_channel": 243
+        },
+        "90:285_vs_570": {
+          "changed_pixels": 260808,
+          "mean_absolute_rgb_0_to_255": 10.41107177734375,
+          "max_absolute_channel": 245
+        },
+        "90:570_vs_900": {
+          "changed_pixels": 261029,
+          "mean_absolute_rgb_0_to_255": 9.612866719563803,
+          "max_absolute_channel": 193
+        },
+        "90:285_vs_900": {
+          "changed_pixels": 261300,
+          "mean_absolute_rgb_0_to_255": 15.680231730143229,
+          "max_absolute_channel": 245
+        },
+        "60:285_vs_570": {
+          "changed_pixels": 262054,
+          "mean_absolute_rgb_0_to_255": 26.593634287516277,
+          "max_absolute_channel": 242
+        },
+        "60:570_vs_900": {
+          "changed_pixels": 262000,
+          "mean_absolute_rgb_0_to_255": 22.037255605061848,
+          "max_absolute_channel": 241
+        },
+        "60:285_vs_900": {
+          "changed_pixels": 261875,
+          "mean_absolute_rgb_0_to_255": 24.897610982259113,
+          "max_absolute_channel": 238
+        },
+        "30:285_vs_570": {
+          "changed_pixels": 262089,
+          "mean_absolute_rgb_0_to_255": 26.90207290649414,
+          "max_absolute_channel": 238
+        },
+        "30:570_vs_900": {
+          "changed_pixels": 262118,
+          "mean_absolute_rgb_0_to_255": 27.361871083577473,
+          "max_absolute_channel": 239
+        },
+        "30:285_vs_900": {
+          "changed_pixels": 261990,
+          "mean_absolute_rgb_0_to_255": 21.16369374593099,
+          "max_absolute_channel": 250
+        }
+      }
+    },
+    {
+      "row": 6,
+      "pair": 1,
+      "scene": "lavender starfield single",
+      "seed": 43,
+      "trigger": true,
+      "vs_base": {
+        "c01": {
+          "changed_pixels": 262044,
+          "mean_absolute_rgb_0_to_255": 31.81614812215169,
+          "max_absolute_channel": 246
+        },
+        "c02": {
+          "changed_pixels": 262134,
+          "mean_absolute_rgb_0_to_255": 36.947530110677086,
+          "max_absolute_channel": 245
+        },
+        "c03": {
+          "changed_pixels": 262122,
+          "mean_absolute_rgb_0_to_255": 38.312625885009766,
+          "max_absolute_channel": 250
+        },
+        "c04": {
+          "changed_pixels": 261996,
+          "mean_absolute_rgb_0_to_255": 34.611427307128906,
+          "max_absolute_channel": 249
+        },
+        "c05": {
+          "changed_pixels": 262063,
+          "mean_absolute_rgb_0_to_255": 37.400412241617836,
+          "max_absolute_channel": 251
+        },
+        "c06": {
+          "changed_pixels": 262099,
+          "mean_absolute_rgb_0_to_255": 37.593098958333336,
+          "max_absolute_channel": 254
+        },
+        "c07": {
+          "changed_pixels": 262128,
+          "mean_absolute_rgb_0_to_255": 38.37510426839193,
+          "max_absolute_channel": 254
+        },
+        "c08": {
+          "changed_pixels": 262107,
+          "mean_absolute_rgb_0_to_255": 36.7642453511556,
+          "max_absolute_channel": 252
+        },
+        "c09": {
+          "changed_pixels": 262125,
+          "mean_absolute_rgb_0_to_255": 38.83435567220052,
+          "max_absolute_channel": 255
+        },
+        "c10": {
+          "changed_pixels": 262133,
+          "mean_absolute_rgb_0_to_255": 37.968701680501304,
+          "max_absolute_channel": 255
+        },
+        "c11": {
+          "changed_pixels": 262107,
+          "mean_absolute_rgb_0_to_255": 36.40130360921224,
+          "max_absolute_channel": 252
+        },
+        "c12": {
+          "changed_pixels": 262083,
+          "mean_absolute_rgb_0_to_255": 38.79631805419922,
+          "max_absolute_channel": 255
+        }
+      },
+      "sparse_vs_dense": {
+        "90%_at_285": {
+          "changed_pixels": 261155,
+          "mean_absolute_rgb_0_to_255": 14.125054677327475,
+          "max_absolute_channel": 243
+        },
+        "90%_at_570": {
+          "changed_pixels": 262098,
+          "mean_absolute_rgb_0_to_255": 21.924571990966797,
+          "max_absolute_channel": 245
+        },
+        "90%_at_900": {
+          "changed_pixels": 261802,
+          "mean_absolute_rgb_0_to_255": 24.225749969482422,
+          "max_absolute_channel": 226
+        },
+        "60%_at_285": {
+          "changed_pixels": 262112,
+          "mean_absolute_rgb_0_to_255": 25.561580657958984,
+          "max_absolute_channel": 239
+        },
+        "60%_at_570": {
+          "changed_pixels": 262116,
+          "mean_absolute_rgb_0_to_255": 20.60475031534831,
+          "max_absolute_channel": 252
+        },
+        "60%_at_900": {
+          "changed_pixels": 261984,
+          "mean_absolute_rgb_0_to_255": 20.874930063883465,
+          "max_absolute_channel": 222
+        },
+        "30%_at_285": {
+          "changed_pixels": 262095,
+          "mean_absolute_rgb_0_to_255": 24.878175099690754,
+          "max_absolute_channel": 244
+        },
+        "30%_at_570": {
+          "changed_pixels": 261907,
+          "mean_absolute_rgb_0_to_255": 20.83331044514974,
+          "max_absolute_channel": 240
+        },
+        "30%_at_900": {
+          "changed_pixels": 261816,
+          "mean_absolute_rgb_0_to_255": 17.57998784383138,
+          "max_absolute_channel": 236
+        }
+      },
+      "sparsity_pairs": {
+        "285:90_vs_60": {
+          "changed_pixels": 262113,
+          "mean_absolute_rgb_0_to_255": 25.155629475911457,
+          "max_absolute_channel": 249
+        },
+        "285:90_vs_30": {
+          "changed_pixels": 262118,
+          "mean_absolute_rgb_0_to_255": 25.028920491536457,
+          "max_absolute_channel": 247
+        },
+        "285:60_vs_30": {
+          "changed_pixels": 260324,
+          "mean_absolute_rgb_0_to_255": 7.192476908365886,
+          "max_absolute_channel": 207
+        },
+        "570:90_vs_60": {
+          "changed_pixels": 261342,
+          "mean_absolute_rgb_0_to_255": 9.548868815104166,
+          "max_absolute_channel": 223
+        },
+        "570:90_vs_30": {
+          "changed_pixels": 261798,
+          "mean_absolute_rgb_0_to_255": 14.238279978434244,
+          "max_absolute_channel": 229
+        },
+        "570:60_vs_30": {
+          "changed_pixels": 261495,
+          "mean_absolute_rgb_0_to_255": 10.973979949951172,
+          "max_absolute_channel": 214
+        },
+        "900:90_vs_60": {
+          "changed_pixels": 261922,
+          "mean_absolute_rgb_0_to_255": 14.079594930013021,
+          "max_absolute_channel": 230
+        },
+        "900:90_vs_30": {
+          "changed_pixels": 261771,
+          "mean_absolute_rgb_0_to_255": 19.290428161621094,
+          "max_absolute_channel": 234
+        },
+        "900:60_vs_30": {
+          "changed_pixels": 261758,
+          "mean_absolute_rgb_0_to_255": 13.474212646484375,
+          "max_absolute_channel": 233
+        }
+      },
+      "step_pairs": {
+        "dense:285_vs_570": {
+          "changed_pixels": 262109,
+          "mean_absolute_rgb_0_to_255": 23.136742909749348,
+          "max_absolute_channel": 243
+        },
+        "dense:570_vs_900": {
+          "changed_pixels": 262056,
+          "mean_absolute_rgb_0_to_255": 27.64510726928711,
+          "max_absolute_channel": 245
+        },
+        "dense:285_vs_900": {
+          "changed_pixels": 262090,
+          "mean_absolute_rgb_0_to_255": 33.736096700032554,
+          "max_absolute_channel": 243
+        },
+        "90:285_vs_570": {
+          "changed_pixels": 261831,
+          "mean_absolute_rgb_0_to_255": 23.806891123453777,
+          "max_absolute_channel": 252
+        },
+        "90:570_vs_900": {
+          "changed_pixels": 261259,
+          "mean_absolute_rgb_0_to_255": 10.211200714111328,
+          "max_absolute_channel": 223
+        },
+        "90:285_vs_900": {
+          "changed_pixels": 262070,
+          "mean_absolute_rgb_0_to_255": 25.47717793782552,
+          "max_absolute_channel": 250
+        },
+        "60:285_vs_570": {
+          "changed_pixels": 262031,
+          "mean_absolute_rgb_0_to_255": 17.23228581746419,
+          "max_absolute_channel": 221
+        },
+        "60:570_vs_900": {
+          "changed_pixels": 261957,
+          "mean_absolute_rgb_0_to_255": 15.576422373453775,
+          "max_absolute_channel": 236
+        },
+        "60:285_vs_900": {
+          "changed_pixels": 261924,
+          "mean_absolute_rgb_0_to_255": 18.48253631591797,
+          "max_absolute_channel": 224
+        },
+        "30:285_vs_570": {
+          "changed_pixels": 261581,
+          "mean_absolute_rgb_0_to_255": 17.48315938313802,
+          "max_absolute_channel": 210
+        },
+        "30:570_vs_900": {
+          "changed_pixels": 261792,
+          "mean_absolute_rgb_0_to_255": 19.39818064371745,
+          "max_absolute_channel": 233
+        },
+        "30:285_vs_900": {
+          "changed_pixels": 262049,
+          "mean_absolute_rgb_0_to_255": 23.29766082763672,
+          "max_absolute_channel": 237
+        }
+      }
+    },
+    {
+      "row": 7,
+      "pair": 1,
+      "scene": "lavender starfield single",
+      "seed": 43,
+      "trigger": false,
+      "vs_base": {
+        "c01": {
+          "changed_pixels": 262116,
+          "mean_absolute_rgb_0_to_255": 32.91465377807617,
+          "max_absolute_channel": 246
+        },
+        "c02": {
+          "changed_pixels": 262102,
+          "mean_absolute_rgb_0_to_255": 34.153246561686196,
+          "max_absolute_channel": 247
+        },
+        "c03": {
+          "changed_pixels": 262105,
+          "mean_absolute_rgb_0_to_255": 37.50409825642904,
+          "max_absolute_channel": 253
+        },
+        "c04": {
+          "changed_pixels": 262076,
+          "mean_absolute_rgb_0_to_255": 36.984676361083984,
+          "max_absolute_channel": 253
+        },
+        "c05": {
+          "changed_pixels": 262112,
+          "mean_absolute_rgb_0_to_255": 35.66814041137695,
+          "max_absolute_channel": 255
+        },
+        "c06": {
+          "changed_pixels": 262114,
+          "mean_absolute_rgb_0_to_255": 36.93021774291992,
+          "max_absolute_channel": 254
+        },
+        "c07": {
+          "changed_pixels": 262131,
+          "mean_absolute_rgb_0_to_255": 36.879868825276695,
+          "max_absolute_channel": 251
+        },
+        "c08": {
+          "changed_pixels": 262110,
+          "mean_absolute_rgb_0_to_255": 35.27040481567383,
+          "max_absolute_channel": 254
+        },
+        "c09": {
+          "changed_pixels": 262116,
+          "mean_absolute_rgb_0_to_255": 35.73610178629557,
+          "max_absolute_channel": 252
+        },
+        "c10": {
+          "changed_pixels": 262134,
+          "mean_absolute_rgb_0_to_255": 37.05265553792318,
+          "max_absolute_channel": 252
+        },
+        "c11": {
+          "changed_pixels": 262097,
+          "mean_absolute_rgb_0_to_255": 35.16961161295573,
+          "max_absolute_channel": 255
+        },
+        "c12": {
+          "changed_pixels": 262114,
+          "mean_absolute_rgb_0_to_255": 36.062079111735024,
+          "max_absolute_channel": 250
+        }
+      },
+      "sparse_vs_dense": {
+        "90%_at_285": {
+          "changed_pixels": 261854,
+          "mean_absolute_rgb_0_to_255": 20.144025166829426,
+          "max_absolute_channel": 234
+        },
+        "90%_at_570": {
+          "changed_pixels": 261961,
+          "mean_absolute_rgb_0_to_255": 20.828550974527996,
+          "max_absolute_channel": 248
+        },
+        "90%_at_900": {
+          "changed_pixels": 261522,
+          "mean_absolute_rgb_0_to_255": 24.511024475097656,
+          "max_absolute_channel": 236
+        },
+        "60%_at_285": {
+          "changed_pixels": 262076,
+          "mean_absolute_rgb_0_to_255": 21.20362091064453,
+          "max_absolute_channel": 236
+        },
+        "60%_at_570": {
+          "changed_pixels": 261760,
+          "mean_absolute_rgb_0_to_255": 19.652963002522785,
+          "max_absolute_channel": 238
+        },
+        "60%_at_900": {
+          "changed_pixels": 261530,
+          "mean_absolute_rgb_0_to_255": 21.292130788167317,
+          "max_absolute_channel": 221
+        },
+        "30%_at_285": {
+          "changed_pixels": 262024,
+          "mean_absolute_rgb_0_to_255": 21.12746302286784,
+          "max_absolute_channel": 234
+        },
+        "30%_at_570": {
+          "changed_pixels": 261886,
+          "mean_absolute_rgb_0_to_255": 18.617970784505207,
+          "max_absolute_channel": 238
+        },
+        "30%_at_900": {
+          "changed_pixels": 260970,
+          "mean_absolute_rgb_0_to_255": 17.410062154134113,
+          "max_absolute_channel": 230
+        }
+      },
+      "sparsity_pairs": {
+        "285:90_vs_60": {
+          "changed_pixels": 261960,
+          "mean_absolute_rgb_0_to_255": 15.301981608072916,
+          "max_absolute_channel": 241
+        },
+        "285:90_vs_30": {
+          "changed_pixels": 261947,
+          "mean_absolute_rgb_0_to_255": 14.368719736735025,
+          "max_absolute_channel": 241
+        },
+        "285:60_vs_30": {
+          "changed_pixels": 260959,
+          "mean_absolute_rgb_0_to_255": 9.45322291056315,
+          "max_absolute_channel": 222
+        },
+        "570:90_vs_60": {
+          "changed_pixels": 261686,
+          "mean_absolute_rgb_0_to_255": 11.919222513834635,
+          "max_absolute_channel": 228
+        },
+        "570:90_vs_30": {
+          "changed_pixels": 261802,
+          "mean_absolute_rgb_0_to_255": 15.199176788330078,
+          "max_absolute_channel": 234
+        },
+        "570:60_vs_30": {
+          "changed_pixels": 261362,
+          "mean_absolute_rgb_0_to_255": 13.349318186442057,
+          "max_absolute_channel": 222
+        },
+        "900:90_vs_60": {
+          "changed_pixels": 261722,
+          "mean_absolute_rgb_0_to_255": 13.23251469930013,
+          "max_absolute_channel": 234
+        },
+        "900:90_vs_30": {
+          "changed_pixels": 261325,
+          "mean_absolute_rgb_0_to_255": 19.05238087972005,
+          "max_absolute_channel": 237
+        },
+        "900:60_vs_30": {
+          "changed_pixels": 261031,
+          "mean_absolute_rgb_0_to_255": 14.763118743896484,
+          "max_absolute_channel": 229
+        }
+      },
+      "step_pairs": {
+        "dense:285_vs_570": {
+          "changed_pixels": 261955,
+          "mean_absolute_rgb_0_to_255": 20.954451243082683,
+          "max_absolute_channel": 234
+        },
+        "dense:570_vs_900": {
+          "changed_pixels": 262055,
+          "mean_absolute_rgb_0_to_255": 28.677026112874348,
+          "max_absolute_channel": 240
+        },
+        "dense:285_vs_900": {
+          "changed_pixels": 262054,
+          "mean_absolute_rgb_0_to_255": 32.178479512532554,
+          "max_absolute_channel": 238
+        },
+        "90:285_vs_570": {
+          "changed_pixels": 260387,
+          "mean_absolute_rgb_0_to_255": 11.422108968098959,
+          "max_absolute_channel": 242
+        },
+        "90:570_vs_900": {
+          "changed_pixels": 261798,
+          "mean_absolute_rgb_0_to_255": 12.81976572672526,
+          "max_absolute_channel": 242
+        },
+        "90:285_vs_900": {
+          "changed_pixels": 260416,
+          "mean_absolute_rgb_0_to_255": 10.726030985514322,
+          "max_absolute_channel": 227
+        },
+        "60:285_vs_570": {
+          "changed_pixels": 262021,
+          "mean_absolute_rgb_0_to_255": 17.8113530476888,
+          "max_absolute_channel": 234
+        },
+        "60:570_vs_900": {
+          "changed_pixels": 261552,
+          "mean_absolute_rgb_0_to_255": 14.739828745524088,
+          "max_absolute_channel": 231
+        },
+        "60:285_vs_900": {
+          "changed_pixels": 262010,
+          "mean_absolute_rgb_0_to_255": 19.63730748494466,
+          "max_absolute_channel": 236
+        },
+        "30:285_vs_570": {
+          "changed_pixels": 262019,
+          "mean_absolute_rgb_0_to_255": 21.86864725748698,
+          "max_absolute_channel": 236
+        },
+        "30:570_vs_900": {
+          "changed_pixels": 261378,
+          "mean_absolute_rgb_0_to_255": 17.502012888590496,
+          "max_absolute_channel": 233
+        },
+        "30:285_vs_900": {
+          "changed_pixels": 261928,
+          "mean_absolute_rgb_0_to_255": 24.441552480061848,
+          "max_absolute_channel": 223
+        }
+      }
+    },
+    {
+      "row": 8,
+      "pair": 2,
+      "scene": "seaside sunset duo + sparkler",
+      "seed": 42,
+      "trigger": true,
+      "vs_base": {
+        "c01": {
+          "changed_pixels": 262144,
+          "mean_absolute_rgb_0_to_255": 20.93869400024414,
+          "max_absolute_channel": 176
+        },
+        "c02": {
+          "changed_pixels": 262141,
+          "mean_absolute_rgb_0_to_255": 21.580921173095703,
+          "max_absolute_channel": 191
+        },
+        "c03": {
+          "changed_pixels": 262144,
+          "mean_absolute_rgb_0_to_255": 22.159180959065754,
+          "max_absolute_channel": 194
+        },
+        "c04": {
+          "changed_pixels": 262143,
+          "mean_absolute_rgb_0_to_255": 19.334911346435547,
+          "max_absolute_channel": 203
+        },
+        "c05": {
+          "changed_pixels": 262138,
+          "mean_absolute_rgb_0_to_255": 19.809586842854817,
+          "max_absolute_channel": 184
+        },
+        "c06": {
+          "changed_pixels": 262141,
+          "mean_absolute_rgb_0_to_255": 19.606849670410156,
+          "max_absolute_channel": 180
+        },
+        "c07": {
+          "changed_pixels": 262144,
+          "mean_absolute_rgb_0_to_255": 22.446160634358723,
+          "max_absolute_channel": 184
+        },
+        "c08": {
+          "changed_pixels": 262143,
+          "mean_absolute_rgb_0_to_255": 20.113087972005207,
+          "max_absolute_channel": 182
+        },
+        "c09": {
+          "changed_pixels": 262136,
+          "mean_absolute_rgb_0_to_255": 22.066909790039062,
+          "max_absolute_channel": 202
+        },
+        "c10": {
+          "changed_pixels": 262142,
+          "mean_absolute_rgb_0_to_255": 22.24676005045573,
+          "max_absolute_channel": 185
+        },
+        "c11": {
+          "changed_pixels": 262143,
+          "mean_absolute_rgb_0_to_255": 22.39071273803711,
+          "max_absolute_channel": 188
+        },
+        "c12": {
+          "changed_pixels": 262144,
+          "mean_absolute_rgb_0_to_255": 24.676006317138672,
+          "max_absolute_channel": 187
+        }
+      },
+      "sparse_vs_dense": {
+        "90%_at_285": {
+          "changed_pixels": 261898,
+          "mean_absolute_rgb_0_to_255": 8.463480631510416,
+          "max_absolute_channel": 162
+        },
+        "90%_at_570": {
+          "changed_pixels": 261766,
+          "mean_absolute_rgb_0_to_255": 13.291542053222656,
+          "max_absolute_channel": 174
+        },
+        "90%_at_900": {
+          "changed_pixels": 261892,
+          "mean_absolute_rgb_0_to_255": 9.605050404866537,
+          "max_absolute_channel": 183
+        },
+        "60%_at_285": {
+          "changed_pixels": 262122,
+          "mean_absolute_rgb_0_to_255": 9.06274159749349,
+          "max_absolute_channel": 161
+        },
+        "60%_at_570": {
+          "changed_pixels": 261754,
+          "mean_absolute_rgb_0_to_255": 9.203352610270182,
+          "max_absolute_channel": 169
+        },
+        "60%_at_900": {
+          "changed_pixels": 261963,
+          "mean_absolute_rgb_0_to_255": 11.482359568277994,
+          "max_absolute_channel": 174
+        },
+        "30%_at_285": {
+          "changed_pixels": 262091,
+          "mean_absolute_rgb_0_to_255": 8.664971669514975,
+          "max_absolute_channel": 170
+        },
+        "30%_at_570": {
+          "changed_pixels": 261979,
+          "mean_absolute_rgb_0_to_255": 9.506507873535156,
+          "max_absolute_channel": 162
+        },
+        "30%_at_900": {
+          "changed_pixels": 261326,
+          "mean_absolute_rgb_0_to_255": 13.463068644205729,
+          "max_absolute_channel": 180
+        }
+      },
+      "sparsity_pairs": {
+        "285:90_vs_60": {
+          "changed_pixels": 261968,
+          "mean_absolute_rgb_0_to_255": 9.291748046875,
+          "max_absolute_channel": 176
+        },
+        "285:90_vs_30": {
+          "changed_pixels": 262041,
+          "mean_absolute_rgb_0_to_255": 9.573630015055338,
+          "max_absolute_channel": 184
+        },
+        "285:60_vs_30": {
+          "changed_pixels": 258269,
+          "mean_absolute_rgb_0_to_255": 4.818604787190755,
+          "max_absolute_channel": 141
+        },
+        "570:90_vs_60": {
+          "changed_pixels": 261908,
+          "mean_absolute_rgb_0_to_255": 9.54361089070638,
+          "max_absolute_channel": 144
+        },
+        "570:90_vs_30": {
+          "changed_pixels": 261991,
+          "mean_absolute_rgb_0_to_255": 13.865534464518229,
+          "max_absolute_channel": 168
+        },
+        "570:60_vs_30": {
+          "changed_pixels": 261810,
+          "mean_absolute_rgb_0_to_255": 8.933798472086588,
+          "max_absolute_channel": 167
+        },
+        "900:90_vs_60": {
+          "changed_pixels": 261889,
+          "mean_absolute_rgb_0_to_255": 12.902262369791666,
+          "max_absolute_channel": 178
+        },
+        "900:90_vs_30": {
+          "changed_pixels": 262108,
+          "mean_absolute_rgb_0_to_255": 15.59372075398763,
+          "max_absolute_channel": 169
+        },
+        "900:60_vs_30": {
+          "changed_pixels": 261828,
+          "mean_absolute_rgb_0_to_255": 10.295370737711588,
+          "max_absolute_channel": 160
+        }
+      },
+      "step_pairs": {
+        "dense:285_vs_570": {
+          "changed_pixels": 261882,
+          "mean_absolute_rgb_0_to_255": 10.37969970703125,
+          "max_absolute_channel": 172
+        },
+        "dense:570_vs_900": {
+          "changed_pixels": 261720,
+          "mean_absolute_rgb_0_to_255": 10.351534525553385,
+          "max_absolute_channel": 183
+        },
+        "dense:285_vs_900": {
+          "changed_pixels": 261978,
+          "mean_absolute_rgb_0_to_255": 11.944185892740885,
+          "max_absolute_channel": 172
+        },
+        "90:285_vs_570": {
+          "changed_pixels": 261726,
+          "mean_absolute_rgb_0_to_255": 7.811322530110677,
+          "max_absolute_channel": 154
+        },
+        "90:570_vs_900": {
+          "changed_pixels": 261334,
+          "mean_absolute_rgb_0_to_255": 8.085201263427734,
+          "max_absolute_channel": 165
+        },
+        "90:285_vs_900": {
+          "changed_pixels": 261928,
+          "mean_absolute_rgb_0_to_255": 8.27261734008789,
+          "max_absolute_channel": 166
+        },
+        "60:285_vs_570": {
+          "changed_pixels": 262139,
+          "mean_absolute_rgb_0_to_255": 11.3251101175944,
+          "max_absolute_channel": 170
+        },
+        "60:570_vs_900": {
+          "changed_pixels": 261913,
+          "mean_absolute_rgb_0_to_255": 12.818181355794271,
+          "max_absolute_channel": 177
+        },
+        "60:285_vs_900": {
+          "changed_pixels": 262131,
+          "mean_absolute_rgb_0_to_255": 17.29697036743164,
+          "max_absolute_channel": 176
+        },
+        "30:285_vs_570": {
+          "changed_pixels": 262104,
+          "mean_absolute_rgb_0_to_255": 11.289679209391275,
+          "max_absolute_channel": 166
+        },
+        "30:570_vs_900": {
+          "changed_pixels": 261323,
+          "mean_absolute_rgb_0_to_255": 13.746225992838541,
+          "max_absolute_channel": 181
+        },
+        "30:285_vs_900": {
+          "changed_pixels": 262108,
+          "mean_absolute_rgb_0_to_255": 16.730414072672527,
+          "max_absolute_channel": 177
+        }
+      }
+    },
+    {
+      "row": 9,
+      "pair": 2,
+      "scene": "seaside sunset duo + sparkler",
+      "seed": 42,
+      "trigger": false,
+      "vs_base": {
+        "c01": {
+          "changed_pixels": 262136,
+          "mean_absolute_rgb_0_to_255": 23.682430267333984,
+          "max_absolute_channel": 188
+        },
+        "c02": {
+          "changed_pixels": 262143,
+          "mean_absolute_rgb_0_to_255": 23.10683314005534,
+          "max_absolute_channel": 197
+        },
+        "c03": {
+          "changed_pixels": 262127,
+          "mean_absolute_rgb_0_to_255": 25.888978322347004,
+          "max_absolute_channel": 204
+        },
+        "c04": {
+          "changed_pixels": 262139,
+          "mean_absolute_rgb_0_to_255": 25.954321543375652,
+          "max_absolute_channel": 199
+        },
+        "c05": {
+          "changed_pixels": 262137,
+          "mean_absolute_rgb_0_to_255": 21.865509033203125,
+          "max_absolute_channel": 194
+        },
+        "c06": {
+          "changed_pixels": 262141,
+          "mean_absolute_rgb_0_to_255": 20.793787638346355,
+          "max_absolute_channel": 209
+        },
+        "c07": {
+          "changed_pixels": 262143,
+          "mean_absolute_rgb_0_to_255": 33.08302434285482,
+          "max_absolute_channel": 218
+        },
+        "c08": {
+          "changed_pixels": 262142,
+          "mean_absolute_rgb_0_to_255": 24.530550638834637,
+          "max_absolute_channel": 197
+        },
+        "c09": {
+          "changed_pixels": 262073,
+          "mean_absolute_rgb_0_to_255": 22.63710657755534,
+          "max_absolute_channel": 192
+        },
+        "c10": {
+          "changed_pixels": 262143,
+          "mean_absolute_rgb_0_to_255": 33.7552604675293,
+          "max_absolute_channel": 218
+        },
+        "c11": {
+          "changed_pixels": 262072,
+          "mean_absolute_rgb_0_to_255": 24.450581868489582,
+          "max_absolute_channel": 205
+        },
+        "c12": {
+          "changed_pixels": 262136,
+          "mean_absolute_rgb_0_to_255": 24.781173706054688,
+          "max_absolute_channel": 193
+        }
+      },
+      "sparse_vs_dense": {
+        "90%_at_285": {
+          "changed_pixels": 261993,
+          "mean_absolute_rgb_0_to_255": 14.465604146321615,
+          "max_absolute_channel": 190
+        },
+        "90%_at_570": {
+          "changed_pixels": 262104,
+          "mean_absolute_rgb_0_to_255": 15.54220199584961,
+          "max_absolute_channel": 177
+        },
+        "90%_at_900": {
+          "changed_pixels": 262085,
+          "mean_absolute_rgb_0_to_255": 18.49777348836263,
+          "max_absolute_channel": 189
+        },
+        "60%_at_285": {
+          "changed_pixels": 262138,
+          "mean_absolute_rgb_0_to_255": 25.67254892985026,
+          "max_absolute_channel": 216
+        },
+        "60%_at_570": {
+          "changed_pixels": 261847,
+          "mean_absolute_rgb_0_to_255": 13.2161496480306,
+          "max_absolute_channel": 172
+        },
+        "60%_at_900": {
+          "changed_pixels": 261815,
+          "mean_absolute_rgb_0_to_255": 11.905792236328125,
+          "max_absolute_channel": 179
+        },
+        "30%_at_285": {
+          "changed_pixels": 262142,
+          "mean_absolute_rgb_0_to_255": 27.149200439453125,
+          "max_absolute_channel": 206
+        },
+        "30%_at_570": {
+          "changed_pixels": 261163,
+          "mean_absolute_rgb_0_to_255": 11.36892827351888,
+          "max_absolute_channel": 174
+        },
+        "30%_at_900": {
+          "changed_pixels": 260533,
+          "mean_absolute_rgb_0_to_255": 8.898436228434244,
+          "max_absolute_channel": 174
+        }
+      },
+      "sparsity_pairs": {
+        "285:90_vs_60": {
+          "changed_pixels": 262107,
+          "mean_absolute_rgb_0_to_255": 30.38500467936198,
+          "max_absolute_channel": 218
+        },
+        "285:90_vs_30": {
+          "changed_pixels": 262084,
+          "mean_absolute_rgb_0_to_255": 32.2645263671875,
+          "max_absolute_channel": 208
+        },
+        "285:60_vs_30": {
+          "changed_pixels": 261891,
+          "mean_absolute_rgb_0_to_255": 8.2525634765625,
+          "max_absolute_channel": 191
+        },
+        "570:90_vs_60": {
+          "changed_pixels": 262067,
+          "mean_absolute_rgb_0_to_255": 13.471857706705729,
+          "max_absolute_channel": 170
+        },
+        "570:90_vs_30": {
+          "changed_pixels": 261686,
+          "mean_absolute_rgb_0_to_255": 14.72809092203776,
+          "max_absolute_channel": 179
+        },
+        "570:60_vs_30": {
+          "changed_pixels": 260878,
+          "mean_absolute_rgb_0_to_255": 8.240854899088541,
+          "max_absolute_channel": 165
+        },
+        "900:90_vs_60": {
+          "changed_pixels": 262102,
+          "mean_absolute_rgb_0_to_255": 14.865233103434244,
+          "max_absolute_channel": 179
+        },
+        "900:90_vs_30": {
+          "changed_pixels": 262112,
+          "mean_absolute_rgb_0_to_255": 17.570632934570312,
+          "max_absolute_channel": 190
+        },
+        "900:60_vs_30": {
+          "changed_pixels": 261822,
+          "mean_absolute_rgb_0_to_255": 10.966175079345703,
+          "max_absolute_channel": 187
+        }
+      },
+      "step_pairs": {
+        "dense:285_vs_570": {
+          "changed_pixels": 262093,
+          "mean_absolute_rgb_0_to_255": 14.009857177734375,
+          "max_absolute_channel": 187
+        },
+        "dense:570_vs_900": {
+          "changed_pixels": 262085,
+          "mean_absolute_rgb_0_to_255": 15.903213500976562,
+          "max_absolute_channel": 173
+        },
+        "dense:285_vs_900": {
+          "changed_pixels": 262132,
+          "mean_absolute_rgb_0_to_255": 19.98364512125651,
+          "max_absolute_channel": 190
+        },
+        "90:285_vs_570": {
+          "changed_pixels": 262033,
+          "mean_absolute_rgb_0_to_255": 12.431563059488932,
+          "max_absolute_channel": 182
+        },
+        "90:570_vs_900": {
+          "changed_pixels": 261596,
+          "mean_absolute_rgb_0_to_255": 10.218307495117188,
+          "max_absolute_channel": 180
+        },
+        "90:285_vs_900": {
+          "changed_pixels": 262067,
+          "mean_absolute_rgb_0_to_255": 16.781734466552734,
+          "max_absolute_channel": 192
+        },
+        "60:285_vs_570": {
+          "changed_pixels": 262140,
+          "mean_absolute_rgb_0_to_255": 30.063927968343098,
+          "max_absolute_channel": 220
+        },
+        "60:570_vs_900": {
+          "changed_pixels": 262126,
+          "mean_absolute_rgb_0_to_255": 18.280401865641277,
+          "max_absolute_channel": 177
+        },
+        "60:285_vs_900": {
+          "changed_pixels": 262144,
+          "mean_absolute_rgb_0_to_255": 30.085238138834637,
+          "max_absolute_channel": 224
+        },
+        "30:285_vs_570": {
+          "changed_pixels": 262140,
+          "mean_absolute_rgb_0_to_255": 30.368663787841797,
+          "max_absolute_channel": 215
+        },
+        "30:570_vs_900": {
+          "changed_pixels": 261960,
+          "mean_absolute_rgb_0_to_255": 16.238492329915363,
+          "max_absolute_channel": 185
+        },
+        "30:285_vs_900": {
+          "changed_pixels": 262094,
+          "mean_absolute_rgb_0_to_255": 29.527245839436848,
+          "max_absolute_channel": 222
+        }
+      }
+    },
+    {
+      "row": 10,
+      "pair": 2,
+      "scene": "seaside sunset duo + sparkler",
+      "seed": 43,
+      "trigger": true,
+      "vs_base": {
+        "c01": {
+          "changed_pixels": 262144,
+          "mean_absolute_rgb_0_to_255": 19.52649434407552,
+          "max_absolute_channel": 224
+        },
+        "c02": {
+          "changed_pixels": 262142,
+          "mean_absolute_rgb_0_to_255": 24.33502705891927,
+          "max_absolute_channel": 219
+        },
+        "c03": {
+          "changed_pixels": 262144,
+          "mean_absolute_rgb_0_to_255": 23.54577891031901,
+          "max_absolute_channel": 234
+        },
+        "c04": {
+          "changed_pixels": 262143,
+          "mean_absolute_rgb_0_to_255": 17.90907923380534,
+          "max_absolute_channel": 226
+        },
+        "c05": {
+          "changed_pixels": 262143,
+          "mean_absolute_rgb_0_to_255": 20.772321065266926,
+          "max_absolute_channel": 227
+        },
+        "c06": {
+          "changed_pixels": 262141,
+          "mean_absolute_rgb_0_to_255": 21.62860616048177,
+          "max_absolute_channel": 228
+        },
+        "c07": {
+          "changed_pixels": 262142,
+          "mean_absolute_rgb_0_to_255": 18.880050659179688,
+          "max_absolute_channel": 227
+        },
+        "c08": {
+          "changed_pixels": 262143,
+          "mean_absolute_rgb_0_to_255": 21.151713053385418,
+          "max_absolute_channel": 227
+        },
+        "c09": {
+          "changed_pixels": 262142,
+          "mean_absolute_rgb_0_to_255": 22.460758209228516,
+          "max_absolute_channel": 228
+        },
+        "c10": {
+          "changed_pixels": 262140,
+          "mean_absolute_rgb_0_to_255": 18.761947631835938,
+          "max_absolute_channel": 226
+        },
+        "c11": {
+          "changed_pixels": 262141,
+          "mean_absolute_rgb_0_to_255": 24.34390640258789,
+          "max_absolute_channel": 226
+        },
+        "c12": {
+          "changed_pixels": 262142,
+          "mean_absolute_rgb_0_to_255": 23.300893147786457,
+          "max_absolute_channel": 230
+        }
+      },
+      "sparse_vs_dense": {
+        "90%_at_285": {
+          "changed_pixels": 261774,
+          "mean_absolute_rgb_0_to_255": 7.171698252360026,
+          "max_absolute_channel": 170
+        },
+        "90%_at_570": {
+          "changed_pixels": 262121,
+          "mean_absolute_rgb_0_to_255": 17.7312749226888,
+          "max_absolute_channel": 189
+        },
+        "90%_at_900": {
+          "changed_pixels": 262102,
+          "mean_absolute_rgb_0_to_255": 11.289655049641928,
+          "max_absolute_channel": 197
+        },
+        "60%_at_285": {
+          "changed_pixels": 262004,
+          "mean_absolute_rgb_0_to_255": 10.560579935709635,
+          "max_absolute_channel": 182
+        },
+        "60%_at_570": {
+          "changed_pixels": 262096,
+          "mean_absolute_rgb_0_to_255": 16.48487599690755,
+          "max_absolute_channel": 195
+        },
+        "60%_at_900": {
+          "changed_pixels": 262062,
+          "mean_absolute_rgb_0_to_255": 9.612435658772787,
+          "max_absolute_channel": 183
+        },
+        "30%_at_285": {
+          "changed_pixels": 262122,
+          "mean_absolute_rgb_0_to_255": 10.54913075764974,
+          "max_absolute_channel": 182
+        },
+        "30%_at_570": {
+          "changed_pixels": 262010,
+          "mean_absolute_rgb_0_to_255": 12.58481216430664,
+          "max_absolute_channel": 197
+        },
+        "30%_at_900": {
+          "changed_pixels": 261036,
+          "mean_absolute_rgb_0_to_255": 6.433906555175781,
+          "max_absolute_channel": 175
+        }
+      },
+      "sparsity_pairs": {
+        "285:90_vs_60": {
+          "changed_pixels": 262129,
+          "mean_absolute_rgb_0_to_255": 12.032273610432943,
+          "max_absolute_channel": 188
+        },
+        "285:90_vs_30": {
+          "changed_pixels": 262131,
+          "mean_absolute_rgb_0_to_255": 11.862911224365234,
+          "max_absolute_channel": 187
+        },
+        "285:60_vs_30": {
+          "changed_pixels": 261548,
+          "mean_absolute_rgb_0_to_255": 4.3528086344401045,
+          "max_absolute_channel": 138
+        },
+        "570:90_vs_60": {
+          "changed_pixels": 261816,
+          "mean_absolute_rgb_0_to_255": 5.887407938639323,
+          "max_absolute_channel": 181
+        },
+        "570:90_vs_30": {
+          "changed_pixels": 262104,
+          "mean_absolute_rgb_0_to_255": 14.0686403910319,
+          "max_absolute_channel": 194
+        },
+        "570:60_vs_30": {
+          "changed_pixels": 262076,
+          "mean_absolute_rgb_0_to_255": 13.113150278727213,
+          "max_absolute_channel": 202
+        },
+        "900:90_vs_60": {
+          "changed_pixels": 260771,
+          "mean_absolute_rgb_0_to_255": 5.218847910563151,
+          "max_absolute_channel": 176
+        },
+        "900:90_vs_30": {
+          "changed_pixels": 262069,
+          "mean_absolute_rgb_0_to_255": 9.260630289713541,
+          "max_absolute_channel": 190
+        },
+        "900:60_vs_30": {
+          "changed_pixels": 261836,
+          "mean_absolute_rgb_0_to_255": 7.201793670654297,
+          "max_absolute_channel": 154
+        }
+      },
+      "step_pairs": {
+        "dense:285_vs_570": {
+          "changed_pixels": 262131,
+          "mean_absolute_rgb_0_to_255": 19.493693033854168,
+          "max_absolute_channel": 201
+        },
+        "dense:570_vs_900": {
+          "changed_pixels": 262061,
+          "mean_absolute_rgb_0_to_255": 17.19195302327474,
+          "max_absolute_channel": 200
+        },
+        "dense:285_vs_900": {
+          "changed_pixels": 262109,
+          "mean_absolute_rgb_0_to_255": 17.02063751220703,
+          "max_absolute_channel": 216
+        },
+        "90:285_vs_570": {
+          "changed_pixels": 261559,
+          "mean_absolute_rgb_0_to_255": 11.312193552652994,
+          "max_absolute_channel": 203
+        },
+        "90:570_vs_900": {
+          "changed_pixels": 258052,
+          "mean_absolute_rgb_0_to_255": 3.588470458984375,
+          "max_absolute_channel": 179
+        },
+        "90:285_vs_900": {
+          "changed_pixels": 261879,
+          "mean_absolute_rgb_0_to_255": 12.555034637451172,
+          "max_absolute_channel": 204
+        },
+        "60:285_vs_570": {
+          "changed_pixels": 262126,
+          "mean_absolute_rgb_0_to_255": 16.397018432617188,
+          "max_absolute_channel": 193
+        },
+        "60:570_vs_900": {
+          "changed_pixels": 260249,
+          "mean_absolute_rgb_0_to_255": 4.951033274332683,
+          "max_absolute_channel": 189
+        },
+        "60:285_vs_900": {
+          "changed_pixels": 262092,
+          "mean_absolute_rgb_0_to_255": 17.284712473551433,
+          "max_absolute_channel": 197
+        },
+        "30:285_vs_570": {
+          "changed_pixels": 262136,
+          "mean_absolute_rgb_0_to_255": 19.107519785563152,
+          "max_absolute_channel": 195
+        },
+        "30:570_vs_900": {
+          "changed_pixels": 262060,
+          "mean_absolute_rgb_0_to_255": 13.373048146565756,
+          "max_absolute_channel": 194
+        },
+        "30:285_vs_900": {
+          "changed_pixels": 262115,
+          "mean_absolute_rgb_0_to_255": 16.532135009765625,
+          "max_absolute_channel": 198
+        }
+      }
+    },
+    {
+      "row": 11,
+      "pair": 2,
+      "scene": "seaside sunset duo + sparkler",
+      "seed": 43,
+      "trigger": false,
+      "vs_base": {
+        "c01": {
+          "changed_pixels": 262138,
+          "mean_absolute_rgb_0_to_255": 17.842894236246746,
+          "max_absolute_channel": 206
+        },
+        "c02": {
+          "changed_pixels": 262133,
+          "mean_absolute_rgb_0_to_255": 23.587963104248047,
+          "max_absolute_channel": 207
+        },
+        "c03": {
+          "changed_pixels": 262089,
+          "mean_absolute_rgb_0_to_255": 23.98364512125651,
+          "max_absolute_channel": 215
+        },
+        "c04": {
+          "changed_pixels": 262139,
+          "mean_absolute_rgb_0_to_255": 11.859681447347006,
+          "max_absolute_channel": 171
+        },
+        "c05": {
+          "changed_pixels": 262131,
+          "mean_absolute_rgb_0_to_255": 16.777996063232422,
+          "max_absolute_channel": 196
+        },
+        "c06": {
+          "changed_pixels": 262137,
+          "mean_absolute_rgb_0_to_255": 14.173941294352213,
+          "max_absolute_channel": 214
+        },
+        "c07": {
+          "changed_pixels": 262144,
+          "mean_absolute_rgb_0_to_255": 19.984793345133465,
+          "max_absolute_channel": 203
+        },
+        "c08": {
+          "changed_pixels": 262035,
+          "mean_absolute_rgb_0_to_255": 22.197884877522785,
+          "max_absolute_channel": 207
+        },
+        "c09": {
+          "changed_pixels": 262135,
+          "mean_absolute_rgb_0_to_255": 17.14382807413737,
+          "max_absolute_channel": 210
+        },
+        "c10": {
+          "changed_pixels": 262142,
+          "mean_absolute_rgb_0_to_255": 20.018094380696613,
+          "max_absolute_channel": 203
+        },
+        "c11": {
+          "changed_pixels": 262131,
+          "mean_absolute_rgb_0_to_255": 24.716569264729817,
+          "max_absolute_channel": 213
+        },
+        "c12": {
+          "changed_pixels": 262130,
+          "mean_absolute_rgb_0_to_255": 23.540924072265625,
+          "max_absolute_channel": 208
+        }
+      },
+      "sparse_vs_dense": {
+        "90%_at_285": {
+          "changed_pixels": 261962,
+          "mean_absolute_rgb_0_to_255": 13.557072957356771,
+          "max_absolute_channel": 215
+        },
+        "90%_at_570": {
+          "changed_pixels": 262117,
+          "mean_absolute_rgb_0_to_255": 17.16160837809245,
+          "max_absolute_channel": 198
+        },
+        "90%_at_900": {
+          "changed_pixels": 262108,
+          "mean_absolute_rgb_0_to_255": 19.623355865478516,
+          "max_absolute_channel": 208
+        },
+        "60%_at_285": {
+          "changed_pixels": 262016,
+          "mean_absolute_rgb_0_to_255": 10.76409657796224,
+          "max_absolute_channel": 194
+        },
+        "60%_at_570": {
+          "changed_pixels": 261578,
+          "mean_absolute_rgb_0_to_255": 10.407882690429688,
+          "max_absolute_channel": 204
+        },
+        "60%_at_900": {
+          "changed_pixels": 262098,
+          "mean_absolute_rgb_0_to_255": 18.52431360880534,
+          "max_absolute_channel": 213
+        },
+        "30%_at_285": {
+          "changed_pixels": 262031,
+          "mean_absolute_rgb_0_to_255": 10.229351043701172,
+          "max_absolute_channel": 188
+        },
+        "30%_at_570": {
+          "changed_pixels": 261886,
+          "mean_absolute_rgb_0_to_255": 9.938402811686197,
+          "max_absolute_channel": 190
+        },
+        "30%_at_900": {
+          "changed_pixels": 260572,
+          "mean_absolute_rgb_0_to_255": 10.121269226074219,
+          "max_absolute_channel": 195
+        }
+      },
+      "sparsity_pairs": {
+        "285:90_vs_60": {
+          "changed_pixels": 262079,
+          "mean_absolute_rgb_0_to_255": 15.485895792643229,
+          "max_absolute_channel": 206
+        },
+        "285:90_vs_30": {
+          "changed_pixels": 262118,
+          "mean_absolute_rgb_0_to_255": 15.614732106526693,
+          "max_absolute_channel": 205
+        },
+        "285:60_vs_30": {
+          "changed_pixels": 256879,
+          "mean_absolute_rgb_0_to_255": 3.7970848083496094,
+          "max_absolute_channel": 165
+        },
+        "570:90_vs_60": {
+          "changed_pixels": 262033,
+          "mean_absolute_rgb_0_to_255": 13.546290079752604,
+          "max_absolute_channel": 193
+        },
+        "570:90_vs_30": {
+          "changed_pixels": 262118,
+          "mean_absolute_rgb_0_to_255": 18.766815185546875,
+          "max_absolute_channel": 200
+        },
+        "570:60_vs_30": {
+          "changed_pixels": 262090,
+          "mean_absolute_rgb_0_to_255": 12.094612121582031,
+          "max_absolute_channel": 204
+        },
+        "900:90_vs_60": {
+          "changed_pixels": 261865,
+          "mean_absolute_rgb_0_to_255": 8.803545633951822,
+          "max_absolute_channel": 196
+        },
+        "900:90_vs_30": {
+          "changed_pixels": 262125,
+          "mean_absolute_rgb_0_to_255": 18.684769948323567,
+          "max_absolute_channel": 207
+        },
+        "900:60_vs_30": {
+          "changed_pixels": 262076,
+          "mean_absolute_rgb_0_to_255": 17.57406743367513,
+          "max_absolute_channel": 207
+        }
+      },
+      "step_pairs": {
+        "dense:285_vs_570": {
+          "changed_pixels": 262141,
+          "mean_absolute_rgb_0_to_255": 21.847577412923176,
+          "max_absolute_channel": 207
+        },
+        "dense:570_vs_900": {
+          "changed_pixels": 262047,
+          "mean_absolute_rgb_0_to_255": 13.715524037679037,
+          "max_absolute_channel": 196
+        },
+        "dense:285_vs_900": {
+          "changed_pixels": 262121,
+          "mean_absolute_rgb_0_to_255": 20.157054901123047,
+          "max_absolute_channel": 198
+        },
+        "90:285_vs_570": {
+          "changed_pixels": 262076,
+          "mean_absolute_rgb_0_to_255": 14.394727071126303,
+          "max_absolute_channel": 193
+        },
+        "90:570_vs_900": {
+          "changed_pixels": 261989,
+          "mean_absolute_rgb_0_to_255": 12.47210947672526,
+          "max_absolute_channel": 198
+        },
+        "90:285_vs_900": {
+          "changed_pixels": 262115,
+          "mean_absolute_rgb_0_to_255": 9.834688822428385,
+          "max_absolute_channel": 215
+        },
+        "60:285_vs_570": {
+          "changed_pixels": 262138,
+          "mean_absolute_rgb_0_to_255": 23.06938934326172,
+          "max_absolute_channel": 205
+        },
+        "60:570_vs_900": {
+          "changed_pixels": 262041,
+          "mean_absolute_rgb_0_to_255": 15.896349589029947,
+          "max_absolute_channel": 204
+        },
+        "60:285_vs_900": {
+          "changed_pixels": 262138,
+          "mean_absolute_rgb_0_to_255": 20.770474751790363,
+          "max_absolute_channel": 202
+        },
+        "30:285_vs_570": {
+          "changed_pixels": 262129,
+          "mean_absolute_rgb_0_to_255": 22.343374888102215,
+          "max_absolute_channel": 202
+        },
+        "30:570_vs_900": {
+          "changed_pixels": 262059,
+          "mean_absolute_rgb_0_to_255": 12.334481557210287,
+          "max_absolute_channel": 205
+        },
+        "30:285_vs_900": {
+          "changed_pixels": 262132,
+          "mean_absolute_rgb_0_to_255": 21.807411193847656,
+          "max_absolute_channel": 205
+        }
+      }
+    }
+  ],
+  "hashes": "D:\\Develop\\KohakuMossTrainer-LoRI\\experiment\\task11\\comparison-20261119-a\\audit-hashes\\rgb-sha256.json",
+  "visual": "D:\\Develop\\KohakuMossTrainer-LoRI\\experiment\\task11\\comparison-20261119-a\\visual",
+  "column_hashes": {
+    "config.py": "c663948dc823cb8f1dff803786a29906936b7ba0427e1de171939a165b88c435",
+    "render_sparse.py": "41fac476731422869b8bd0e32127d2b5c5be3ac5c9076d8459dbc410481cbda7",
+    "audit.py": "8958c8a93923d09dd469d110e867d614b12c54f464eafca96a75414f4f7c28a5",
+    "metadata.json": "50aece9591bf011a7f7a5e2b40e3a3384ad863f1c1ac22e7323c0fdcb882051d"
+  }
+}

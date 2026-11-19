@@ -1,0 +1,705 @@
+{
+ "review_id": "task10-phase-b-independent-review",
+ "reviewer": "review (独立复核子代理)",
+ "phase": "B: 72 图/网格/锚点/像素审计/盲评材料/跨行触发词统计 + 最终裁决（CPU-only，未训练、未出图）",
+ "created_utc": "2026-11-18T12:10:00Z",
+ "workspace": "D:/Develop/KohakuMossTrainer-LoRI",
+ "audited_artifacts": {
+  "comparison_dir": {
+   "compare.py": "54410d199693c1288bc31f908a7f927d6d64072278d7a6702108dfa7948c54ba",
+   "config.py": "84ef311b31e6579d22dabc511d58fec79d395830433bb119af33a1f8d400e60c",
+   "resolved.json": "e82015086f0e4bf299852d68698da61305dffa5acfcad2d95acea8c573b41f11",
+   "freeze.json": "1f5d7eba94ceb5acb5006e18df13aae0ccc65fcd775b134d9d97aafa8bfd3ca5",
+   "pixel-audit.json": "5cafeabf939e0e277ee185cec4efbd3e1a476f98bffc8a255fd83fb83332602a",
+   "blind-key.json": "8fb0c0663bb9e9eb856b5ad0389262f8dff48173ce209d0c8c9657603755d703",
+   "blind-sheet.md": "2a8108a99ba17aa2421f42e5db9d8cf52e626a2052a2737ad8c6419e245572d0"
+  },
+  "report": "c3fa39c6cc271d0ee61c63c5d1d55526b9e64326fa0632ffca464f1bf34512c0",
+  "images": {
+   "count": 73,
+   "grid_png_sha256": "d4aafac2508b59feab1d9fa15e03c4646c939c0809160bbf1193b299b5bf74b2",
+   "metadata_sha256": "3edfbb7a481dc588c453ac87766ea6042bf8ac1424e9816be95eae9d55ef51fc"
+  }
+ },
+ "method": [
+  "图像全部用 PIL 解码成 8-bit RGB，再 numpy 逐像素计算；网格图块用 array_equal 做位级比较，不用感知指标。",
+  "锚点用 task9 归档的 r00..r05_c00.png 重算 rgb；与 pixel-audit 记录值分别比较，两条路径互证。",
+  "盲评列序只用图块像素反解（不打开 blind-key.json），随后才与 key 对照。",
+  "耗时/显存峰值属于记录值（无法在不重跑的情况下复算），只做 exit.json 与 result.json 的双文件交叉核对。"
+ ],
+ "summary": {
+  "total": 34,
+  "passed": 33,
+  "failed": 1,
+  "unverifiable": 0
+ },
+ "checks": [
+  {
+   "id": "I-01",
+   "area": "images",
+   "assertion": "images/ 恰 73 个 PNG = 72 张 512x512 单图 + grid.png",
+   "method": "目录枚举 + PIL 逐张 open",
+   "actual": {
+    "png": 73,
+    "single": 72,
+    "other": [
+     "grid.png"
+    ]
+   },
+   "expected": 73,
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-20261118-a/images"
+  },
+  {
+   "id": "I-02",
+   "area": "images",
+   "assertion": "72 张单图命名恰为 r00..r23 x c00..c02，无缺无多",
+   "method": "集合比较",
+   "actual": {
+    "missing": [],
+    "extra": []
+   },
+   "expected": "24x3",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-20261118-a/images"
+  },
+  {
+   "id": "I-03",
+   "area": "images",
+   "assertion": "72 张单图全部 512x512 RGB",
+   "method": "PIL size/mode 逐张",
+   "actual": {
+    "size": [
+     512,
+     512
+    ],
+    "mode": "RGB",
+    "n": 72
+   },
+   "expected": "512x512",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-20261118-a/images"
+  },
+  {
+   "id": "I-04",
+   "area": "images",
+   "assertion": "metadata.json 24 行，columns 依次 base / Dense B step 285 x1 / Dense B step 900 x1",
+   "method": "自读 JSON，与 config.py 声明比对",
+   "actual": {
+    "rows": 24,
+    "columns": [
+     "base",
+     "Dense B step 285 x1",
+     "Dense B step 900 x1"
+    ]
+   },
+   "expected": "同左",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-20261118-a/images/metadata.json"
+  },
+  {
+   "id": "I-05",
+   "area": "images",
+   "assertion": "原生 grid.png 尺寸 2048x12324，几何为 side=512 / header=36 / cell=512",
+   "method": "PIL + grid.py 的 plan() 几何推导，再用图块比对验证",
+   "actual": {
+    "size": [
+     2048,
+     12324
+    ],
+    "side": 512,
+    "header": 36,
+    "cell": 512
+   },
+   "expected": "同左",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-20261118-a/images/grid.png"
+  },
+  {
+   "id": "I-06",
+   "area": "images",
+   "assertion": "原生 grid 图块与单图逐块位级一致：抽 12 块（跨 6 组、3 列）",
+   "method": "crop + numpy array_equal",
+   "actual": {
+    "checked": 12,
+    "equal": 12,
+    "bad": []
+   },
+   "expected": 12,
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-20261118-a/images/grid.png"
+  },
+  {
+   "id": "I-07",
+   "area": "images",
+   "assertion": "6 个锚点行的 18 个图块全部位级一致（锚点行 0,1,6,7,8,9 x 3 列）",
+   "method": "crop + array_equal",
+   "actual": {
+    "checked": 18,
+    "bad": []
+   },
+   "expected": 18,
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-20261118-a/images/grid.png"
+  },
+  {
+   "id": "I-08",
+   "area": "images",
+   "assertion": "6 个锚点行的 Base 解码 RGB sha256 与 task9 归档逐位相同（我从 task9 原图重算）",
+   "method": "两边各自 decode->sha256(rgb bytes) 比较",
+   "actual": {
+    "rows": [
+     0,
+     1,
+     6,
+     7,
+     8,
+     9
+    ],
+    "task9_rows": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5
+    ],
+    "all_equal": true,
+    "prefixes": [
+     "cfae18c7",
+     "6c449830",
+     "32b8b48c",
+     "40267321",
+     "cb1b6741",
+     "2aef8663"
+    ]
+   },
+   "expected": "6/6",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-20261118-a/images"
+  },
+  {
+   "id": "I-09",
+   "area": "images",
+   "assertion": "pixel-audit 记录的 6 个锚点 rgb_sha256 与我重算一致",
+   "method": "逐行比较",
+   "actual": {
+    "rows": 6,
+    "match": 6
+   },
+   "expected": 6,
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-20261118-a/pixel-audit.json"
+  },
+  {
+   "id": "I-10",
+   "area": "images",
+   "assertion": "24 行 x 3 组对比的 MAE 全部独立重算命中（最大绝对偏差 0.0）",
+   "method": "PIL 解码 -> |a-b| 全像素全通道均值，与 rows_detail 逐行比较",
+   "actual": {
+    "rows": 24,
+    "pairs_per_row": 3,
+    "max_abs_deviation": 0.0
+   },
+   "expected": "0 偏差",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-20261118-a/pixel-audit.json"
+  },
+  {
+   "id": "I-11",
+   "area": "images",
+   "assertion": "三列 MAE 均值 Base->285 30.36 / Base->900 34.15 / 285->900 24.62",
+   "method": "对 24 行独立求均值",
+   "actual": {
+    "base_vs_285": 30.36,
+    "base_vs_900": 34.15,
+    "step285_vs_step900": 24.62
+   },
+   "expected": "同左",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-20261118-a/pixel-audit.json"
+  },
+  {
+   "id": "I-12",
+   "area": "images",
+   "assertion": "24 行中 21 行 Base->900 > Base->285；例外恰为 r02、r12、r13",
+   "method": "逐行比较",
+   "actual": {
+    "count": 21,
+    "exceptions": [
+     2,
+     12,
+     13
+    ]
+   },
+   "expected": 21,
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-20261118-a/pixel-audit.json"
+  },
+  {
+   "id": "I-13",
+   "area": "images",
+   "assertion": "按组均值与报告第 67-78 行的表一致（1: 35.48/43.78；2: 29.78/33.12；3: 20.50/23.89；4: 38.90/38.88；5: 30.71/33.74；6: 26.82/31.50）",
+   "method": "独立分组求均值",
+   "actual": {
+    "g1": [
+     35.4766,
+     43.7846
+    ],
+    "g2": [
+     29.7768,
+     33.1184
+    ],
+    "g3": [
+     20.4976,
+     23.8944
+    ],
+    "g4": [
+     38.8982,
+     38.8827
+    ],
+    "g5": [
+     30.7118,
+     33.7416
+    ],
+    "g6": [
+     26.8244,
+     31.5033
+    ]
+   },
+   "expected": "同左",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-20261118-a/pixel-audit.json"
+  },
+  {
+   "id": "I-14",
+   "area": "images",
+   "assertion": "pixel-audit 记录的 grid/metadata/matched/blind/key/sheet 六个 sha256 全部与磁盘一致",
+   "method": "全量重算",
+   "actual": {
+    "grid": true,
+    "metadata": true,
+    "matched": true,
+    "blind": true,
+    "key": true,
+    "sheet": true
+   },
+   "expected": "6/6",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-20261118-a/pixel-audit.json"
+  },
+  {
+   "id": "B-01",
+   "area": "blind",
+   "assertion": "blind-grid 尺寸 1951x12324，72 个图块 = 单图按 [2,0,1] 重排后逐块位级一致",
+   "method": "crop + array_equal 逐块",
+   "actual": {
+    "size": [
+     1951,
+     12324
+    ],
+    "tiles": 72,
+    "bad": 0,
+    "permutation_applied": [
+     2,
+     0,
+     1
+    ]
+   },
+   "expected": "72/72",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-20261118-a/blind-grid.png"
+  },
+  {
+   "id": "B-02",
+   "area": "blind",
+   "assertion": "从图像内容反推的列序 [2,0,1] 与 blind-key.json 的 column_order 完全一致",
+   "method": "只用图块像素反解，不看 key",
+   "actual": {
+    "derived": [
+     2,
+     0,
+     1
+    ],
+    "key": [
+     2,
+     0,
+     1
+    ],
+    "consistent": true
+   },
+   "expected": "一致",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-20261118-a/blind-key.json"
+  },
+  {
+   "id": "B-03",
+   "area": "blind",
+   "assertion": "blind-key 的标签 A=step900 / B=base / C=step285 与 column_order 自洽",
+   "method": "按 order 映射",
+   "actual": {
+    "A": "Dense B step 900 x1",
+    "B": "base",
+    "C": "Dense B step 285 x1"
+   },
+   "expected": "自洽",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-20261118-a/blind-key.json"
+  },
+  {
+   "id": "B-04",
+   "area": "blind",
+   "assertion": "matched-grid 是恒等排列：72/72 图块与单图同名列一致",
+   "method": "crop + array_equal",
+   "actual": {
+    "tiles": 72,
+    "bad": 0,
+    "size": [
+     1951,
+     12324
+    ]
+   },
+   "expected": "72/72",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-20261118-a/matched-grid.png"
+  },
+  {
+   "id": "B-05",
+   "area": "blind",
+   "assertion": "blind-sheet.md 24 行齐全、每行 12 个评分栏（A/B/C x 画风线索/提示遵循/结构瑕疵），列名只出现 A/B/C，未泄露真实列身份",
+   "method": "解析 markdown 表头与行",
+   "actual": {
+    "rows": 24,
+    "columns": 12,
+    "dims": [
+     "画风线索",
+     "提示遵循",
+     "结构瑕疵"
+    ],
+    "real_names_leaked": false
+   },
+   "expected": "同左",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-20261118-a/blind-sheet.md"
+  },
+  {
+   "id": "B-06",
+   "area": "blind",
+   "assertion": "blind-sheet 的配对表 12 行（6 场景 x 2 seed），有词/无词行号正确",
+   "method": "解析表格行",
+   "actual": {
+    "pairs": 12,
+    "rows": [
+     [
+      0,
+      1
+     ],
+     [
+      2,
+      3
+     ],
+     [
+      4,
+      5
+     ],
+     [
+      6,
+      7
+     ],
+     [
+      8,
+      9
+     ],
+     [
+      10,
+      11
+     ],
+     [
+      12,
+      13
+     ],
+     [
+      14,
+      15
+     ],
+     [
+      16,
+      17
+     ],
+     [
+      18,
+      19
+     ],
+     [
+      20,
+      21
+     ],
+     [
+      22,
+      23
+     ]
+    ]
+   },
+   "expected": 12,
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-20261118-a/blind-sheet.md"
+  },
+  {
+   "id": "B-07",
+   "area": "blind",
+   "assertion": "盲评在实际可执行性上可被旁路：同目录的 pixel-audit.json 存有按真实列序的 rgb_sha256，任何人可用它对 72 张单图做哈希匹配复原列序（我就是这样复原的，全程未打开 blind-key.json）",
+   "method": "用 pixel-audit 的 rgb_sha256 与单图哈希做匹配",
+   "actual": {
+    "recovered_without_key": true,
+    "seconds": "<1",
+    "key_in_same_dir": true,
+    "matched_grid_in_same_dir": true
+   },
+   "expected": "盲评应不可旁路",
+   "status": "fail",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-20261118-a"
+  },
+  {
+   "id": "S-01",
+   "area": "stages",
+   "assertion": "prepare exit 0，26.795 s，峰值 779,440,128 B，CUDA 未初始化",
+   "method": "读 exit.json/result.json",
+   "actual": {
+    "exit": 0,
+    "wall": 26.795203700021375,
+    "peak": 779440128,
+    "cuda": false
+   },
+   "expected": "exit 0",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-20261118-a/stages/prepare"
+  },
+  {
+   "id": "S-02",
+   "area": "stages",
+   "assertion": "training 闸门 exit 0，16.841 s；两份导出 sha256 520ac044…/c4309ca6… 与 final-audit 一致；steps 900；A/alpha 252+252",
+   "method": "读 exit.json/result.json + 与第一阶段结论交叉",
+   "actual": {
+    "exit": 0,
+    "wall": 16.840954400016926,
+    "steps": 900,
+    "sha285": "520ac044…",
+    "sha900": "c4309ca6…"
+   },
+   "expected": "exit 0",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-20261118-a/stages/training"
+  },
+  {
+   "id": "S-03",
+   "area": "stages",
+   "assertion": "generate exit 0，启动器 4,337.651 s；CUDA allocated 2,120,034,816 B / reserved 2,212,495,360 B；主进程 peak_wset 25,058,234,368 B（23.33 GiB）",
+   "method": "读 exit.json/result.json（耗时与峰值是记录值，无法在不重跑的前提下复算）",
+   "actual": {
+    "exit": 0,
+    "launcher_wall": 4337.65134609997,
+    "native_exit": 0,
+    "alloc": 2120034816,
+    "reserved": 2212495360,
+    "peak_wset": 25058234368
+   },
+   "expected": "exit 0",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-20261118-a/stages/generate"
+  },
+  {
+   "id": "S-04",
+   "area": "stages",
+   "assertion": "audit exit 0；启动器 18.749 s / worker 15.972 s；峰值 1,060,663,296 B；CUDA 未初始化；tiles=72",
+   "method": "读 exit.json/result.json",
+   "actual": {
+    "exit": 0,
+    "wall": 18.74852019996615,
+    "worker": 15.972301900037564,
+    "peak": 1060663296,
+    "cuda": false,
+    "tiles": 72
+   },
+   "expected": "exit 0",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-20261118-a/stages/audit"
+  },
+  {
+   "id": "S-05",
+   "area": "stages",
+   "assertion": "freeze.json 的 18 条 sha256 全部与磁盘一致；amendments 单跳：compare.py c96a0c11… -> 54410d19…，且新值等于当前磁盘哈希，理由文本与我所见行为一致（verify_training 改读本轮审计字段）",
+   "method": "全量重算 + 逐字段核对",
+   "actual": {
+    "entries": 18,
+    "bad": 0,
+    "old": "c96a0c11…",
+    "new": "54410d19…",
+    "current": "54410d19…",
+    "hops": 1
+   },
+   "expected": "自洽",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-20261118-a/freeze.json:amendments"
+  },
+  {
+   "id": "S-06",
+   "area": "stages",
+   "assertion": "对比目录的 compare.py / config.py / resolved.json / freeze.json 自第一阶段复核以来零漂移",
+   "method": "与 review-phase-a.json 记录的哈希比较",
+   "actual": {
+    "drift": {
+     "compare.py": false,
+     "config.py": false,
+     "resolved.json": false,
+     "freeze.json": false
+    }
+   },
+   "expected": "无漂移",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/review-phase-a.json"
+  },
+  {
+   "id": "S-07",
+   "area": "stages",
+   "assertion": "cache 目录 6 个 sidecar 仍在（0 B -wal + 32 KB -shm），但 5 个被冻结的缓存文件 sha256 全部仍与 freeze.json 一致",
+   "method": "重算 5 个具名文件 + 列目录",
+   "actual": {
+    "sidecars": [
+     "catalog.db-shm",
+     "catalog.db-wal",
+     "latents.db-shm",
+     "latents.db-wal",
+     "text.db-shm",
+     "text.db-wal"
+    ],
+    "frozen_files_match": true
+   },
+   "expected": "内容零改动",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/session-20261118-a/cache"
+  },
+  {
+   "id": "S-08",
+   "area": "stages",
+   "assertion": "training 闸门记录的 initial-hashes.json sha256(423aca5a…) 与磁盘一致",
+   "method": "重算并比较",
+   "actual": {
+    "match": true,
+    "sha256": "423aca5a316a0547d38e4fe7740d2c8f7bd62d87c677752bce596e4792e4d1f4"
+   },
+   "expected": "一致",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/session-20261118-a/stages/prepare/initial-hashes.json"
+  },
+  {
+   "id": "R-01",
+   "area": "report",
+   "assertion": "对照报告第 3、39-65、69-78 行的像素数字与我的重算逐项一致（含 21/24、三均值、六组均值、最大通道差）",
+   "method": "逐项重算后比较",
+   "actual": {
+    "all_match": true
+   },
+   "expected": "一致",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/docs/execution/dit-lori/task-10-comparison-report.md"
+  },
+  {
+   "id": "R-02",
+   "area": "report",
+   "assertion": "报告第 20-25 行的 6 个锚点 RGB sha256 表与我重算一致",
+   "method": "逐行比较",
+   "actual": {
+    "rows": 6,
+    "match": 6
+   },
+   "expected": "一致",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/docs/execution/dit-lori/task-10-comparison-report.md"
+  },
+  {
+   "id": "R-03",
+   "area": "report",
+   "assertion": "报告『900 在 r00、r12、r14 的面部与手部更差』：我在 512² 原图独立确认（r00 双眼不对称 + 布偶手套状分离手；r12/r14 眼睛退化为细缝/无瞳、手部融合成片）",
+   "method": "逐张打开 512² 原图观察",
+   "actual": {
+    "r00": "确认",
+    "r12": "确认",
+    "r14": "确认"
+   },
+   "expected": "一致",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-20261118-a/images"
+  },
+  {
+   "id": "R-04",
+   "area": "report",
+   "assertion": "报告『温室与雨夜组 900 更干净』：部分成立。温室组场景/光照/窗格与眼睛确实更清楚；雨夜组是场景层次更多但人物常转为侧/背脸，面部质量不可判，且两组的持物手仍是手套状",
+   "method": "逐张打开 512² 原图观察",
+   "actual": {
+    "greenhouse": "场景与面部清楚度提升，手仍偏手套状",
+    "rainy": "场景层次提升，但人物侧/背脸，面部不可判"
+   },
+   "expected": "部分成立",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-20261118-a/images"
+  },
+  {
+   "id": "D-01",
+   "area": "docs",
+   "assertion": "summary-contact-sheet.png 生成成功：6 组 x 4 行 x 3 列 + 组名/行标/列头/图例，1846x1706",
+   "method": "自写脚本生成并目视检查",
+   "actual": {
+    "size": [
+     1846,
+     1706
+    ],
+    "blocks": 6,
+    "rows_per_block": 4,
+    "cols": 3,
+    "script": "experiment/task10/make_summary_contact_sheet.py"
+   },
+   "expected": "可用",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/summary-contact-sheet.png"
+  }
+ ],
+ "cross_row_trigger": {
+  "note": "同场景同 seed 的有词/无词两行各自相对自身 Base 的偏移；有词/无词的基础图内容不同，幅度差异与内容差异混杂，不能作为触发词因果证据。",
+  "base_self_mean": 27.41190465291341,
+  "285_self_mean": 20.535379727681477,
+  "900_self_mean": 17.62388261159261,
+  "285_trigger_off_mean": 31.523808161417644,
+  "285_notrigger_off_mean": 29.204686376783584,
+  "900_trigger_off_mean": 33.87082703908285,
+  "900_notrigger_off_mean": 34.43750868903266,
+  "285_pair_diff_mean": 2.3191217846340595,
+  "900_pair_diff_mean": -0.5666816499498163,
+  "n_285_trigger_bigger": 7,
+  "n_900_trigger_bigger": 5,
+  "pairs": "见 pairs 字段"
+ },
+ "verdict": {
+  "training_integrity": "达标（沿用第一阶段：900/900 步、4 检查点、优化器 252 entry / 矩 21,331,968、A/alpha 504/504 不变、冻结全部成立）",
+  "visual_signal": "未达到方案第 73 行的『小样本视觉增益』门槛",
+  "reasons": [
+   "方案要求『按盲评表比较、大多数场景与两个种子下风格评分方向一致』；本轮没有任何真人盲评数据，我只有自己的观察，无法替代评分。",
+   "『提示遵循与结构质量没有重复退化』不成立：在我放大核查的 6 组里，组 1（粉色，r00/r01）与组 4（图书馆，r12–r15）在 900 列出现可重复的面部与手部退化（眼睛退化为细缝/无瞳、手掌融合成片、布偶出现分离的手套状手）。",
+   "像素偏移幅度（34.15 vs 30.36）只说明 900 改写更强，不构成风格更好或更还原的证据；报告的措辞也同意这一点。"
+  ],
+  "what_can_be_said": "在该 6 组 x 2 seed 的网格内，step 900 比 step 285 施加了更强、更整体化的画风先验（发色/肤色/服装结构/背景一起变），并在至少 2 个组里伴随可重复的结构代价；这是『信号更强』，不是『质量更高』。",
+  "overfitting_boundary": "285 张全部入训（3.158 轮），无留出集；分段 loss 平坦（0.7128 / 0.6971 / 0.7049），而 B 的全局 L2 从 5.4967 涨到 9.7500（+77%），说明参数容量在增长但没有训练集 loss 的对应改善，无法区分『学到画风』与『记住训练样本』。",
+  "next_steps": [
+   "四列轨迹 285/570/855/900（成本约 +24 张/列）判断单调性，验证 855 是否已稳定。",
+   "同一 285 图配方训练稀疏 LoRI 到 900 步，做同预算稠密 vs 稀疏质量对照。",
+   "普通 LoRA 同预算基线（rank 8 / alpha 16 / 同数据同步数）。",
+   "独立留出集：固定 10–15% 训练外图像重训，或引入训练目录外参考图。",
+   "触发词受控实验：TEXT_DROP>0 或专门构造有/无触发词的 caption，使 RSK-01 可证伪。",
+   "护栏：加一列无 adapter 的 canary 断言与第 1 列逐字节相等；另加 256² 复现以消除跨分辨率外推。",
+   "盲评：预注册 1–5 分量表与判定阈值，第二评者，blinded key 移出 run 目录或在评分后生成。"
+  ]
+ },
+ "carried_issues": {
+  "sidecars": "cache 目录仍有 6 个 sidecar（0 B -wal、32 KB -shm）；5 个被冻结的缓存文件 sha256 仍与 freeze.json 一致，内容零改动；按 lead 要求不删除，freeze 也只校验 5 个具名文件。",
+  "amendments": "compare.py 的 old(c96a0c11…) -> new(54410d19…) 单跳自洽，新值等于当前磁盘哈希；18 条 freeze sha256 全部命中；其断言的事实（900 步、导出 bytes/sha、A/alpha 与初始化一致、252 层 B 变化）已由我独立复算为真。弱点是被验证对象内部记录自己的修订。"
+ }
+}

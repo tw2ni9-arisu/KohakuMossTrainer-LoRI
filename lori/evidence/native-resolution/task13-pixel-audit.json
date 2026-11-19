@@ -1,0 +1,1082 @@
+{
+  "tiles": 48,
+  "rows": 12,
+  "columns": 6,
+  "archived_tiles_verified": 24,
+  "grid_6col": {
+    "file": "grid-6col.png",
+    "size": [
+      3487,
+      6180
+    ],
+    "sha256": "7f85aee93dbed1ed87986a61ef526959ba6ab1da68782703c01c1faf3f3e8e9f"
+  },
+  "sheets": {
+    "sheet-group1.png": {
+      "size": [
+        1114,
+        832
+      ],
+      "sha256": "eca90c04df4fdee6d04159c03354619d7248e54862273535687d08d19222e920"
+    },
+    "sheet-group2.png": {
+      "size": [
+        1114,
+        832
+      ],
+      "sha256": "cfe79c8c695b03be3673919d06cd3c5b8aa155918c6c156a5a730c32439fab82"
+    },
+    "sheet-group3.png": {
+      "size": [
+        1114,
+        832
+      ],
+      "sha256": "8ea0715825cd37529d79275ca8ed36e11a58a93695112f998b608d1adbd9b5fb"
+    },
+    "sheet-overview.png": {
+      "size": [
+        994,
+        1952
+      ],
+      "sha256": "787770029df932c2a0b94f4ed89f4a8164759ceb859cb476e7fb93e2e122e085"
+    }
+  },
+  "overall": {
+    "vs_base": {
+      "c01": 33.59912215338813,
+      "c02": 16.162193404303657,
+      "c03": 23.261428515116375,
+      "c04": 26.44760078854031,
+      "c05": 26.0727784898546
+    },
+    "vs_ref": {
+      "c02": 32.30102380116781,
+      "c03": 29.8818326526218,
+      "c04": 28.11639181772868,
+      "c05": 28.03909174601237
+    },
+    "steps": {
+      "250_vs_550": 18.001136355929905,
+      "550_vs_850": 14.458003785875109,
+      "850_vs_900": 6.088525666130914,
+      "250_vs_900": 21.609910011291504
+    }
+  },
+  "group_means": [
+    {
+      "group": 1,
+      "scene": "pink studio duo + plush",
+      "vs_base": {
+        "c01": 43.784568786621094,
+        "c02": 20.016456604003906,
+        "c03": 33.33609135945638,
+        "c04": 36.80047575632731,
+        "c05": 36.911488215128585
+      },
+      "vs_ref": {
+        "c02": 43.651912689208984,
+        "c03": 37.50045903523763,
+        "c04": 36.47357972462972,
+        "c05": 36.21571286519369
+      },
+      "steps": {
+        "250_vs_550": 29.90122159322103,
+        "550_vs_850": 17.666837374369305,
+        "850_vs_900": 8.24127229054769,
+        "250_vs_900": 33.39938418070475
+      }
+    },
+    {
+      "group": 2,
+      "scene": "lavender starfield single",
+      "vs_base": {
+        "c01": 33.118401845296226,
+        "c02": 17.444252014160156,
+        "c03": 23.7577969233195,
+        "c04": 26.582340876261394,
+        "c05": 26.144601504007973
+      },
+      "vs_ref": {
+        "c02": 31.519442240397133,
+        "c03": 31.97052224477132,
+        "c04": 29.429695765177406,
+        "c05": 29.260284741719566
+      },
+      "steps": {
+        "250_vs_550": 17.395891507466633,
+        "550_vs_850": 16.013545672098793,
+        "850_vs_900": 6.11669381459554,
+        "250_vs_900": 21.182833671569824
+      }
+    },
+    {
+      "group": 3,
+      "scene": "seaside sunset duo + sparkler",
+      "vs_base": {
+        "c01": 23.89439582824707,
+        "c02": 11.025871594746908,
+        "c03": 12.690397262573242,
+        "c04": 15.959985733032227,
+        "c05": 15.162245750427246
+      },
+      "vs_ref": {
+        "c02": 21.731716473897297,
+        "c03": 20.174516677856445,
+        "c04": 18.445899963378906,
+        "c05": 18.64127763112386
+      },
+      "steps": {
+        "250_vs_550": 6.706295967102051,
+        "550_vs_850": 9.693628311157227,
+        "850_vs_900": 3.9076108932495117,
+        "250_vs_900": 10.247512181599935
+      }
+    }
+  ],
+  "rows_detail": [
+    {
+      "row": 0,
+      "pair": 0,
+      "scene": "pink studio duo + plush",
+      "seed": 42,
+      "trigger": true,
+      "vs_base": {
+        "c01": {
+          "changed_pixels": 262144,
+          "mean_absolute_rgb_0_to_255": 44.49862289428711,
+          "max_absolute_channel": 255
+        },
+        "c02": {
+          "changed_pixels": 261994,
+          "mean_absolute_rgb_0_to_255": 21.676523844401043,
+          "max_absolute_channel": 252
+        },
+        "c03": {
+          "changed_pixels": 262142,
+          "mean_absolute_rgb_0_to_255": 39.69068145751953,
+          "max_absolute_channel": 255
+        },
+        "c04": {
+          "changed_pixels": 262143,
+          "mean_absolute_rgb_0_to_255": 41.275552113850914,
+          "max_absolute_channel": 250
+        },
+        "c05": {
+          "changed_pixels": 262144,
+          "mean_absolute_rgb_0_to_255": 41.39287439982096,
+          "max_absolute_channel": 251
+        }
+      },
+      "vs_ref": {
+        "c02": {
+          "changed_pixels": 262144,
+          "mean_absolute_rgb_0_to_255": 43.33647028605143,
+          "max_absolute_channel": 239
+        },
+        "c03": {
+          "changed_pixels": 262133,
+          "mean_absolute_rgb_0_to_255": 35.14679082234701,
+          "max_absolute_channel": 228
+        },
+        "c04": {
+          "changed_pixels": 262136,
+          "mean_absolute_rgb_0_to_255": 34.7923583984375,
+          "max_absolute_channel": 239
+        },
+        "c05": {
+          "changed_pixels": 262139,
+          "mean_absolute_rgb_0_to_255": 35.13250986735026,
+          "max_absolute_channel": 236
+        }
+      },
+      "steps": {
+        "250_vs_550": {
+          "changed_pixels": 262144,
+          "mean_absolute_rgb_0_to_255": 33.49479675292969,
+          "max_absolute_channel": 240
+        },
+        "550_vs_850": {
+          "changed_pixels": 261518,
+          "mean_absolute_rgb_0_to_255": 16.266958872477215,
+          "max_absolute_channel": 235
+        },
+        "850_vs_900": {
+          "changed_pixels": 255338,
+          "mean_absolute_rgb_0_to_255": 8.321095784505209,
+          "max_absolute_channel": 214
+        },
+        "250_vs_900": {
+          "changed_pixels": 262143,
+          "mean_absolute_rgb_0_to_255": 35.77004877726237,
+          "max_absolute_channel": 246
+        }
+      }
+    },
+    {
+      "row": 1,
+      "pair": 0,
+      "scene": "pink studio duo + plush",
+      "seed": 42,
+      "trigger": false,
+      "vs_base": {
+        "c01": {
+          "changed_pixels": 262140,
+          "mean_absolute_rgb_0_to_255": 37.06651306152344,
+          "max_absolute_channel": 218
+        },
+        "c02": {
+          "changed_pixels": 262096,
+          "mean_absolute_rgb_0_to_255": 15.862590789794922,
+          "max_absolute_channel": 203
+        },
+        "c03": {
+          "changed_pixels": 262111,
+          "mean_absolute_rgb_0_to_255": 26.655493418375652,
+          "max_absolute_channel": 225
+        },
+        "c04": {
+          "changed_pixels": 262141,
+          "mean_absolute_rgb_0_to_255": 33.07421112060547,
+          "max_absolute_channel": 227
+        },
+        "c05": {
+          "changed_pixels": 262142,
+          "mean_absolute_rgb_0_to_255": 33.082322438557945,
+          "max_absolute_channel": 229
+        }
+      },
+      "vs_ref": {
+        "c02": {
+          "changed_pixels": 262138,
+          "mean_absolute_rgb_0_to_255": 39.25387191772461,
+          "max_absolute_channel": 227
+        },
+        "c03": {
+          "changed_pixels": 262137,
+          "mean_absolute_rgb_0_to_255": 30.135074615478516,
+          "max_absolute_channel": 231
+        },
+        "c04": {
+          "changed_pixels": 262135,
+          "mean_absolute_rgb_0_to_255": 28.85156504313151,
+          "max_absolute_channel": 221
+        },
+        "c05": {
+          "changed_pixels": 262138,
+          "mean_absolute_rgb_0_to_255": 29.083792368570965,
+          "max_absolute_channel": 242
+        }
+      },
+      "steps": {
+        "250_vs_550": {
+          "changed_pixels": 262123,
+          "mean_absolute_rgb_0_to_255": 26.971176147460938,
+          "max_absolute_channel": 234
+        },
+        "550_vs_850": {
+          "changed_pixels": 261782,
+          "mean_absolute_rgb_0_to_255": 14.084362030029297,
+          "max_absolute_channel": 219
+        },
+        "850_vs_900": {
+          "changed_pixels": 221221,
+          "mean_absolute_rgb_0_to_255": 2.4929593404134116,
+          "max_absolute_channel": 224
+        },
+        "250_vs_900": {
+          "changed_pixels": 261443,
+          "mean_absolute_rgb_0_to_255": 33.78499857584635,
+          "max_absolute_channel": 234
+        }
+      }
+    },
+    {
+      "row": 2,
+      "pair": 0,
+      "scene": "pink studio duo + plush",
+      "seed": 43,
+      "trigger": true,
+      "vs_base": {
+        "c01": {
+          "changed_pixels": 261436,
+          "mean_absolute_rgb_0_to_255": 40.004486083984375,
+          "max_absolute_channel": 252
+        },
+        "c02": {
+          "changed_pixels": 260517,
+          "mean_absolute_rgb_0_to_255": 23.164175669352215,
+          "max_absolute_channel": 239
+        },
+        "c03": {
+          "changed_pixels": 260899,
+          "mean_absolute_rgb_0_to_255": 38.316813151041664,
+          "max_absolute_channel": 246
+        },
+        "c04": {
+          "changed_pixels": 261304,
+          "mean_absolute_rgb_0_to_255": 40.58495203653971,
+          "max_absolute_channel": 244
+        },
+        "c05": {
+          "changed_pixels": 261397,
+          "mean_absolute_rgb_0_to_255": 40.39241154988607,
+          "max_absolute_channel": 245
+        }
+      },
+      "vs_ref": {
+        "c02": {
+          "changed_pixels": 260324,
+          "mean_absolute_rgb_0_to_255": 35.89580154418945,
+          "max_absolute_channel": 246
+        },
+        "c03": {
+          "changed_pixels": 260102,
+          "mean_absolute_rgb_0_to_255": 30.805953979492188,
+          "max_absolute_channel": 242
+        },
+        "c04": {
+          "changed_pixels": 259139,
+          "mean_absolute_rgb_0_to_255": 29.37484359741211,
+          "max_absolute_channel": 247
+        },
+        "c05": {
+          "changed_pixels": 259086,
+          "mean_absolute_rgb_0_to_255": 27.674365997314453,
+          "max_absolute_channel": 243
+        }
+      },
+      "steps": {
+        "250_vs_550": {
+          "changed_pixels": 260154,
+          "mean_absolute_rgb_0_to_255": 33.572800954182945,
+          "max_absolute_channel": 250
+        },
+        "550_vs_850": {
+          "changed_pixels": 258715,
+          "mean_absolute_rgb_0_to_255": 17.85403823852539,
+          "max_absolute_channel": 232
+        },
+        "850_vs_900": {
+          "changed_pixels": 254461,
+          "mean_absolute_rgb_0_to_255": 13.030097961425781,
+          "max_absolute_channel": 212
+        },
+        "250_vs_900": {
+          "changed_pixels": 260432,
+          "mean_absolute_rgb_0_to_255": 34.921251932779946,
+          "max_absolute_channel": 245
+        }
+      }
+    },
+    {
+      "row": 3,
+      "pair": 0,
+      "scene": "pink studio duo + plush",
+      "seed": 43,
+      "trigger": false,
+      "vs_base": {
+        "c01": {
+          "changed_pixels": 261838,
+          "mean_absolute_rgb_0_to_255": 53.56865310668945,
+          "max_absolute_channel": 226
+        },
+        "c02": {
+          "changed_pixels": 260615,
+          "mean_absolute_rgb_0_to_255": 19.36253611246745,
+          "max_absolute_channel": 215
+        },
+        "c03": {
+          "changed_pixels": 260991,
+          "mean_absolute_rgb_0_to_255": 28.681377410888672,
+          "max_absolute_channel": 224
+        },
+        "c04": {
+          "changed_pixels": 262046,
+          "mean_absolute_rgb_0_to_255": 32.26718775431315,
+          "max_absolute_channel": 241
+        },
+        "c05": {
+          "changed_pixels": 261980,
+          "mean_absolute_rgb_0_to_255": 32.77834447224935,
+          "max_absolute_channel": 237
+        }
+      },
+      "vs_ref": {
+        "c02": {
+          "changed_pixels": 261727,
+          "mean_absolute_rgb_0_to_255": 56.121507008870445,
+          "max_absolute_channel": 237
+        },
+        "c03": {
+          "changed_pixels": 261854,
+          "mean_absolute_rgb_0_to_255": 53.91401672363281,
+          "max_absolute_channel": 243
+        },
+        "c04": {
+          "changed_pixels": 262060,
+          "mean_absolute_rgb_0_to_255": 52.87555185953776,
+          "max_absolute_channel": 249
+        },
+        "c05": {
+          "changed_pixels": 262028,
+          "mean_absolute_rgb_0_to_255": 52.97218322753906,
+          "max_absolute_channel": 247
+        }
+      },
+      "steps": {
+        "250_vs_550": {
+          "changed_pixels": 260641,
+          "mean_absolute_rgb_0_to_255": 25.566112518310547,
+          "max_absolute_channel": 237
+        },
+        "550_vs_850": {
+          "changed_pixels": 260600,
+          "mean_absolute_rgb_0_to_255": 22.461990356445312,
+          "max_absolute_channel": 239
+        },
+        "850_vs_900": {
+          "changed_pixels": 259928,
+          "mean_absolute_rgb_0_to_255": 9.120936075846354,
+          "max_absolute_channel": 233
+        },
+        "250_vs_900": {
+          "changed_pixels": 261886,
+          "mean_absolute_rgb_0_to_255": 29.12123743693034,
+          "max_absolute_channel": 248
+        }
+      }
+    },
+    {
+      "row": 4,
+      "pair": 1,
+      "scene": "lavender starfield single",
+      "seed": 42,
+      "trigger": true,
+      "vs_base": {
+        "c01": {
+          "changed_pixels": 262119,
+          "mean_absolute_rgb_0_to_255": 27.867120107014973,
+          "max_absolute_channel": 250
+        },
+        "c02": {
+          "changed_pixels": 259425,
+          "mean_absolute_rgb_0_to_255": 19.522844950358074,
+          "max_absolute_channel": 255
+        },
+        "c03": {
+          "changed_pixels": 261072,
+          "mean_absolute_rgb_0_to_255": 23.853064219156902,
+          "max_absolute_channel": 255
+        },
+        "c04": {
+          "changed_pixels": 261355,
+          "mean_absolute_rgb_0_to_255": 24.185813903808594,
+          "max_absolute_channel": 254
+        },
+        "c05": {
+          "changed_pixels": 261185,
+          "mean_absolute_rgb_0_to_255": 23.69391632080078,
+          "max_absolute_channel": 255
+        }
+      },
+      "vs_ref": {
+        "c02": {
+          "changed_pixels": 262111,
+          "mean_absolute_rgb_0_to_255": 26.879004160563152,
+          "max_absolute_channel": 250
+        },
+        "c03": {
+          "changed_pixels": 262064,
+          "mean_absolute_rgb_0_to_255": 26.167686462402344,
+          "max_absolute_channel": 244
+        },
+        "c04": {
+          "changed_pixels": 262079,
+          "mean_absolute_rgb_0_to_255": 25.28579839070638,
+          "max_absolute_channel": 247
+        },
+        "c05": {
+          "changed_pixels": 262032,
+          "mean_absolute_rgb_0_to_255": 25.60798517862956,
+          "max_absolute_channel": 245
+        }
+      },
+      "steps": {
+        "250_vs_550": {
+          "changed_pixels": 261020,
+          "mean_absolute_rgb_0_to_255": 18.00895818074544,
+          "max_absolute_channel": 255
+        },
+        "550_vs_850": {
+          "changed_pixels": 259835,
+          "mean_absolute_rgb_0_to_255": 9.15097173055013,
+          "max_absolute_channel": 249
+        },
+        "850_vs_900": {
+          "changed_pixels": 257830,
+          "mean_absolute_rgb_0_to_255": 7.392293294270833,
+          "max_absolute_channel": 245
+        },
+        "250_vs_900": {
+          "changed_pixels": 260973,
+          "mean_absolute_rgb_0_to_255": 18.398338317871094,
+          "max_absolute_channel": 255
+        }
+      }
+    },
+    {
+      "row": 5,
+      "pair": 1,
+      "scene": "lavender starfield single",
+      "seed": 42,
+      "trigger": false,
+      "vs_base": {
+        "c01": {
+          "changed_pixels": 261040,
+          "mean_absolute_rgb_0_to_255": 28.78976313273112,
+          "max_absolute_channel": 244
+        },
+        "c02": {
+          "changed_pixels": 257252,
+          "mean_absolute_rgb_0_to_255": 14.360041300455729,
+          "max_absolute_channel": 255
+        },
+        "c03": {
+          "changed_pixels": 259558,
+          "mean_absolute_rgb_0_to_255": 18.7531000773112,
+          "max_absolute_channel": 255
+        },
+        "c04": {
+          "changed_pixels": 260595,
+          "mean_absolute_rgb_0_to_255": 20.46664047241211,
+          "max_absolute_channel": 255
+        },
+        "c05": {
+          "changed_pixels": 260370,
+          "mean_absolute_rgb_0_to_255": 19.882647196451824,
+          "max_absolute_channel": 255
+        }
+      },
+      "vs_ref": {
+        "c02": {
+          "changed_pixels": 261027,
+          "mean_absolute_rgb_0_to_255": 27.983964284261067,
+          "max_absolute_channel": 255
+        },
+        "c03": {
+          "changed_pixels": 261233,
+          "mean_absolute_rgb_0_to_255": 27.94206364949544,
+          "max_absolute_channel": 245
+        },
+        "c04": {
+          "changed_pixels": 261118,
+          "mean_absolute_rgb_0_to_255": 26.66796620686849,
+          "max_absolute_channel": 245
+        },
+        "c05": {
+          "changed_pixels": 261142,
+          "mean_absolute_rgb_0_to_255": 26.889586130777996,
+          "max_absolute_channel": 245
+        }
+      },
+      "steps": {
+        "250_vs_550": {
+          "changed_pixels": 258711,
+          "mean_absolute_rgb_0_to_255": 11.402567545572916,
+          "max_absolute_channel": 255
+        },
+        "550_vs_850": {
+          "changed_pixels": 258627,
+          "mean_absolute_rgb_0_to_255": 11.662466684977213,
+          "max_absolute_channel": 253
+        },
+        "850_vs_900": {
+          "changed_pixels": 252457,
+          "mean_absolute_rgb_0_to_255": 4.65505854288737,
+          "max_absolute_channel": 249
+        },
+        "250_vs_900": {
+          "changed_pixels": 259883,
+          "mean_absolute_rgb_0_to_255": 13.99242909749349,
+          "max_absolute_channel": 255
+        }
+      }
+    },
+    {
+      "row": 6,
+      "pair": 1,
+      "scene": "lavender starfield single",
+      "seed": 43,
+      "trigger": true,
+      "vs_base": {
+        "c01": {
+          "changed_pixels": 262122,
+          "mean_absolute_rgb_0_to_255": 38.312625885009766,
+          "max_absolute_channel": 250
+        },
+        "c02": {
+          "changed_pixels": 261644,
+          "mean_absolute_rgb_0_to_255": 15.709398905436197,
+          "max_absolute_channel": 252
+        },
+        "c03": {
+          "changed_pixels": 261878,
+          "mean_absolute_rgb_0_to_255": 20.41155497233073,
+          "max_absolute_channel": 252
+        },
+        "c04": {
+          "changed_pixels": 261974,
+          "mean_absolute_rgb_0_to_255": 26.077138264973957,
+          "max_absolute_channel": 253
+        },
+        "c05": {
+          "changed_pixels": 261966,
+          "mean_absolute_rgb_0_to_255": 25.490502675374348,
+          "max_absolute_channel": 253
+        }
+      },
+      "vs_ref": {
+        "c02": {
+          "changed_pixels": 262129,
+          "mean_absolute_rgb_0_to_255": 36.60390090942383,
+          "max_absolute_channel": 255
+        },
+        "c03": {
+          "changed_pixels": 262115,
+          "mean_absolute_rgb_0_to_255": 35.602865854899086,
+          "max_absolute_channel": 249
+        },
+        "c04": {
+          "changed_pixels": 262121,
+          "mean_absolute_rgb_0_to_255": 35.36360549926758,
+          "max_absolute_channel": 248
+        },
+        "c05": {
+          "changed_pixels": 262119,
+          "mean_absolute_rgb_0_to_255": 34.63804626464844,
+          "max_absolute_channel": 248
+        }
+      },
+      "steps": {
+        "250_vs_550": {
+          "changed_pixels": 260576,
+          "mean_absolute_rgb_0_to_255": 13.472846984863281,
+          "max_absolute_channel": 251
+        },
+        "550_vs_850": {
+          "changed_pixels": 261126,
+          "mean_absolute_rgb_0_to_255": 17.448514302571613,
+          "max_absolute_channel": 250
+        },
+        "850_vs_900": {
+          "changed_pixels": 257091,
+          "mean_absolute_rgb_0_to_255": 5.963687896728516,
+          "max_absolute_channel": 238
+        },
+        "250_vs_900": {
+          "changed_pixels": 261210,
+          "mean_absolute_rgb_0_to_255": 20.462095896402996,
+          "max_absolute_channel": 255
+        }
+      }
+    },
+    {
+      "row": 7,
+      "pair": 1,
+      "scene": "lavender starfield single",
+      "seed": 43,
+      "trigger": false,
+      "vs_base": {
+        "c01": {
+          "changed_pixels": 262105,
+          "mean_absolute_rgb_0_to_255": 37.50409825642904,
+          "max_absolute_channel": 253
+        },
+        "c02": {
+          "changed_pixels": 261773,
+          "mean_absolute_rgb_0_to_255": 20.184722900390625,
+          "max_absolute_channel": 254
+        },
+        "c03": {
+          "changed_pixels": 261914,
+          "mean_absolute_rgb_0_to_255": 32.013468424479164,
+          "max_absolute_channel": 253
+        },
+        "c04": {
+          "changed_pixels": 262098,
+          "mean_absolute_rgb_0_to_255": 35.599770863850914,
+          "max_absolute_channel": 255
+        },
+        "c05": {
+          "changed_pixels": 262084,
+          "mean_absolute_rgb_0_to_255": 35.511339823404946,
+          "max_absolute_channel": 255
+        }
+      },
+      "vs_ref": {
+        "c02": {
+          "changed_pixels": 262093,
+          "mean_absolute_rgb_0_to_255": 34.61089960734049,
+          "max_absolute_channel": 250
+        },
+        "c03": {
+          "changed_pixels": 262100,
+          "mean_absolute_rgb_0_to_255": 38.169473012288414,
+          "max_absolute_channel": 254
+        },
+        "c04": {
+          "changed_pixels": 261945,
+          "mean_absolute_rgb_0_to_255": 30.401412963867188,
+          "max_absolute_channel": 252
+        },
+        "c05": {
+          "changed_pixels": 262078,
+          "mean_absolute_rgb_0_to_255": 29.905521392822266,
+          "max_absolute_channel": 251
+        }
+      },
+      "steps": {
+        "250_vs_550": {
+          "changed_pixels": 261512,
+          "mean_absolute_rgb_0_to_255": 26.699193318684895,
+          "max_absolute_channel": 253
+        },
+        "550_vs_850": {
+          "changed_pixels": 261965,
+          "mean_absolute_rgb_0_to_255": 25.792229970296223,
+          "max_absolute_channel": 255
+        },
+        "850_vs_900": {
+          "changed_pixels": 256802,
+          "mean_absolute_rgb_0_to_255": 6.455735524495442,
+          "max_absolute_channel": 218
+        },
+        "250_vs_900": {
+          "changed_pixels": 262019,
+          "mean_absolute_rgb_0_to_255": 31.87847137451172,
+          "max_absolute_channel": 255
+        }
+      }
+    },
+    {
+      "row": 8,
+      "pair": 2,
+      "scene": "seaside sunset duo + sparkler",
+      "seed": 42,
+      "trigger": true,
+      "vs_base": {
+        "c01": {
+          "changed_pixels": 262144,
+          "mean_absolute_rgb_0_to_255": 22.159180959065754,
+          "max_absolute_channel": 194
+        },
+        "c02": {
+          "changed_pixels": 262121,
+          "mean_absolute_rgb_0_to_255": 11.722337086995443,
+          "max_absolute_channel": 196
+        },
+        "c03": {
+          "changed_pixels": 262066,
+          "mean_absolute_rgb_0_to_255": 14.224936167399088,
+          "max_absolute_channel": 205
+        },
+        "c04": {
+          "changed_pixels": 262124,
+          "mean_absolute_rgb_0_to_255": 15.356396993001303,
+          "max_absolute_channel": 212
+        },
+        "c05": {
+          "changed_pixels": 262099,
+          "mean_absolute_rgb_0_to_255": 14.79291025797526,
+          "max_absolute_channel": 209
+        }
+      },
+      "vs_ref": {
+        "c02": {
+          "changed_pixels": 262134,
+          "mean_absolute_rgb_0_to_255": 18.67657725016276,
+          "max_absolute_channel": 194
+        },
+        "c03": {
+          "changed_pixels": 262137,
+          "mean_absolute_rgb_0_to_255": 15.677385965983072,
+          "max_absolute_channel": 194
+        },
+        "c04": {
+          "changed_pixels": 262137,
+          "mean_absolute_rgb_0_to_255": 14.852420806884766,
+          "max_absolute_channel": 202
+        },
+        "c05": {
+          "changed_pixels": 262131,
+          "mean_absolute_rgb_0_to_255": 15.35715103149414,
+          "max_absolute_channel": 191
+        }
+      },
+      "steps": {
+        "250_vs_550": {
+          "changed_pixels": 261055,
+          "mean_absolute_rgb_0_to_255": 8.637036641438803,
+          "max_absolute_channel": 186
+        },
+        "550_vs_850": {
+          "changed_pixels": 261632,
+          "mean_absolute_rgb_0_to_255": 8.190024058024088,
+          "max_absolute_channel": 188
+        },
+        "850_vs_900": {
+          "changed_pixels": 252646,
+          "mean_absolute_rgb_0_to_255": 2.7367706298828125,
+          "max_absolute_channel": 143
+        },
+        "250_vs_900": {
+          "changed_pixels": 261090,
+          "mean_absolute_rgb_0_to_255": 10.311410268147787,
+          "max_absolute_channel": 194
+        }
+      }
+    },
+    {
+      "row": 9,
+      "pair": 2,
+      "scene": "seaside sunset duo + sparkler",
+      "seed": 42,
+      "trigger": false,
+      "vs_base": {
+        "c01": {
+          "changed_pixels": 262127,
+          "mean_absolute_rgb_0_to_255": 25.888978322347004,
+          "max_absolute_channel": 204
+        },
+        "c02": {
+          "changed_pixels": 262135,
+          "mean_absolute_rgb_0_to_255": 13.47714360555013,
+          "max_absolute_channel": 203
+        },
+        "c03": {
+          "changed_pixels": 262126,
+          "mean_absolute_rgb_0_to_255": 14.200546264648438,
+          "max_absolute_channel": 200
+        },
+        "c04": {
+          "changed_pixels": 262136,
+          "mean_absolute_rgb_0_to_255": 18.6020991007487,
+          "max_absolute_channel": 204
+        },
+        "c05": {
+          "changed_pixels": 262135,
+          "mean_absolute_rgb_0_to_255": 16.479760487874348,
+          "max_absolute_channel": 199
+        }
+      },
+      "vs_ref": {
+        "c02": {
+          "changed_pixels": 262129,
+          "mean_absolute_rgb_0_to_255": 23.56653340657552,
+          "max_absolute_channel": 200
+        },
+        "c03": {
+          "changed_pixels": 262103,
+          "mean_absolute_rgb_0_to_255": 21.97896957397461,
+          "max_absolute_channel": 194
+        },
+        "c04": {
+          "changed_pixels": 262116,
+          "mean_absolute_rgb_0_to_255": 22.249383290608723,
+          "max_absolute_channel": 191
+        },
+        "c05": {
+          "changed_pixels": 262122,
+          "mean_absolute_rgb_0_to_255": 21.640162150065105,
+          "max_absolute_channel": 193
+        }
+      },
+      "steps": {
+        "250_vs_550": {
+          "changed_pixels": 261826,
+          "mean_absolute_rgb_0_to_255": 5.42538579305013,
+          "max_absolute_channel": 165
+        },
+        "550_vs_850": {
+          "changed_pixels": 261820,
+          "mean_absolute_rgb_0_to_255": 8.726481119791666,
+          "max_absolute_channel": 195
+        },
+        "850_vs_900": {
+          "changed_pixels": 261516,
+          "mean_absolute_rgb_0_to_255": 7.259268442789714,
+          "max_absolute_channel": 198
+        },
+        "250_vs_900": {
+          "changed_pixels": 261821,
+          "mean_absolute_rgb_0_to_255": 8.869913736979166,
+          "max_absolute_channel": 176
+        }
+      }
+    },
+    {
+      "row": 10,
+      "pair": 2,
+      "scene": "seaside sunset duo + sparkler",
+      "seed": 43,
+      "trigger": true,
+      "vs_base": {
+        "c01": {
+          "changed_pixels": 262144,
+          "mean_absolute_rgb_0_to_255": 23.54577891031901,
+          "max_absolute_channel": 234
+        },
+        "c02": {
+          "changed_pixels": 262110,
+          "mean_absolute_rgb_0_to_255": 10.748287200927734,
+          "max_absolute_channel": 199
+        },
+        "c03": {
+          "changed_pixels": 262135,
+          "mean_absolute_rgb_0_to_255": 13.313482920328775,
+          "max_absolute_channel": 221
+        },
+        "c04": {
+          "changed_pixels": 262139,
+          "mean_absolute_rgb_0_to_255": 18.974016825358074,
+          "max_absolute_channel": 233
+        },
+        "c05": {
+          "changed_pixels": 262142,
+          "mean_absolute_rgb_0_to_255": 18.682050069173176,
+          "max_absolute_channel": 232
+        }
+      },
+      "vs_ref": {
+        "c02": {
+          "changed_pixels": 262137,
+          "mean_absolute_rgb_0_to_255": 20.468807220458984,
+          "max_absolute_channel": 223
+        },
+        "c03": {
+          "changed_pixels": 262133,
+          "mean_absolute_rgb_0_to_255": 19.382971445719402,
+          "max_absolute_channel": 206
+        },
+        "c04": {
+          "changed_pixels": 262113,
+          "mean_absolute_rgb_0_to_255": 14.020782470703125,
+          "max_absolute_channel": 197
+        },
+        "c05": {
+          "changed_pixels": 262117,
+          "mean_absolute_rgb_0_to_255": 14.392850240071615,
+          "max_absolute_channel": 196
+        }
+      },
+      "steps": {
+        "250_vs_550": {
+          "changed_pixels": 261520,
+          "mean_absolute_rgb_0_to_255": 7.458071390787761,
+          "max_absolute_channel": 213
+        },
+        "550_vs_850": {
+          "changed_pixels": 262051,
+          "mean_absolute_rgb_0_to_255": 13.911607106526693,
+          "max_absolute_channel": 215
+        },
+        "850_vs_900": {
+          "changed_pixels": 236348,
+          "mean_absolute_rgb_0_to_255": 2.9501876831054688,
+          "max_absolute_channel": 183
+        },
+        "250_vs_900": {
+          "changed_pixels": 262112,
+          "mean_absolute_rgb_0_to_255": 14.839555104573568,
+          "max_absolute_channel": 223
+        }
+      }
+    },
+    {
+      "row": 11,
+      "pair": 2,
+      "scene": "seaside sunset duo + sparkler",
+      "seed": 43,
+      "trigger": false,
+      "vs_base": {
+        "c01": {
+          "changed_pixels": 262089,
+          "mean_absolute_rgb_0_to_255": 23.98364512125651,
+          "max_absolute_channel": 215
+        },
+        "c02": {
+          "changed_pixels": 261912,
+          "mean_absolute_rgb_0_to_255": 8.155718485514322,
+          "max_absolute_channel": 164
+        },
+        "c03": {
+          "changed_pixels": 262027,
+          "mean_absolute_rgb_0_to_255": 9.022623697916666,
+          "max_absolute_channel": 162
+        },
+        "c04": {
+          "changed_pixels": 262031,
+          "mean_absolute_rgb_0_to_255": 10.907430013020834,
+          "max_absolute_channel": 188
+        },
+        "c05": {
+          "changed_pixels": 262042,
+          "mean_absolute_rgb_0_to_255": 10.694262186686197,
+          "max_absolute_channel": 189
+        }
+      },
+      "vs_ref": {
+        "c02": {
+          "changed_pixels": 262141,
+          "mean_absolute_rgb_0_to_255": 24.214948018391926,
+          "max_absolute_channel": 202
+        },
+        "c03": {
+          "changed_pixels": 262139,
+          "mean_absolute_rgb_0_to_255": 23.6587397257487,
+          "max_absolute_channel": 205
+        },
+        "c04": {
+          "changed_pixels": 262129,
+          "mean_absolute_rgb_0_to_255": 22.66101328531901,
+          "max_absolute_channel": 202
+        },
+        "c05": {
+          "changed_pixels": 262118,
+          "mean_absolute_rgb_0_to_255": 23.174947102864582,
+          "max_absolute_channel": 204
+        }
+      },
+      "steps": {
+        "250_vs_550": {
+          "changed_pixels": 258255,
+          "mean_absolute_rgb_0_to_255": 5.304690043131511,
+          "max_absolute_channel": 170
+        },
+        "550_vs_850": {
+          "changed_pixels": 261574,
+          "mean_absolute_rgb_0_to_255": 7.946400960286458,
+          "max_absolute_channel": 201
+        },
+        "850_vs_900": {
+          "changed_pixels": 255920,
+          "mean_absolute_rgb_0_to_255": 2.6842168172200522,
+          "max_absolute_channel": 119
+        },
+        "250_vs_900": {
+          "changed_pixels": 260593,
+          "mean_absolute_rgb_0_to_255": 6.969169616699219,
+          "max_absolute_channel": 176
+        }
+      }
+    }
+  ],
+  "hashes": "D:\\Develop\\KohakuMossTrainer-LoRI\\experiment\\task13\\comparison-20261119-a\\audit-hashes\\rgb-sha256.json",
+  "visual": "D:\\Develop\\KohakuMossTrainer-LoRI\\experiment\\task13\\comparison-20261119-a\\visual",
+  "column_hashes": {
+    "config.py": "31d2b0cddcc9d8ad3b1383b2060fedffdce86ef31a8f3625ddb6fb7a7407b83e",
+    "render_sparse.py": "41fac476731422869b8bd0e32127d2b5c5be3ac5c9076d8459dbc410481cbda7",
+    "audit.py": "ea375d0c3c1ebd15c77bd04eddb5ae87721582ae7c06e582097d2f62c96f8e3b",
+    "metadata.json": "eacc235bba7ad20b02f013df40e42e8560da978ad6d6d25ec24367f72cfeba42"
+  }
+}

@@ -1,0 +1,895 @@
+{
+  "stage": "sparse90",
+  "run_dir": "D:\\Develop\\KohakuMossTrainer-LoRI\\experiment\\task11\\session-20261119-a\\runs\\lori-sparse90",
+  "run_name": "lori-sparse90",
+  "steps_requested": 900,
+  "steps_completed": 900,
+  "metrics": {
+    "path": "D:\\Develop\\KohakuMossTrainer-LoRI\\experiment\\task11\\session-20261119-a\\runs\\lori-sparse90\\metrics.jsonl",
+    "sha256": "a5a594634dea8160adcde687780bdf3df8c70969d5c7b92a1802e5dffa0fe056",
+    "bytes": 823009,
+    "rows": 900,
+    "steps": [
+      1,
+      900
+    ],
+    "steps_contiguous": true,
+    "loss_grad_norm_step_time_finite": true,
+    "skipped_nonfinite_all_zero": true,
+    "lr_constant": 0.0001,
+    "loss": {
+      "mean": 0.705880636009905,
+      "min": 0.3635474145412445,
+      "max": 0.959454357624054,
+      "first": 0.7369208931922913,
+      "last": 0.8530033826828003,
+      "median": 0.7154857516288757
+    },
+    "grad_norm": {
+      "mean": 0.06067224581415454,
+      "max": 1.2323284149169922,
+      "last": 0.04510129615664482
+    },
+    "step_time": {
+      "median": 1.7166055999987293,
+      "mean": 1.7386578828888661,
+      "min": 1.5596373999724165,
+      "max": 7.753118900000118,
+      "first": 7.753118900000118,
+      "median_last_100": 1.727370949985925
+    },
+    "segments": {
+      "1-285": {
+        "steps": [
+          1,
+          285
+        ],
+        "count": 285,
+        "loss_mean": 0.7115236786373874,
+        "loss_min": 0.36517927050590515,
+        "loss_max": 0.959454357624054,
+        "loss_first": 0.7369208931922913,
+        "loss_last": 0.893690288066864,
+        "step_time_median": 1.7104743999661878
+      },
+      "286-570": {
+        "steps": [
+          286,
+          570
+        ],
+        "count": 285,
+        "loss_mean": 0.6985092276021054,
+        "loss_min": 0.3635474145412445,
+        "loss_max": 0.8980207443237305,
+        "loss_first": 0.6708922386169434,
+        "loss_last": 0.43986454606056213,
+        "step_time_median": 1.7183441999950446
+      },
+      "571-900": {
+        "steps": [
+          571,
+          900
+        ],
+        "count": 330,
+        "loss_mean": 0.7073733155474519,
+        "loss_min": 0.42360490560531616,
+        "loss_max": 0.9250032305717468,
+        "loss_first": 0.6889093518257141,
+        "loss_last": 0.8530033826828003,
+        "step_time_median": 1.7203997000178788
+      },
+      "801-900": {
+        "steps": [
+          801,
+          900
+        ],
+        "count": 100,
+        "loss_mean": 0.7042080515623093,
+        "loss_min": 0.47159600257873535,
+        "loss_max": 0.9250032305717468,
+        "loss_first": 0.6566247940063477,
+        "loss_last": 0.8530033826828003,
+        "step_time_median": 1.727370949985925
+      }
+    },
+    "trajectory_100": [
+      {
+        "block": "1-100",
+        "loss_mean": 0.731433946788311,
+        "loss_last": 0.7659834027290344
+      },
+      {
+        "block": "101-200",
+        "loss_mean": 0.7075150039792061,
+        "loss_last": 0.6271975040435791
+      },
+      {
+        "block": "201-300",
+        "loss_mean": 0.6976462578773499,
+        "loss_last": 0.7481100559234619
+      },
+      {
+        "block": "301-400",
+        "loss_mean": 0.7135772159695626,
+        "loss_last": 0.6051872968673706
+      },
+      {
+        "block": "401-500",
+        "loss_mean": 0.690715833902359,
+        "loss_last": 0.7769453525543213
+      },
+      {
+        "block": "501-600",
+        "loss_mean": 0.6904169511795044,
+        "loss_last": 0.8536844253540039
+      },
+      {
+        "block": "601-700",
+        "loss_mean": 0.7052521443367005,
+        "loss_last": 0.7044444680213928
+      },
+      {
+        "block": "701-800",
+        "loss_mean": 0.7121603184938431,
+        "loss_last": 0.5902258157730103
+      },
+      {
+        "block": "801-900",
+        "loss_mean": 0.7042080515623093,
+        "loss_last": 0.8530033826828003
+      }
+    ],
+    "loss_at_100": {
+      "1": 0.7369208931922913,
+      "100": 0.7659834027290344,
+      "200": 0.6271975040435791,
+      "300": 0.7481100559234619,
+      "400": 0.6051872968673706,
+      "500": 0.7769453525543213,
+      "600": 0.8536844253540039,
+      "700": 0.7044444680213928,
+      "800": 0.5902258157730103,
+      "900": 0.8530033826828003
+    },
+    "vram_step_peak_gib": {
+      "max_alloc": 2.3996291160583496,
+      "max_reserved": 2.693359375
+    }
+  },
+  "checkpoints": [
+    {
+      "name": "step_00000285",
+      "path": "D:\\Develop\\KohakuMossTrainer-LoRI\\experiment\\task11\\session-20261119-a\\runs\\lori-sparse90\\checkpoints\\step_00000285",
+      "state": {
+        "loader": {
+          "seed": 42,
+          "start": 285
+        },
+        "tokens": 66900,
+        "samples": 285,
+        "joint_sq": 113361806,
+        "text_tokens": 112490,
+        "world": 1,
+        "step": 285
+      },
+      "files": {
+        "state.json": {
+          "bytes": 181,
+          "sha256": "38b355b89faa44f59ef6fd97f5568b845c0c8affc1833817cdc653891b395597"
+        },
+        "trainable.safetensors": {
+          "bytes": 44654764,
+          "sha256": "340a2e3a23318a316cdd1b2a8dc2a326d508053608e28ce872ae3bdae27d6a07"
+        },
+        "optim.pt": {
+          "bytes": 13038715,
+          "sha256": "03af96df420d9c3f8bbe306fe4e3d5bc04ada5be232a7699ea02e4ed18e14d8c"
+        },
+        "rng.0.pt": {
+          "bytes": 20169,
+          "sha256": "84170fe91f16a6c0d974b16bf3e3b28209125d1d84a4edf3bce3f343b3027727"
+        },
+        "export\\lori-sparse90-comfy.safetensors": {
+          "bytes": 49601320,
+          "sha256": "b6219bd39f9b0dced4a6a869ef087fc9374142d38d1f07bd5d6ba0294b121312"
+        },
+        "export\\lori-sparse90-lycoris.safetensors": {
+          "bytes": 44654756,
+          "sha256": "2318a8557e7e2f4f473c6bee2b9ce99e2f1599b2a730770d97fe9e6ccfa71f49"
+        }
+      },
+      "export_files": [
+        "lori-sparse90-comfy.safetensors",
+        "lori-sparse90-lycoris.safetensors"
+      ]
+    },
+    {
+      "name": "step_00000570",
+      "path": "D:\\Develop\\KohakuMossTrainer-LoRI\\experiment\\task11\\session-20261119-a\\runs\\lori-sparse90\\checkpoints\\step_00000570",
+      "state": {
+        "loader": {
+          "seed": 42,
+          "start": 570
+        },
+        "tokens": 133800,
+        "samples": 570,
+        "joint_sq": 226723612,
+        "text_tokens": 224980,
+        "world": 1,
+        "step": 570
+      },
+      "files": {
+        "state.json": {
+          "bytes": 182,
+          "sha256": "e0bb05c6dd4a4836adecfb91b8549b148425333639356fe34f739f91fbc9eec6"
+        },
+        "trainable.safetensors": {
+          "bytes": 44654764,
+          "sha256": "db8c6f7019e55d98ba768e9d67e0a79fc163ec0116ebadca2b9288836b9b679f"
+        },
+        "optim.pt": {
+          "bytes": 13038715,
+          "sha256": "fcdb2562b6c8a1d30cacabe1634585ffa07d3be1770e0e34697d8aebacd800bb"
+        },
+        "rng.0.pt": {
+          "bytes": 20169,
+          "sha256": "56b5886e18ae503bbb497ddd0e675d4ab4aa0836630b10ff24d85b4d3cbc8af5"
+        },
+        "export\\lori-sparse90-comfy.safetensors": {
+          "bytes": 49601320,
+          "sha256": "fe5f7cb837728fe1a70edd8d98b6d64af87399ebe394815ede78722629529db7"
+        },
+        "export\\lori-sparse90-lycoris.safetensors": {
+          "bytes": 44654756,
+          "sha256": "01a1d40f2187484c639e4498d3bb367e4e91d2b3fa5c1b84ab97fe3d65b051fc"
+        }
+      },
+      "export_files": [
+        "lori-sparse90-comfy.safetensors",
+        "lori-sparse90-lycoris.safetensors"
+      ]
+    },
+    {
+      "name": "step_00000855",
+      "path": "D:\\Develop\\KohakuMossTrainer-LoRI\\experiment\\task11\\session-20261119-a\\runs\\lori-sparse90\\checkpoints\\step_00000855",
+      "state": {
+        "loader": {
+          "seed": 42,
+          "start": 855
+        },
+        "tokens": 200700,
+        "samples": 855,
+        "joint_sq": 340085418,
+        "text_tokens": 337470,
+        "world": 1,
+        "step": 855
+      },
+      "files": {
+        "state.json": {
+          "bytes": 182,
+          "sha256": "355e284248764ae115204903a80bccb7cfa40036ebad44fd516c7c633da3b62c"
+        },
+        "trainable.safetensors": {
+          "bytes": 44654764,
+          "sha256": "5f53d1d53cd1466ac61827d36dde2b1586f9e2c618bc1aad0e36190b115d51da"
+        },
+        "optim.pt": {
+          "bytes": 13038715,
+          "sha256": "4b224ac1424fb154dcb10081564cedc45e629f4400ea3971be64915ff51042ed"
+        },
+        "rng.0.pt": {
+          "bytes": 20169,
+          "sha256": "0c44bf2728a2dd973b04ceaf5e3a60eadce9834ae86b6f13c063a21b4eae5684"
+        },
+        "export\\lori-sparse90-comfy.safetensors": {
+          "bytes": 49601320,
+          "sha256": "24e240923818c5048e01faec6aea5972aa134fa0bbbf65e461ecd658c6f6d1ad"
+        },
+        "export\\lori-sparse90-lycoris.safetensors": {
+          "bytes": 44654756,
+          "sha256": "c1f35ffdca3bd0b5d7f15ffa5d9f7ba927095126d67361cd614eb28287355565"
+        }
+      },
+      "export_files": [
+        "lori-sparse90-comfy.safetensors",
+        "lori-sparse90-lycoris.safetensors"
+      ]
+    },
+    {
+      "name": "step_00000900",
+      "path": "D:\\Develop\\KohakuMossTrainer-LoRI\\experiment\\task11\\session-20261119-a\\runs\\lori-sparse90\\checkpoints\\step_00000900",
+      "state": {
+        "loader": {
+          "seed": 42,
+          "start": 900
+        },
+        "tokens": 211287,
+        "samples": 900,
+        "joint_sq": 358156325,
+        "text_tokens": 355358,
+        "world": 1,
+        "step": 900
+      },
+      "files": {
+        "state.json": {
+          "bytes": 182,
+          "sha256": "e2126ee07eab176d962b65b93e18a3c508b623ff293318c7df38372232b64def"
+        },
+        "trainable.safetensors": {
+          "bytes": 44654764,
+          "sha256": "fec9b71926355e1ce2a0c646b3e982b671697ed30457e8b4c798b0a6c5bec01c"
+        },
+        "optim.pt": {
+          "bytes": 13038715,
+          "sha256": "898aa809a9240af899cd69c35f591a48b4c3be32e82c990d4b02bf330ff8da95"
+        },
+        "rng.0.pt": {
+          "bytes": 20169,
+          "sha256": "783f21d65a5452c1adeae60bd1dccca7204eb73920cc8b4fc741040b99a8ca43"
+        },
+        "export\\lori-sparse90-comfy.safetensors": {
+          "bytes": 49601320,
+          "sha256": "ce9ba0ffc798af023c56f51c5690ca137830337d4faf682f3d462e47e2fb4d59"
+        },
+        "export\\lori-sparse90-lycoris.safetensors": {
+          "bytes": 44654756,
+          "sha256": "fcfef742c16e19db1bad3735dcc3a9ac10d2aa3183c79ae773d4dfc94500fa54"
+        }
+      },
+      "export_files": [
+        "lori-sparse90-comfy.safetensors",
+        "lori-sparse90-lycoris.safetensors"
+      ]
+    }
+  ],
+  "checkpoint_names": [
+    "step_00000285",
+    "step_00000570",
+    "step_00000855",
+    "step_00000900"
+  ],
+  "step_900_state": {
+    "loader": {
+      "seed": 42,
+      "start": 900
+    },
+    "tokens": 211287,
+    "samples": 900,
+    "joint_sq": 358156325,
+    "text_tokens": 355358,
+    "world": 1,
+    "step": 900
+  },
+  "optimizer": {
+    "path": "D:\\Develop\\KohakuMossTrainer-LoRI\\experiment\\task11\\session-20261119-a\\runs\\lori-sparse90\\checkpoints\\step_00000900\\optim.pt",
+    "bytes": 13038715,
+    "sha256": "898aa809a9240af899cd69c35f591a48b4c3be32e82c990d4b02bf330ff8da95",
+    "schedule_last_epoch": 900,
+    "skipped": 0,
+    "nonfinite": 0,
+    "optimizer_groups": 1,
+    "entries": 252,
+    "entry_keys_contiguous": true,
+    "columns": {
+      "master": {
+        "tensors": 252,
+        "elements": 1066599,
+        "dtype": "torch.float32"
+      },
+      "exp_avg": {
+        "tensors": 252,
+        "elements": 1066599,
+        "dtype": "torch.float32"
+      },
+      "exp_avg_sq": {
+        "tensors": 252,
+        "elements": 1066599,
+        "dtype": "torch.float32"
+      }
+    },
+    "moment_columns": [
+      "exp_avg",
+      "exp_avg_sq"
+    ],
+    "moment_elements": 2133198,
+    "expected_moment_elements": 2133198,
+    "all_columns_fp32_finite": true,
+    "update_count": 900,
+    "updates_per_entry_all_900": true
+  },
+  "trainable": {
+    "step_00000285": {
+      "fixed": {
+        "A": {
+          "tensors": 252,
+          "combined_digest": "7f8b433fe34e4caa789e9923e44227acdef677e04edc1852a71d6242b884db19",
+          "digests_match_initial_hashes": true
+        },
+        "alpha": {
+          "tensors": 252,
+          "combined_digest": "930ce824c0831386ee6bad65542d768c8b56d2c5a3264511be2d7ae02207c991",
+          "digests_match_initial_hashes": true
+        }
+      },
+      "metadata_keys": [
+        "kohakumoss_adapter_state",
+        "kohakumoss_fold",
+        "kohakumoss_lori",
+        "kohakumoss_spec"
+      ],
+      "sparse_metadata": {
+        "phase": "sparse",
+        "sparsity": 0.9,
+        "threshold": 0.002638536039739847,
+        "total": 10665984,
+        "nnz": 1066599,
+        "actual_density": 0.10000005625360023,
+        "layers": 252,
+        "calibration_digest": "7e883962374ace94f9f612f47cf6d470cb16fd27180843968ee011ac106a8ac8"
+      },
+      "tensors": 1008,
+      "compact_b": {
+        "layers": 252,
+        "retained_values": 1066599,
+        "nonzero_values": 1066599,
+        "nonzero_min_per_layer": 1197,
+        "nonzero_max_per_layer": 21142,
+        "l2_norm_total": 3.324108123779297,
+        "all_nonzero_and_finite": true
+      }
+    },
+    "step_00000900": {
+      "fixed": {
+        "A": {
+          "tensors": 252,
+          "combined_digest": "7f8b433fe34e4caa789e9923e44227acdef677e04edc1852a71d6242b884db19",
+          "digests_match_initial_hashes": true
+        },
+        "alpha": {
+          "tensors": 252,
+          "combined_digest": "930ce824c0831386ee6bad65542d768c8b56d2c5a3264511be2d7ae02207c991",
+          "digests_match_initial_hashes": true
+        }
+      },
+      "metadata_keys": [
+        "kohakumoss_adapter_state",
+        "kohakumoss_fold",
+        "kohakumoss_lori",
+        "kohakumoss_spec"
+      ],
+      "sparse_metadata": {
+        "phase": "sparse",
+        "sparsity": 0.9,
+        "threshold": 0.002638536039739847,
+        "total": 10665984,
+        "nnz": 1066599,
+        "actual_density": 0.10000005625360023,
+        "layers": 252,
+        "calibration_digest": "7e883962374ace94f9f612f47cf6d470cb16fd27180843968ee011ac106a8ac8"
+      },
+      "tensors": 1008,
+      "compact_b": {
+        "layers": 252,
+        "retained_values": 1066599,
+        "nonzero_values": 1066599,
+        "nonzero_min_per_layer": 1197,
+        "nonzero_max_per_layer": 21142,
+        "l2_norm_total": 5.225387096405029,
+        "all_nonzero_and_finite": true
+      }
+    },
+    "retained_values": 1066599,
+    "compact_b_layers_updated_vs_zero_initial": 252,
+    "step285_vs_step900_differing_layers": 252,
+    "step285_vs_step900_all_252_differ": true,
+    "b_norm_ratio_900_over_285": {
+      "median": 1.6215224221064488,
+      "min": 1.2864484386844717,
+      "max": 1.8869502225525556
+    }
+  },
+  "exports": {
+    "step_00000285": {
+      "lycoris": {
+        "path": "D:\\Develop\\KohakuMossTrainer-LoRI\\experiment\\task11\\session-20261119-a\\runs\\lori-sparse90\\checkpoints\\step_00000285\\export\\lori-sparse90-lycoris.safetensors",
+        "bytes": 44654756,
+        "sha256": "2318a8557e7e2f4f473c6bee2b9ce99e2f1599b2a730770d97fe9e6ccfa71f49",
+        "tensors": 1008,
+        "fixed": {
+          "A": {
+            "tensors": 252,
+            "combined_digest": "7f8b433fe34e4caa789e9923e44227acdef677e04edc1852a71d6242b884db19",
+            "digests_match_initial_hashes": true
+          },
+          "alpha": {
+            "tensors": 252,
+            "combined_digest": "930ce824c0831386ee6bad65542d768c8b56d2c5a3264511be2d7ae02207c991",
+            "digests_match_initial_hashes": true
+          }
+        },
+        "compact_b_layers": 252,
+        "retained_values": 1066599,
+        "sparse_metadata": {
+          "phase": "sparse",
+          "sparsity": 0.9,
+          "nnz": 1066599,
+          "total": 10665984,
+          "actual_density": 0.10000005625360023,
+          "layers": 252
+        },
+        "kohakumoss_format": "kohakumoss_lori",
+        "kohakumoss_step": "285"
+      },
+      "comfy": {
+        "path": "D:\\Develop\\KohakuMossTrainer-LoRI\\experiment\\task11\\session-20261119-a\\runs\\lori-sparse90\\checkpoints\\step_00000285\\export\\lori-sparse90-comfy.safetensors",
+        "bytes": 49601320,
+        "sha256": "b6219bd39f9b0dced4a6a869ef087fc9374142d38d1f07bd5d6ba0294b121312",
+        "tensors": 504,
+        "first_tensor": {
+          "name": "lora_unet_layers_0_proj_ffn_down.alpha",
+          "shape": [],
+          "dtype": "torch.float32"
+        },
+        "opens": true,
+        "metadata_format": "comfy",
+        "metadata_algo": "lori"
+      }
+    },
+    "step_00000900": {
+      "lycoris": {
+        "path": "D:\\Develop\\KohakuMossTrainer-LoRI\\experiment\\task11\\session-20261119-a\\runs\\lori-sparse90\\checkpoints\\step_00000900\\export\\lori-sparse90-lycoris.safetensors",
+        "bytes": 44654756,
+        "sha256": "fcfef742c16e19db1bad3735dcc3a9ac10d2aa3183c79ae773d4dfc94500fa54",
+        "tensors": 1008,
+        "fixed": {
+          "A": {
+            "tensors": 252,
+            "combined_digest": "7f8b433fe34e4caa789e9923e44227acdef677e04edc1852a71d6242b884db19",
+            "digests_match_initial_hashes": true
+          },
+          "alpha": {
+            "tensors": 252,
+            "combined_digest": "930ce824c0831386ee6bad65542d768c8b56d2c5a3264511be2d7ae02207c991",
+            "digests_match_initial_hashes": true
+          }
+        },
+        "compact_b_layers": 252,
+        "retained_values": 1066599,
+        "sparse_metadata": {
+          "phase": "sparse",
+          "sparsity": 0.9,
+          "nnz": 1066599,
+          "total": 10665984,
+          "actual_density": 0.10000005625360023,
+          "layers": 252
+        },
+        "kohakumoss_format": "kohakumoss_lori",
+        "kohakumoss_step": "900"
+      },
+      "comfy": {
+        "path": "D:\\Develop\\KohakuMossTrainer-LoRI\\experiment\\task11\\session-20261119-a\\runs\\lori-sparse90\\checkpoints\\step_00000900\\export\\lori-sparse90-comfy.safetensors",
+        "bytes": 49601320,
+        "sha256": "ce9ba0ffc798af023c56f51c5690ca137830337d4faf682f3d462e47e2fb4d59",
+        "tensors": 504,
+        "first_tensor": {
+          "name": "lora_unet_layers_0_proj_ffn_down.alpha",
+          "shape": [],
+          "dtype": "torch.float32"
+        },
+        "opens": true,
+        "metadata_format": "comfy",
+        "metadata_algo": "lori"
+      }
+    },
+    "run_level_export": {
+      "path": "D:\\Develop\\KohakuMossTrainer-LoRI\\experiment\\task11\\session-20261119-a\\runs\\lori-sparse90\\export",
+      "files": {
+        "lori-sparse90-comfy.safetensors": {
+          "bytes": 49601320,
+          "sha256": "9457f0de0de8bfbd5fe3b0b37594e3ab414087c4f6758a107c018ad725cda68e"
+        },
+        "lori-sparse90-lycoris.safetensors": {
+          "bytes": 44654756,
+          "sha256": "aef913a536d9979994fe7156d9750ae985b31a854cbc0073aac1c9ed6c05fc68"
+        }
+      }
+    }
+  },
+  "startup": {
+    "counters": {
+      "wall": 7.7522143999813125,
+      "text_encode": 0.0,
+      "vae_encode": 0.0,
+      "kernel_tuning": 0,
+      "tuned_problems": 0,
+      "torch_compile": 0.0,
+      "compiled_graphs": 0,
+      "alloc_segments": 9,
+      "other": 7.7522143999813125
+    },
+    "sampled": {
+      "main": {
+        "torch_compile": 1.315,
+        "optimizer": 0.745,
+        "compile_probe": 0.245,
+        "forward_backward": 0.065,
+        "triton_jit_load": 0.05,
+        "data": 0.005,
+        "other": 0.005,
+        "stream_wait": 0.005
+      },
+      "other": {
+        "kohakumoss.diffusion.objective.normalize.denominator": 0.005
+      },
+      "threads": {
+        "Thread-5 (_read)": {
+          "other": 2.435
+        },
+        "kohakumoss-grad-accumulate": {
+          "other": 4.87
+        },
+        "44628": {
+          "triton_jit_load": 0.4,
+          "optimizer": 0.035,
+          "torch_compile": 0.22,
+          "stream_wait": 0.01,
+          "forward_backward": 0.02
+        }
+      }
+    }
+  },
+  "ranks": {
+    "job": {
+      "world": 1,
+      "data_world": 1,
+      "samples_per_s": 0.5788074873709375,
+      "tokens_per_s": 135.8919960065299,
+      "step_time": 1.7276901591964633,
+      "tflops": 11.084720950921106,
+      "vram_peak_alloc_gib": 2.3996291160583496,
+      "vram_peak_reserved_gib": 2.693359375,
+      "device_used_gib": 3.91265869140625,
+      "smi_mem_peak_gib": 5.6845703125
+    },
+    "ranks": [
+      {
+        "rank": 0,
+        "device": "NVIDIA GeForce RTX 5070 Ti Laptop GPU",
+        "steady_steps": 897,
+        "step_time": 1.7276901591964633,
+        "samples_per_s": 0.5788074873709375,
+        "tokens_per_s": 135.8919960065299,
+        "tflops": 11.084720950921106,
+        "smi_mem_peak_gib": 5.6845703125,
+        "vram_peak_alloc_gib": 2.3996291160583496,
+        "vram_peak_reserved_gib": 2.693359375,
+        "device_used_gib": 3.91265869140625
+      }
+    ]
+  },
+  "sparsity_removed": 0.9,
+  "retention": 0.1,
+  "retained_values": 1066599,
+  "mask": {
+    "stage": "sparse90",
+    "path": "D:\\Develop\\KohakuMossTrainer-LoRI\\experiment\\task11\\session-20261119-a\\masks\\sparsity-90.safetensors",
+    "sha256": "23df6144faa11c7a561da9d3ad8170cd6c70dfc0d4358702d1d02f3cbf2f5e40",
+    "bytes": 44654540,
+    "retained": 1066599
+  },
+  "config": {
+    "WEIGHTS": "D:\\Develop\\KohakuMossTrainer-LoRI\\models\\ComfyUI\\models",
+    "VARIANT": "base",
+    "ARCH_OVERRIDES": {},
+    "TRANSFORMER": "D:\\Develop\\KohakuMossTrainer-LoRI\\models\\ComfyUI\\models\\diffusion_models\\moss_image_base_int8_convrot.safetensors",
+    "TEXT_ENCODER": "D:\\Develop\\KohakuMossTrainer-LoRI\\models\\ComfyUI\\models\\text_encoders\\qwen3.5_9b_int8_convrot.safetensors",
+    "TEXT_DEVICE": "",
+    "TEXT_ENCODE": {
+      "memory": "ring",
+      "stream_resident": 2,
+      "batch": 1,
+      "max_tokens": 4096,
+      "dtype": "bf16",
+      "precision": "auto"
+    },
+    "VAE": "D:\\Develop\\KohakuMossTrainer-LoRI\\models\\ComfyUI\\models\\vae\\flux2-vae_small.safetensors",
+    "VAE_ENCODE": {
+      "memory": "offload",
+      "batch": 1,
+      "ahead": 1,
+      "compile": "off"
+    },
+    "VAE_DTYPE": "bf16",
+    "TRAIN_TEXT_REFINER": false,
+    "DATASETS": [
+      {
+        "source": "jsonl",
+        "path": "D:\\Develop\\KohakuMossTrainer-LoRI\\experiment\\data\\round2-caption-285\\dataset.jsonl",
+        "root": "D:\\Develop\\KohakuMossTrainer-LoRI\\experiment\\data\\round2-caption-285",
+        "catalog": "D:\\Develop\\KohakuMossTrainer-LoRI\\experiment\\task10\\session-20261118-a\\cache\\catalog.db"
+      }
+    ],
+    "RESOLUTION_MODE": "resize",
+    "TARGET_AREA": 65536,
+    "SIZE_STEP": 16,
+    "ASPECT_RANGE": [
+      0.25,
+      4.0
+    ],
+    "UPSCALE": "never",
+    "BATCHING": "count",
+    "MAX_TOKENS": 6144,
+    "OVERLONG": "drop",
+    "BATCH_SIZE": 1,
+    "MAX_SAMPLES": 0,
+    "TOKEN_BUDGET": "exact",
+    "CAPTION": {
+      "template": "nl"
+    },
+    "TEXT_DROP": 0.0,
+    "LATENT_CACHE": "offline",
+    "TEXT_CACHE": "offline",
+    "CACHE_DIR": "D:\\Develop\\KohakuMossTrainer-LoRI\\experiment\\task10\\session-20261118-a\\cache",
+    "CACHE_DTYPE": "bf16",
+    "CAPTION_VARIANTS": 1,
+    "FLIP": false,
+    "CROP": "center",
+    "PLANNER_KWARGS": {},
+    "LATENT_ENCODER_ID": "flux2-vae",
+    "LATENT_DRAW": "mode",
+    "TEXT_ENCODER_ID": "qwen3.5-9b",
+    "BACKGROUND": "white",
+    "RESAMPLE": "lanczos",
+    "TEXT_CHARS_PER_TOKEN": 3.5,
+    "TEXT_OVERHEAD_TOKENS": 12,
+    "MAX_TEXT_TOKENS": 4096,
+    "PREFETCH": 2,
+    "PIN_MEMORY": true,
+    "NUM_WORKERS": 0,
+    "DATA_RESCAN": false,
+    "DATA_SCAN_WORKERS": 1,
+    "DATA_WAIT": 3600.0,
+    "SEED": 42,
+    "ALGO": "lori",
+    "PRESET": "attn-mlp",
+    "DIM": 8,
+    "ALPHA": 16.0,
+    "ALGO_KWARGS": {
+      "phase": "sparse",
+      "sparsity": 0.9,
+      "mask_path": "D:\\Develop\\KohakuMossTrainer-LoRI\\experiment\\task11\\session-20261119-a\\masks\\sparsity-90.safetensors"
+    },
+    "DORA": false,
+    "DORA_DETACH": false,
+    "DROPOUT": {
+      "input": 0.0,
+      "rank": 0.0,
+      "module": 0.0
+    },
+    "ADAPTER_MODE": "bypass",
+    "LORAPLUS_RATIO": 1.0,
+    "TRAIN_NORMS": false,
+    "TIMESTEP": "moss",
+    "TIMESTEP_KWARGS": {
+      "mu": -1.09,
+      "s": 0.95,
+      "shift": 1.0,
+      "cutoff": 0.95,
+      "uniform_mix": 0.01
+    },
+    "LOSS": "mse",
+    "LOSS_KWARGS": {},
+    "WEIGHTING": "none",
+    "OPTIMIZER": "adamw",
+    "OPTIMIZER_KWARGS": {},
+    "LR": 0.0001,
+    "BETAS": [
+      0.9,
+      0.95
+    ],
+    "EPS": 1e-08,
+    "WEIGHT_DECAY": 0.0,
+    "WD_RULES": "moss",
+    "SCHEDULE": {
+      "mode": "constant",
+      "warmup": 0,
+      "end": -1
+    },
+    "GRAD_CLIP": 1.0,
+    "EMA": 0.0,
+    "PRECISION": "bf16",
+    "KEEP_FP32": [
+      "time_embedding",
+      "shared_block_modulation",
+      "video_head_modulation"
+    ],
+    "FP16_FIX": "none",
+    "FP16_FIX_KWARGS": {},
+    "MEMORY_PROFILE": "ckpt-ring4-actoff-optstream-gradoff",
+    "MEMORY_AUTO_FORCE": false,
+    "STEP_RELEASE": "none",
+    "CHECKPOINT": null,
+    "STREAM": null,
+    "STREAM_RESIDENT": null,
+    "PINNED": null,
+    "ACT_OFFLOAD": null,
+    "OPTIM_STATE": null,
+    "GRAD_OFFLOAD": null,
+    "FUSED_STEP": null,
+    "BASE_PRECISION": "int8",
+    "FP8_RECIPE": null,
+    "FP8_DGRAD": null,
+    "MEMORY_OVERRIDES": {},
+    "PARALLEL": "none",
+    "DIST_BACKEND": "auto",
+    "DEVICES": [
+      0
+    ],
+    "PIPELINE_SCHEDULE": "1f1b",
+    "PIPELINE_SPLIT": "measured",
+    "MICROBATCHES": 4,
+    "FSDP_REDUCE": "step",
+    "DDP_BACKEND": "kohakumoss",
+    "DDP_REDUCE_DTYPE": "fp32",
+    "DIST_TIMEOUT": 600,
+    "DIST_GATE_TIMEOUT": 7200,
+    "DIST_BIND": "lazy",
+    "KERNELS": {},
+    "TUNE": "off",
+    "RETUNE_STEPS": 3,
+    "COMPILE": "off",
+    "DRIVER": "native",
+    "STEPS": 900,
+    "GRAD_ACC": 1,
+    "OUTPUT_DIR": "D:\\Develop\\KohakuMossTrainer-LoRI\\experiment\\task11\\session-20261119-a\\runs",
+    "RUN_NAME": "lori-sparse90",
+    "LOGGER": "console",
+    "PROJECT": "kohakumoss",
+    "LOG_EVERY": 1,
+    "METRICS_EVERY": 1,
+    "PROGRESS": false,
+    "NONFINITE_PATIENCE": 8,
+    "TRACE_STEPS": [],
+    "PROFILE_STEPS": [],
+    "SAMPLE_PROMPTS": [],
+    "SAMPLE_NEGATIVE": "",
+    "SAMPLE_EVERY": 0,
+    "SAMPLE_STEPS": 50,
+    "SAMPLE_CFG": 3.0,
+    "SAMPLE_SHIFT": 5.0,
+    "SAMPLE_SKIP_LAYERS": [
+      22
+    ],
+    "SAMPLE_SIZE": [
+      1024,
+      1024
+    ],
+    "SAMPLE_SEEDS": [
+      0
+    ],
+    "VALIDATE_EVERY": 0,
+    "VALIDATION": {},
+    "SAVE_EVERY": 285,
+    "SAVE_MINUTES": 0,
+    "KEEP_LAST": 4,
+    "FINAL_CHECKPOINT": true,
+    "RESUME": "",
+    "SAVE_FORMAT": "both",
+    "SAVE_MERGED": false,
+    "SAVE_FUSED_QKV": "auto",
+    "CHECKPOINT_EXPORT": true,
+    "EXPORT_FORMATS": null
+  },
+  "log": {
+    "path": "D:\\Develop\\KohakuMossTrainer-LoRI\\experiment\\task11\\session-20261119-a\\runs\\lori-sparse90\\log.txt",
+    "bytes": 101272
+  },
+  "seed": 42,
+  "world": 1,
+  "note": "compact B, sparsity 0.9, fresh optimizer and RNG, data cursor from 0",
+  "peaks": {
+    "cuda_max_allocated_bytes": 2576582144,
+    "cuda_max_reserved_bytes": 2891972608,
+    "train_wall_seconds": 1575.3660628999933
+  }
+}

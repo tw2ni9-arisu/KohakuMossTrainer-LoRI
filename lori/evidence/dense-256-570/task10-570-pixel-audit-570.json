@@ -1,0 +1,1207 @@
+{
+  "tiles": 24,
+  "rows": 24,
+  "quad_columns": 4,
+  "quad_grid_size": [
+    2463,
+    12324
+  ],
+  "contact_sheet_size": [
+    2004,
+    3028
+  ],
+  "driver": "D:\\Develop\\KohakuMossTrainer-LoRI\\experiment\\task10\\comparison-570-20261118-a\\render_single.py",
+  "driver_path": "pipeline as compare_grid.py; one grid.Column through grid.render_columns",
+  "canary": {
+    "all_identical": true,
+    "checks": 2,
+    "file": "D:\\Develop\\KohakuMossTrainer-LoRI\\experiment\\task10\\comparison-570-20261118-a\\canary-single.json"
+  },
+  "images_570": [
+    {
+      "file": "r00_c570.png",
+      "row": 0,
+      "seed": 42
+    },
+    {
+      "file": "r01_c570.png",
+      "row": 1,
+      "seed": 42
+    },
+    {
+      "file": "r02_c570.png",
+      "row": 2,
+      "seed": 43
+    },
+    {
+      "file": "r03_c570.png",
+      "row": 3,
+      "seed": 43
+    },
+    {
+      "file": "r04_c570.png",
+      "row": 4,
+      "seed": 42
+    },
+    {
+      "file": "r05_c570.png",
+      "row": 5,
+      "seed": 42
+    },
+    {
+      "file": "r06_c570.png",
+      "row": 6,
+      "seed": 43
+    },
+    {
+      "file": "r07_c570.png",
+      "row": 7,
+      "seed": 43
+    },
+    {
+      "file": "r08_c570.png",
+      "row": 8,
+      "seed": 42
+    },
+    {
+      "file": "r09_c570.png",
+      "row": 9,
+      "seed": 42
+    },
+    {
+      "file": "r10_c570.png",
+      "row": 10,
+      "seed": 43
+    },
+    {
+      "file": "r11_c570.png",
+      "row": 11,
+      "seed": 43
+    },
+    {
+      "file": "r12_c570.png",
+      "row": 12,
+      "seed": 42
+    },
+    {
+      "file": "r13_c570.png",
+      "row": 13,
+      "seed": 42
+    },
+    {
+      "file": "r14_c570.png",
+      "row": 14,
+      "seed": 43
+    },
+    {
+      "file": "r15_c570.png",
+      "row": 15,
+      "seed": 43
+    },
+    {
+      "file": "r16_c570.png",
+      "row": 16,
+      "seed": 42
+    },
+    {
+      "file": "r17_c570.png",
+      "row": 17,
+      "seed": 42
+    },
+    {
+      "file": "r18_c570.png",
+      "row": 18,
+      "seed": 43
+    },
+    {
+      "file": "r19_c570.png",
+      "row": 19,
+      "seed": 43
+    },
+    {
+      "file": "r20_c570.png",
+      "row": 20,
+      "seed": 42
+    },
+    {
+      "file": "r21_c570.png",
+      "row": 21,
+      "seed": 42
+    },
+    {
+      "file": "r22_c570.png",
+      "row": 22,
+      "seed": 43
+    },
+    {
+      "file": "r23_c570.png",
+      "row": 23,
+      "seed": 43
+    }
+  ],
+  "prior_base_zero_drift_rows": 24,
+  "prior_285_900_tiles_unchanged": 24,
+  "trajectory_between_rows": 13,
+  "trajectory_increasing_rows": 12,
+  "reversed_rows": [
+    0,
+    2,
+    4,
+    5,
+    9,
+    10,
+    13,
+    14,
+    16,
+    17,
+    18
+  ],
+  "mean_absolute_rgb": {
+    "base_285": 30.364247269100613,
+    "base_570": 31.43940978580051,
+    "base_900": 34.154167864057754,
+    "285_570": 21.92621734407213,
+    "570_900": 20.775626553429497,
+    "285_900": 24.61810302734375
+  },
+  "adjacent_means": {
+    "285_570": 21.92621734407213,
+    "570_900": 20.775626553429497
+  },
+  "group_means": [
+    {
+      "pair": 1,
+      "scene": "pink studio duo + plush",
+      "base_285": 35.47663879394531,
+      "base_570": 38.985358238220215,
+      "base_900": 43.784568786621094,
+      "285_570": 30.36895529429118,
+      "570_900": 28.59638563791911,
+      "285_900": 34.41982078552246
+    },
+    {
+      "pair": 2,
+      "scene": "lavender starfield single",
+      "base_285": 29.776769320170082,
+      "base_570": 30.204995473225914,
+      "base_900": 33.118401845296226,
+      "285_570": 24.49575964609782,
+      "570_900": 23.765221913655598,
+      "285_900": 31.927916526794434
+    },
+    {
+      "pair": 3,
+      "scene": "seaside sunset duo + sparkler",
+      "base_285": 20.497628211975098,
+      "base_570": 23.15268611907959,
+      "base_900": 23.89439582824707,
+      "285_570": 16.432706832885742,
+      "570_900": 14.29055627187093,
+      "285_900": 17.276380856831867
+    },
+    {
+      "pair": 4,
+      "scene": "library reading pair",
+      "base_285": 38.898214975992836,
+      "base_570": 35.146881421407066,
+      "base_900": 38.88270378112793,
+      "285_570": 22.879027366638184,
+      "570_900": 24.090742429097492,
+      "285_900": 26.306057612101235
+    },
+    {
+      "pair": 5,
+      "scene": "rainy city night street",
+      "base_285": 30.71180311838786,
+      "base_570": 31.231602668762207,
+      "base_900": 33.74163691202799,
+      "285_570": 18.73557472229004,
+      "570_900": 16.719355583190918,
+      "285_900": 20.5011994043986
+    },
+    {
+      "pair": 6,
+      "scene": "greenhouse garden pair",
+      "base_285": 26.824429194132488,
+      "base_570": 29.914934794108074,
+      "base_900": 31.503300031026203,
+      "285_570": 18.64528020222982,
+      "570_900": 17.191497484842934,
+      "285_900": 17.2772429784139
+    }
+  ],
+  "rows_detail": [
+    {
+      "row": 0,
+      "pair": 0,
+      "scene": "pink studio duo + plush",
+      "seed": 42,
+      "trigger": true,
+      "prompt": "nigenmame, two adult anime-style women in modest coordinated red-and-white performance outfits, standing side by side with a small plush doll between them, pastel pink studio backdrop; clean linework, gentle expressions, warm soft light, balanced close two-shot.",
+      "base_285": {
+        "changed_pixels": 262143,
+        "mean_absolute_rgb_0_to_255": 41.61175537109375,
+        "max_absolute_channel": 255
+      },
+      "base_570": {
+        "changed_pixels": 262144,
+        "mean_absolute_rgb_0_to_255": 39.157142639160156,
+        "max_absolute_channel": 255
+      },
+      "base_900": {
+        "changed_pixels": 262144,
+        "mean_absolute_rgb_0_to_255": 44.49862289428711,
+        "max_absolute_channel": 255
+      },
+      "285_570": {
+        "changed_pixels": 262051,
+        "mean_absolute_rgb_0_to_255": 21.64063262939453,
+        "max_absolute_channel": 221
+      },
+      "570_900": {
+        "changed_pixels": 262083,
+        "mean_absolute_rgb_0_to_255": 35.11604690551758,
+        "max_absolute_channel": 222
+      },
+      "285_900": {
+        "changed_pixels": 262134,
+        "mean_absolute_rgb_0_to_255": 30.023014068603516,
+        "max_absolute_channel": 217
+      },
+      "base_570_between_285_900": false,
+      "trajectory_increasing": false
+    },
+    {
+      "row": 1,
+      "pair": 0,
+      "scene": "pink studio duo + plush",
+      "seed": 42,
+      "trigger": false,
+      "prompt": "two adult anime-style women in modest coordinated red-and-white performance outfits, standing side by side with a small plush doll between them, pastel pink studio backdrop; clean linework, gentle expressions, warm soft light, balanced close two-shot.",
+      "base_285": {
+        "changed_pixels": 262136,
+        "mean_absolute_rgb_0_to_255": 27.07919184366862,
+        "max_absolute_channel": 218
+      },
+      "base_570": {
+        "changed_pixels": 262139,
+        "mean_absolute_rgb_0_to_255": 29.493279774983723,
+        "max_absolute_channel": 222
+      },
+      "base_900": {
+        "changed_pixels": 262140,
+        "mean_absolute_rgb_0_to_255": 37.06651306152344,
+        "max_absolute_channel": 218
+      },
+      "285_570": {
+        "changed_pixels": 262087,
+        "mean_absolute_rgb_0_to_255": 21.40295664469401,
+        "max_absolute_channel": 208
+      },
+      "570_900": {
+        "changed_pixels": 262120,
+        "mean_absolute_rgb_0_to_255": 28.969979604085285,
+        "max_absolute_channel": 219
+      },
+      "285_900": {
+        "changed_pixels": 262133,
+        "mean_absolute_rgb_0_to_255": 30.09201939900716,
+        "max_absolute_channel": 223
+      },
+      "base_570_between_285_900": true,
+      "trajectory_increasing": true
+    },
+    {
+      "row": 2,
+      "pair": 0,
+      "scene": "pink studio duo + plush",
+      "seed": 43,
+      "trigger": true,
+      "prompt": "nigenmame, two adult anime-style women in modest coordinated red-and-white performance outfits, standing side by side with a small plush doll between them, pastel pink studio backdrop; clean linework, gentle expressions, warm soft light, balanced close two-shot.",
+      "base_285": {
+        "changed_pixels": 261725,
+        "mean_absolute_rgb_0_to_255": 40.817892710367836,
+        "max_absolute_channel": 251
+      },
+      "base_570": {
+        "changed_pixels": 258466,
+        "mean_absolute_rgb_0_to_255": 35.67885208129883,
+        "max_absolute_channel": 250
+      },
+      "base_900": {
+        "changed_pixels": 261436,
+        "mean_absolute_rgb_0_to_255": 40.004486083984375,
+        "max_absolute_channel": 252
+      },
+      "285_570": {
+        "changed_pixels": 260893,
+        "mean_absolute_rgb_0_to_255": 32.09877268473307,
+        "max_absolute_channel": 242
+      },
+      "570_900": {
+        "changed_pixels": 257361,
+        "mean_absolute_rgb_0_to_255": 22.64278284708659,
+        "max_absolute_channel": 239
+      },
+      "285_900": {
+        "changed_pixels": 261182,
+        "mean_absolute_rgb_0_to_255": 31.01076380411784,
+        "max_absolute_channel": 234
+      },
+      "base_570_between_285_900": false,
+      "trajectory_increasing": false
+    },
+    {
+      "row": 3,
+      "pair": 0,
+      "scene": "pink studio duo + plush",
+      "seed": 43,
+      "trigger": false,
+      "prompt": "two adult anime-style women in modest coordinated red-and-white performance outfits, standing side by side with a small plush doll between them, pastel pink studio backdrop; clean linework, gentle expressions, warm soft light, balanced close two-shot.",
+      "base_285": {
+        "changed_pixels": 261651,
+        "mean_absolute_rgb_0_to_255": 32.39771525065104,
+        "max_absolute_channel": 216
+      },
+      "base_570": {
+        "changed_pixels": 261692,
+        "mean_absolute_rgb_0_to_255": 51.61215845743815,
+        "max_absolute_channel": 248
+      },
+      "base_900": {
+        "changed_pixels": 261838,
+        "mean_absolute_rgb_0_to_255": 53.56865310668945,
+        "max_absolute_channel": 226
+      },
+      "285_570": {
+        "changed_pixels": 261891,
+        "mean_absolute_rgb_0_to_255": 46.3334592183431,
+        "max_absolute_channel": 233
+      },
+      "570_900": {
+        "changed_pixels": 259746,
+        "mean_absolute_rgb_0_to_255": 27.65673319498698,
+        "max_absolute_channel": 235
+      },
+      "285_900": {
+        "changed_pixels": 261898,
+        "mean_absolute_rgb_0_to_255": 46.55348587036133,
+        "max_absolute_channel": 225
+      },
+      "base_570_between_285_900": true,
+      "trajectory_increasing": true
+    },
+    {
+      "row": 4,
+      "pair": 1,
+      "scene": "lavender starfield single",
+      "seed": 42,
+      "trigger": true,
+      "prompt": "nigenmame, polished anime character illustration of an adult woman with long lavender hair and golden eyes, wearing a modest blue-and-white sailor-inspired dress with a navy bow, one hand near her cheek, framed waist-up against an indigo starfield with small pastel ringed planets; clean linework, layered fabric details, soft highlights, dreamy portrait composition.",
+      "base_285": {
+        "changed_pixels": 262108,
+        "mean_absolute_rgb_0_to_255": 25.832230885823567,
+        "max_absolute_channel": 255
+      },
+      "base_570": {
+        "changed_pixels": 262094,
+        "mean_absolute_rgb_0_to_255": 24.42535654703776,
+        "max_absolute_channel": 246
+      },
+      "base_900": {
+        "changed_pixels": 262119,
+        "mean_absolute_rgb_0_to_255": 27.867120107014973,
+        "max_absolute_channel": 250
+      },
+      "285_570": {
+        "changed_pixels": 262132,
+        "mean_absolute_rgb_0_to_255": 25.646610260009766,
+        "max_absolute_channel": 238
+      },
+      "570_900": {
+        "changed_pixels": 262035,
+        "mean_absolute_rgb_0_to_255": 18.004100799560547,
+        "max_absolute_channel": 229
+      },
+      "285_900": {
+        "changed_pixels": 262106,
+        "mean_absolute_rgb_0_to_255": 29.0906499226888,
+        "max_absolute_channel": 243
+      },
+      "base_570_between_285_900": false,
+      "trajectory_increasing": false
+    },
+    {
+      "row": 5,
+      "pair": 1,
+      "scene": "lavender starfield single",
+      "seed": 42,
+      "trigger": false,
+      "prompt": "polished anime character illustration of an adult woman with long lavender hair and golden eyes, wearing a modest blue-and-white sailor-inspired dress with a navy bow, one hand near her cheek, framed waist-up against an indigo starfield with small pastel ringed planets; clean linework, layered fabric details, soft highlights, dreamy portrait composition.",
+      "base_285": {
+        "changed_pixels": 262053,
+        "mean_absolute_rgb_0_to_255": 28.544044494628906,
+        "max_absolute_channel": 255
+      },
+      "base_570": {
+        "changed_pixels": 262119,
+        "mean_absolute_rgb_0_to_255": 25.293848673502605,
+        "max_absolute_channel": 252
+      },
+      "base_900": {
+        "changed_pixels": 261040,
+        "mean_absolute_rgb_0_to_255": 28.78976313273112,
+        "max_absolute_channel": 244
+      },
+      "285_570": {
+        "changed_pixels": 262042,
+        "mean_absolute_rgb_0_to_255": 28.24523417154948,
+        "max_absolute_channel": 244
+      },
+      "570_900": {
+        "changed_pixels": 262026,
+        "mean_absolute_rgb_0_to_255": 20.73465347290039,
+        "max_absolute_channel": 243
+      },
+      "285_900": {
+        "changed_pixels": 262040,
+        "mean_absolute_rgb_0_to_255": 32.70643997192383,
+        "max_absolute_channel": 243
+      },
+      "base_570_between_285_900": false,
+      "trajectory_increasing": false
+    },
+    {
+      "row": 6,
+      "pair": 1,
+      "scene": "lavender starfield single",
+      "seed": 43,
+      "trigger": true,
+      "prompt": "nigenmame, polished anime character illustration of an adult woman with long lavender hair and golden eyes, wearing a modest blue-and-white sailor-inspired dress with a navy bow, one hand near her cheek, framed waist-up against an indigo starfield with small pastel ringed planets; clean linework, layered fabric details, soft highlights, dreamy portrait composition.",
+      "base_285": {
+        "changed_pixels": 262044,
+        "mean_absolute_rgb_0_to_255": 31.81614812215169,
+        "max_absolute_channel": 246
+      },
+      "base_570": {
+        "changed_pixels": 262134,
+        "mean_absolute_rgb_0_to_255": 36.947530110677086,
+        "max_absolute_channel": 245
+      },
+      "base_900": {
+        "changed_pixels": 262122,
+        "mean_absolute_rgb_0_to_255": 38.312625885009766,
+        "max_absolute_channel": 250
+      },
+      "285_570": {
+        "changed_pixels": 262109,
+        "mean_absolute_rgb_0_to_255": 23.136742909749348,
+        "max_absolute_channel": 243
+      },
+      "570_900": {
+        "changed_pixels": 262056,
+        "mean_absolute_rgb_0_to_255": 27.64510726928711,
+        "max_absolute_channel": 245
+      },
+      "285_900": {
+        "changed_pixels": 262090,
+        "mean_absolute_rgb_0_to_255": 33.736096700032554,
+        "max_absolute_channel": 243
+      },
+      "base_570_between_285_900": true,
+      "trajectory_increasing": true
+    },
+    {
+      "row": 7,
+      "pair": 1,
+      "scene": "lavender starfield single",
+      "seed": 43,
+      "trigger": false,
+      "prompt": "polished anime character illustration of an adult woman with long lavender hair and golden eyes, wearing a modest blue-and-white sailor-inspired dress with a navy bow, one hand near her cheek, framed waist-up against an indigo starfield with small pastel ringed planets; clean linework, layered fabric details, soft highlights, dreamy portrait composition.",
+      "base_285": {
+        "changed_pixels": 262116,
+        "mean_absolute_rgb_0_to_255": 32.91465377807617,
+        "max_absolute_channel": 246
+      },
+      "base_570": {
+        "changed_pixels": 262102,
+        "mean_absolute_rgb_0_to_255": 34.153246561686196,
+        "max_absolute_channel": 247
+      },
+      "base_900": {
+        "changed_pixels": 262105,
+        "mean_absolute_rgb_0_to_255": 37.50409825642904,
+        "max_absolute_channel": 253
+      },
+      "285_570": {
+        "changed_pixels": 261955,
+        "mean_absolute_rgb_0_to_255": 20.954451243082683,
+        "max_absolute_channel": 234
+      },
+      "570_900": {
+        "changed_pixels": 262055,
+        "mean_absolute_rgb_0_to_255": 28.677026112874348,
+        "max_absolute_channel": 240
+      },
+      "285_900": {
+        "changed_pixels": 262054,
+        "mean_absolute_rgb_0_to_255": 32.178479512532554,
+        "max_absolute_channel": 238
+      },
+      "base_570_between_285_900": true,
+      "trajectory_increasing": true
+    },
+    {
+      "row": 8,
+      "pair": 2,
+      "scene": "seaside sunset duo + sparkler",
+      "seed": 42,
+      "trigger": true,
+      "prompt": "nigenmame, two adult anime-inspired fantasy women in modest summer dresses and light jackets beside a sparkler on a seaside promenade at sunset, calm ocean and peach-colored sky; expressive faces, warm rim light, detailed hair, wide landscape composition.",
+      "base_285": {
+        "changed_pixels": 262144,
+        "mean_absolute_rgb_0_to_255": 20.93869400024414,
+        "max_absolute_channel": 176
+      },
+      "base_570": {
+        "changed_pixels": 262141,
+        "mean_absolute_rgb_0_to_255": 21.580921173095703,
+        "max_absolute_channel": 191
+      },
+      "base_900": {
+        "changed_pixels": 262144,
+        "mean_absolute_rgb_0_to_255": 22.159180959065754,
+        "max_absolute_channel": 194
+      },
+      "285_570": {
+        "changed_pixels": 261882,
+        "mean_absolute_rgb_0_to_255": 10.37969970703125,
+        "max_absolute_channel": 172
+      },
+      "570_900": {
+        "changed_pixels": 261720,
+        "mean_absolute_rgb_0_to_255": 10.351534525553385,
+        "max_absolute_channel": 183
+      },
+      "285_900": {
+        "changed_pixels": 261978,
+        "mean_absolute_rgb_0_to_255": 11.944185892740885,
+        "max_absolute_channel": 172
+      },
+      "base_570_between_285_900": true,
+      "trajectory_increasing": true
+    },
+    {
+      "row": 9,
+      "pair": 2,
+      "scene": "seaside sunset duo + sparkler",
+      "seed": 42,
+      "trigger": false,
+      "prompt": "two adult anime-inspired fantasy women in modest summer dresses and light jackets beside a sparkler on a seaside promenade at sunset, calm ocean and peach-colored sky; expressive faces, warm rim light, detailed hair, wide landscape composition.",
+      "base_285": {
+        "changed_pixels": 262136,
+        "mean_absolute_rgb_0_to_255": 23.682430267333984,
+        "max_absolute_channel": 188
+      },
+      "base_570": {
+        "changed_pixels": 262143,
+        "mean_absolute_rgb_0_to_255": 23.10683314005534,
+        "max_absolute_channel": 197
+      },
+      "base_900": {
+        "changed_pixels": 262127,
+        "mean_absolute_rgb_0_to_255": 25.888978322347004,
+        "max_absolute_channel": 204
+      },
+      "285_570": {
+        "changed_pixels": 262093,
+        "mean_absolute_rgb_0_to_255": 14.009857177734375,
+        "max_absolute_channel": 187
+      },
+      "570_900": {
+        "changed_pixels": 262085,
+        "mean_absolute_rgb_0_to_255": 15.903213500976562,
+        "max_absolute_channel": 173
+      },
+      "285_900": {
+        "changed_pixels": 262132,
+        "mean_absolute_rgb_0_to_255": 19.98364512125651,
+        "max_absolute_channel": 190
+      },
+      "base_570_between_285_900": false,
+      "trajectory_increasing": false
+    },
+    {
+      "row": 10,
+      "pair": 2,
+      "scene": "seaside sunset duo + sparkler",
+      "seed": 43,
+      "trigger": true,
+      "prompt": "nigenmame, two adult anime-inspired fantasy women in modest summer dresses and light jackets beside a sparkler on a seaside promenade at sunset, calm ocean and peach-colored sky; expressive faces, warm rim light, detailed hair, wide landscape composition.",
+      "base_285": {
+        "changed_pixels": 262144,
+        "mean_absolute_rgb_0_to_255": 19.52649434407552,
+        "max_absolute_channel": 224
+      },
+      "base_570": {
+        "changed_pixels": 262142,
+        "mean_absolute_rgb_0_to_255": 24.33502705891927,
+        "max_absolute_channel": 219
+      },
+      "base_900": {
+        "changed_pixels": 262144,
+        "mean_absolute_rgb_0_to_255": 23.54577891031901,
+        "max_absolute_channel": 234
+      },
+      "285_570": {
+        "changed_pixels": 262131,
+        "mean_absolute_rgb_0_to_255": 19.493693033854168,
+        "max_absolute_channel": 201
+      },
+      "570_900": {
+        "changed_pixels": 262061,
+        "mean_absolute_rgb_0_to_255": 17.19195302327474,
+        "max_absolute_channel": 200
+      },
+      "285_900": {
+        "changed_pixels": 262109,
+        "mean_absolute_rgb_0_to_255": 17.02063751220703,
+        "max_absolute_channel": 216
+      },
+      "base_570_between_285_900": false,
+      "trajectory_increasing": false
+    },
+    {
+      "row": 11,
+      "pair": 2,
+      "scene": "seaside sunset duo + sparkler",
+      "seed": 43,
+      "trigger": false,
+      "prompt": "two adult anime-inspired fantasy women in modest summer dresses and light jackets beside a sparkler on a seaside promenade at sunset, calm ocean and peach-colored sky; expressive faces, warm rim light, detailed hair, wide landscape composition.",
+      "base_285": {
+        "changed_pixels": 262138,
+        "mean_absolute_rgb_0_to_255": 17.842894236246746,
+        "max_absolute_channel": 206
+      },
+      "base_570": {
+        "changed_pixels": 262133,
+        "mean_absolute_rgb_0_to_255": 23.587963104248047,
+        "max_absolute_channel": 207
+      },
+      "base_900": {
+        "changed_pixels": 262089,
+        "mean_absolute_rgb_0_to_255": 23.98364512125651,
+        "max_absolute_channel": 215
+      },
+      "285_570": {
+        "changed_pixels": 262141,
+        "mean_absolute_rgb_0_to_255": 21.847577412923176,
+        "max_absolute_channel": 207
+      },
+      "570_900": {
+        "changed_pixels": 262047,
+        "mean_absolute_rgb_0_to_255": 13.715524037679037,
+        "max_absolute_channel": 196
+      },
+      "285_900": {
+        "changed_pixels": 262121,
+        "mean_absolute_rgb_0_to_255": 20.157054901123047,
+        "max_absolute_channel": 198
+      },
+      "base_570_between_285_900": true,
+      "trajectory_increasing": true
+    },
+    {
+      "row": 12,
+      "pair": 3,
+      "scene": "library reading pair",
+      "seed": 42,
+      "trigger": true,
+      "prompt": "nigenmame, two adult anime-inspired women in modest long-sleeved knit sweaters and pleated skirts reading side by side at an oak table in a quiet library, one turning a page of an open art book while the other rests her chin on her hand, tall walnut bookshelves and brass reading lamps behind them; soft afternoon window light, clean linework, calm medium two-shot.",
+      "base_285": {
+        "changed_pixels": 262129,
+        "mean_absolute_rgb_0_to_255": 31.19976552327474,
+        "max_absolute_channel": 252
+      },
+      "base_570": {
+        "changed_pixels": 262102,
+        "mean_absolute_rgb_0_to_255": 29.9333012898763,
+        "max_absolute_channel": 254
+      },
+      "base_900": {
+        "changed_pixels": 262112,
+        "mean_absolute_rgb_0_to_255": 29.504899342854817,
+        "max_absolute_channel": 251
+      },
+      "285_570": {
+        "changed_pixels": 261985,
+        "mean_absolute_rgb_0_to_255": 19.947123209635418,
+        "max_absolute_channel": 232
+      },
+      "570_900": {
+        "changed_pixels": 261974,
+        "mean_absolute_rgb_0_to_255": 18.750919342041016,
+        "max_absolute_channel": 233
+      },
+      "285_900": {
+        "changed_pixels": 262048,
+        "mean_absolute_rgb_0_to_255": 21.192935943603516,
+        "max_absolute_channel": 233
+      },
+      "base_570_between_285_900": true,
+      "trajectory_increasing": false
+    },
+    {
+      "row": 13,
+      "pair": 3,
+      "scene": "library reading pair",
+      "seed": 42,
+      "trigger": false,
+      "prompt": "two adult anime-inspired women in modest long-sleeved knit sweaters and pleated skirts reading side by side at an oak table in a quiet library, one turning a page of an open art book while the other rests her chin on her hand, tall walnut bookshelves and brass reading lamps behind them; soft afternoon window light, clean linework, calm medium two-shot.",
+      "base_285": {
+        "changed_pixels": 262141,
+        "mean_absolute_rgb_0_to_255": 36.97893142700195,
+        "max_absolute_channel": 247
+      },
+      "base_570": {
+        "changed_pixels": 262119,
+        "mean_absolute_rgb_0_to_255": 29.867210388183594,
+        "max_absolute_channel": 250
+      },
+      "base_900": {
+        "changed_pixels": 262011,
+        "mean_absolute_rgb_0_to_255": 32.1582883199056,
+        "max_absolute_channel": 247
+      },
+      "285_570": {
+        "changed_pixels": 262123,
+        "mean_absolute_rgb_0_to_255": 26.91586685180664,
+        "max_absolute_channel": 248
+      },
+      "570_900": {
+        "changed_pixels": 262063,
+        "mean_absolute_rgb_0_to_255": 22.007757822672527,
+        "max_absolute_channel": 244
+      },
+      "285_900": {
+        "changed_pixels": 262126,
+        "mean_absolute_rgb_0_to_255": 29.554229736328125,
+        "max_absolute_channel": 248
+      },
+      "base_570_between_285_900": false,
+      "trajectory_increasing": false
+    },
+    {
+      "row": 14,
+      "pair": 3,
+      "scene": "library reading pair",
+      "seed": 43,
+      "trigger": true,
+      "prompt": "nigenmame, two adult anime-inspired women in modest long-sleeved knit sweaters and pleated skirts reading side by side at an oak table in a quiet library, one turning a page of an open art book while the other rests her chin on her hand, tall walnut bookshelves and brass reading lamps behind them; soft afternoon window light, clean linework, calm medium two-shot.",
+      "base_285": {
+        "changed_pixels": 262142,
+        "mean_absolute_rgb_0_to_255": 45.8417854309082,
+        "max_absolute_channel": 253
+      },
+      "base_570": {
+        "changed_pixels": 262142,
+        "mean_absolute_rgb_0_to_255": 38.86962381998698,
+        "max_absolute_channel": 254
+      },
+      "base_900": {
+        "changed_pixels": 262135,
+        "mean_absolute_rgb_0_to_255": 48.62558364868164,
+        "max_absolute_channel": 253
+      },
+      "285_570": {
+        "changed_pixels": 262076,
+        "mean_absolute_rgb_0_to_255": 22.795853932698567,
+        "max_absolute_channel": 218
+      },
+      "570_900": {
+        "changed_pixels": 262087,
+        "mean_absolute_rgb_0_to_255": 28.195557912190754,
+        "max_absolute_channel": 231
+      },
+      "285_900": {
+        "changed_pixels": 262042,
+        "mean_absolute_rgb_0_to_255": 27.75067647298177,
+        "max_absolute_channel": 236
+      },
+      "base_570_between_285_900": false,
+      "trajectory_increasing": false
+    },
+    {
+      "row": 15,
+      "pair": 3,
+      "scene": "library reading pair",
+      "seed": 43,
+      "trigger": false,
+      "prompt": "two adult anime-inspired women in modest long-sleeved knit sweaters and pleated skirts reading side by side at an oak table in a quiet library, one turning a page of an open art book while the other rests her chin on her hand, tall walnut bookshelves and brass reading lamps behind them; soft afternoon window light, clean linework, calm medium two-shot.",
+      "base_285": {
+        "changed_pixels": 262139,
+        "mean_absolute_rgb_0_to_255": 41.57237752278646,
+        "max_absolute_channel": 247
+      },
+      "base_570": {
+        "changed_pixels": 262127,
+        "mean_absolute_rgb_0_to_255": 41.91739018758138,
+        "max_absolute_channel": 248
+      },
+      "base_900": {
+        "changed_pixels": 262061,
+        "mean_absolute_rgb_0_to_255": 45.242043813069664,
+        "max_absolute_channel": 250
+      },
+      "285_570": {
+        "changed_pixels": 262050,
+        "mean_absolute_rgb_0_to_255": 21.85726547241211,
+        "max_absolute_channel": 234
+      },
+      "570_900": {
+        "changed_pixels": 262095,
+        "mean_absolute_rgb_0_to_255": 27.408734639485676,
+        "max_absolute_channel": 246
+      },
+      "285_900": {
+        "changed_pixels": 262108,
+        "mean_absolute_rgb_0_to_255": 26.726388295491535,
+        "max_absolute_channel": 241
+      },
+      "base_570_between_285_900": true,
+      "trajectory_increasing": true
+    },
+    {
+      "row": 16,
+      "pair": 4,
+      "scene": "rainy city night street",
+      "seed": 42,
+      "trigger": true,
+      "prompt": "nigenmame, an adult anime-inspired woman in a modest beige trench coat and knee-length skirt holding a closed umbrella under a shop awning on a rainy city street at night, wet asphalt reflecting teal and magenta neon signs, a few distant pedestrians with umbrellas; cinematic wide shot, crisp linework, cool reflected lighting.",
+      "base_285": {
+        "changed_pixels": 262143,
+        "mean_absolute_rgb_0_to_255": 35.088663736979164,
+        "max_absolute_channel": 234
+      },
+      "base_570": {
+        "changed_pixels": 262142,
+        "mean_absolute_rgb_0_to_255": 34.06592051188151,
+        "max_absolute_channel": 255
+      },
+      "base_900": {
+        "changed_pixels": 262144,
+        "mean_absolute_rgb_0_to_255": 37.24176025390625,
+        "max_absolute_channel": 255
+      },
+      "285_570": {
+        "changed_pixels": 262108,
+        "mean_absolute_rgb_0_to_255": 18.57141367594401,
+        "max_absolute_channel": 212
+      },
+      "570_900": {
+        "changed_pixels": 261410,
+        "mean_absolute_rgb_0_to_255": 18.009663899739582,
+        "max_absolute_channel": 225
+      },
+      "285_900": {
+        "changed_pixels": 262131,
+        "mean_absolute_rgb_0_to_255": 23.728505452473957,
+        "max_absolute_channel": 225
+      },
+      "base_570_between_285_900": false,
+      "trajectory_increasing": false
+    },
+    {
+      "row": 17,
+      "pair": 4,
+      "scene": "rainy city night street",
+      "seed": 42,
+      "trigger": false,
+      "prompt": "an adult anime-inspired woman in a modest beige trench coat and knee-length skirt holding a closed umbrella under a shop awning on a rainy city street at night, wet asphalt reflecting teal and magenta neon signs, a few distant pedestrians with umbrellas; cinematic wide shot, crisp linework, cool reflected lighting.",
+      "base_285": {
+        "changed_pixels": 262144,
+        "mean_absolute_rgb_0_to_255": 33.01144154866537,
+        "max_absolute_channel": 238
+      },
+      "base_570": {
+        "changed_pixels": 262140,
+        "mean_absolute_rgb_0_to_255": 32.64288584391276,
+        "max_absolute_channel": 241
+      },
+      "base_900": {
+        "changed_pixels": 262143,
+        "mean_absolute_rgb_0_to_255": 37.27668253580729,
+        "max_absolute_channel": 241
+      },
+      "285_570": {
+        "changed_pixels": 262045,
+        "mean_absolute_rgb_0_to_255": 21.698753356933594,
+        "max_absolute_channel": 218
+      },
+      "570_900": {
+        "changed_pixels": 262117,
+        "mean_absolute_rgb_0_to_255": 20.544817606608074,
+        "max_absolute_channel": 255
+      },
+      "285_900": {
+        "changed_pixels": 262094,
+        "mean_absolute_rgb_0_to_255": 23.86486053466797,
+        "max_absolute_channel": 216
+      },
+      "base_570_between_285_900": false,
+      "trajectory_increasing": false
+    },
+    {
+      "row": 18,
+      "pair": 4,
+      "scene": "rainy city night street",
+      "seed": 43,
+      "trigger": true,
+      "prompt": "nigenmame, an adult anime-inspired woman in a modest beige trench coat and knee-length skirt holding a closed umbrella under a shop awning on a rainy city street at night, wet asphalt reflecting teal and magenta neon signs, a few distant pedestrians with umbrellas; cinematic wide shot, crisp linework, cool reflected lighting.",
+      "base_285": {
+        "changed_pixels": 262144,
+        "mean_absolute_rgb_0_to_255": 32.29180653889974,
+        "max_absolute_channel": 249
+      },
+      "base_570": {
+        "changed_pixels": 262143,
+        "mean_absolute_rgb_0_to_255": 31.19747543334961,
+        "max_absolute_channel": 253
+      },
+      "base_900": {
+        "changed_pixels": 262142,
+        "mean_absolute_rgb_0_to_255": 32.6728146870931,
+        "max_absolute_channel": 246
+      },
+      "285_570": {
+        "changed_pixels": 262060,
+        "mean_absolute_rgb_0_to_255": 16.265397389729817,
+        "max_absolute_channel": 223
+      },
+      "570_900": {
+        "changed_pixels": 262041,
+        "mean_absolute_rgb_0_to_255": 16.5115966796875,
+        "max_absolute_channel": 228
+      },
+      "285_900": {
+        "changed_pixels": 262095,
+        "mean_absolute_rgb_0_to_255": 15.77517573038737,
+        "max_absolute_channel": 225
+      },
+      "base_570_between_285_900": false,
+      "trajectory_increasing": false
+    },
+    {
+      "row": 19,
+      "pair": 4,
+      "scene": "rainy city night street",
+      "seed": 43,
+      "trigger": false,
+      "prompt": "an adult anime-inspired woman in a modest beige trench coat and knee-length skirt holding a closed umbrella under a shop awning on a rainy city street at night, wet asphalt reflecting teal and magenta neon signs, a few distant pedestrians with umbrellas; cinematic wide shot, crisp linework, cool reflected lighting.",
+      "base_285": {
+        "changed_pixels": 262142,
+        "mean_absolute_rgb_0_to_255": 22.45530064900716,
+        "max_absolute_channel": 237
+      },
+      "base_570": {
+        "changed_pixels": 262138,
+        "mean_absolute_rgb_0_to_255": 27.02012888590495,
+        "max_absolute_channel": 232
+      },
+      "base_900": {
+        "changed_pixels": 262142,
+        "mean_absolute_rgb_0_to_255": 27.77529017130534,
+        "max_absolute_channel": 222
+      },
+      "285_570": {
+        "changed_pixels": 262114,
+        "mean_absolute_rgb_0_to_255": 18.406734466552734,
+        "max_absolute_channel": 226
+      },
+      "570_900": {
+        "changed_pixels": 262081,
+        "mean_absolute_rgb_0_to_255": 11.811344146728516,
+        "max_absolute_channel": 221
+      },
+      "285_900": {
+        "changed_pixels": 262104,
+        "mean_absolute_rgb_0_to_255": 18.636255900065105,
+        "max_absolute_channel": 217
+      },
+      "base_570_between_285_900": true,
+      "trajectory_increasing": true
+    },
+    {
+      "row": 20,
+      "pair": 5,
+      "scene": "greenhouse garden pair",
+      "seed": 42,
+      "trigger": true,
+      "prompt": "nigenmame, two adult anime-inspired women in modest linen shirts and canvas gardening aprons tending potted ferns along a wooden bench inside a glass greenhouse, a metal watering can and terracotta pots on the tiled floor, hanging vines and fogged panes above them; gentle expressions, detailed foliage, diffused green afternoon light, medium two-shot.",
+      "base_285": {
+        "changed_pixels": 262141,
+        "mean_absolute_rgb_0_to_255": 27.644036610921223,
+        "max_absolute_channel": 184
+      },
+      "base_570": {
+        "changed_pixels": 262143,
+        "mean_absolute_rgb_0_to_255": 29.069817860921223,
+        "max_absolute_channel": 204
+      },
+      "base_900": {
+        "changed_pixels": 262143,
+        "mean_absolute_rgb_0_to_255": 33.16719309488932,
+        "max_absolute_channel": 192
+      },
+      "285_570": {
+        "changed_pixels": 262124,
+        "mean_absolute_rgb_0_to_255": 20.115152994791668,
+        "max_absolute_channel": 203
+      },
+      "570_900": {
+        "changed_pixels": 262128,
+        "mean_absolute_rgb_0_to_255": 19.740299224853516,
+        "max_absolute_channel": 191
+      },
+      "285_900": {
+        "changed_pixels": 262103,
+        "mean_absolute_rgb_0_to_255": 16.602163950602215,
+        "max_absolute_channel": 167
+      },
+      "base_570_between_285_900": true,
+      "trajectory_increasing": true
+    },
+    {
+      "row": 21,
+      "pair": 5,
+      "scene": "greenhouse garden pair",
+      "seed": 42,
+      "trigger": false,
+      "prompt": "two adult anime-inspired women in modest linen shirts and canvas gardening aprons tending potted ferns along a wooden bench inside a glass greenhouse, a metal watering can and terracotta pots on the tiled floor, hanging vines and fogged panes above them; gentle expressions, detailed foliage, diffused green afternoon light, medium two-shot.",
+      "base_285": {
+        "changed_pixels": 262143,
+        "mean_absolute_rgb_0_to_255": 26.49372100830078,
+        "max_absolute_channel": 215
+      },
+      "base_570": {
+        "changed_pixels": 262129,
+        "mean_absolute_rgb_0_to_255": 30.225006103515625,
+        "max_absolute_channel": 214
+      },
+      "base_900": {
+        "changed_pixels": 262143,
+        "mean_absolute_rgb_0_to_255": 31.11170705159505,
+        "max_absolute_channel": 217
+      },
+      "285_570": {
+        "changed_pixels": 262124,
+        "mean_absolute_rgb_0_to_255": 22.251749674479168,
+        "max_absolute_channel": 184
+      },
+      "570_900": {
+        "changed_pixels": 262136,
+        "mean_absolute_rgb_0_to_255": 20.45434315999349,
+        "max_absolute_channel": 176
+      },
+      "285_900": {
+        "changed_pixels": 262066,
+        "mean_absolute_rgb_0_to_255": 15.518122355143229,
+        "max_absolute_channel": 166
+      },
+      "base_570_between_285_900": true,
+      "trajectory_increasing": true
+    },
+    {
+      "row": 22,
+      "pair": 5,
+      "scene": "greenhouse garden pair",
+      "seed": 43,
+      "trigger": true,
+      "prompt": "nigenmame, two adult anime-inspired women in modest linen shirts and canvas gardening aprons tending potted ferns along a wooden bench inside a glass greenhouse, a metal watering can and terracotta pots on the tiled floor, hanging vines and fogged panes above them; gentle expressions, detailed foliage, diffused green afternoon light, medium two-shot.",
+      "base_285": {
+        "changed_pixels": 262144,
+        "mean_absolute_rgb_0_to_255": 25.676424662272137,
+        "max_absolute_channel": 217
+      },
+      "base_570": {
+        "changed_pixels": 262142,
+        "mean_absolute_rgb_0_to_255": 28.20901107788086,
+        "max_absolute_channel": 234
+      },
+      "base_900": {
+        "changed_pixels": 262143,
+        "mean_absolute_rgb_0_to_255": 28.84985860188802,
+        "max_absolute_channel": 225
+      },
+      "285_570": {
+        "changed_pixels": 262110,
+        "mean_absolute_rgb_0_to_255": 15.468486785888672,
+        "max_absolute_channel": 182
+      },
+      "570_900": {
+        "changed_pixels": 262129,
+        "mean_absolute_rgb_0_to_255": 14.420172373453775,
+        "max_absolute_channel": 177
+      },
+      "285_900": {
+        "changed_pixels": 262108,
+        "mean_absolute_rgb_0_to_255": 18.08069356282552,
+        "max_absolute_channel": 216
+      },
+      "base_570_between_285_900": true,
+      "trajectory_increasing": true
+    },
+    {
+      "row": 23,
+      "pair": 5,
+      "scene": "greenhouse garden pair",
+      "seed": 43,
+      "trigger": false,
+      "prompt": "two adult anime-inspired women in modest linen shirts and canvas gardening aprons tending potted ferns along a wooden bench inside a glass greenhouse, a metal watering can and terracotta pots on the tiled floor, hanging vines and fogged panes above them; gentle expressions, detailed foliage, diffused green afternoon light, medium two-shot.",
+      "base_285": {
+        "changed_pixels": 262143,
+        "mean_absolute_rgb_0_to_255": 27.48353449503581,
+        "max_absolute_channel": 244
+      },
+      "base_570": {
+        "changed_pixels": 262143,
+        "mean_absolute_rgb_0_to_255": 32.155904134114586,
+        "max_absolute_channel": 237
+      },
+      "base_900": {
+        "changed_pixels": 262141,
+        "mean_absolute_rgb_0_to_255": 32.88444137573242,
+        "max_absolute_channel": 238
+      },
+      "285_570": {
+        "changed_pixels": 262128,
+        "mean_absolute_rgb_0_to_255": 16.745731353759766,
+        "max_absolute_channel": 200
+      },
+      "570_900": {
+        "changed_pixels": 262103,
+        "mean_absolute_rgb_0_to_255": 14.151175181070963,
+        "max_absolute_channel": 193
+      },
+      "285_900": {
+        "changed_pixels": 262113,
+        "mean_absolute_rgb_0_to_255": 18.907992045084637,
+        "max_absolute_channel": 183
+      },
+      "base_570_between_285_900": true,
+      "trajectory_increasing": true
+    }
+  ],
+  "hashes": "D:\\Develop\\KohakuMossTrainer-LoRI\\experiment\\task10\\comparison-570-20261118-a\\audit-hashes\\rgb-sha256.json",
+  "artifacts": {
+    "quad-grid.png": "7fe853b2ed30e772a879fbf80ab606f6dd960d48a9029d33a71590060d741f89",
+    "quad-contact-sheet.png": "7577868bed8c1aa4c96fb850af393c7e478023d9f33bc7135bddcc136fcb66cf",
+    "blind-quad-grid.png": "6cca7559e5ff92301c1da60673e71099c18be9c07479f8a9d6f7178e9127a33b",
+    "blind-quad-key.json": "91dcb9ba478eb9b630e410f150c0c6cde00ebd6f0344a6ef7ab61acfa62f9829",
+    "blind-quad-sheet.md": "57c491164a72378a959544491999446607a4b7801fed5720074ec5c8301813d5",
+    "canary-single.json": "885066a7edc892f7eab43216ad1f53926cb43ef73eb8eec8cc97f42cd12d6e28",
+    "render_single.py": "0815c27defab07e855dca67edaa4d680bf045fa2d8638ce18437c7b3d0270b6b",
+    "single-570.py": "02717807d5d709bccf7cb8db1c7b84b6a3da107c3721c18a86edf94eb93928d8",
+    "audit-hashes/rgb-sha256.json": "a90dc2b8c68c96242767b741a837ae7f02f4a0315ee588267cc9411bb5f0c4b8"
+  }
+}

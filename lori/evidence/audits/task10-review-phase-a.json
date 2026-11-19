@@ -1,0 +1,1576 @@
+{
+ "review_id": "task10-phase-a-independent-review",
+ "reviewer": "review (独立复核子代理，非本任务执行者)",
+ "phase": "A: 训练完整性与数据/缓存/冻结/终态复核（CPU-only，未训练、未出图、未占用 GPU）",
+ "created_utc": "2026-11-18T10:25:00Z",
+ "workspace": "D:/Develop/KohakuMossTrainer-LoRI",
+ "audited_documents": {
+  "docs/execution/dit-lori/task-10-dense-training-report.md": {
+   "sha256": "775577d808d07397c7cc707baff6b650f2e2639b3308c034244a2c8d640286fa",
+   "bytes": 21830
+  },
+  "docs/execution/dit-lori/task-10-data-preparation-report.md": {
+   "sha256": "f3eec60f1233fec4c9bb081b0ee5c2a125a226716fa00fff38da601f41447402",
+   "bytes": 40177
+  },
+  "LoRI阶段成果与900步验证方案.md": {
+   "sha256": "e9c0a285f6ad0f406d94387f84a7d1ad1a8f05ffedaa051860a9ee88b227c0a3",
+   "bytes": 9658
+  },
+  "experiment/task10/session-20261118-a/freeze.json": {
+   "sha256": "b68433b3a9ae7d37b36a575e638fb314bfbaaeabb6da3caf5771d7e29a19341b"
+  },
+  "experiment/task10/comparison-20261118-a/{compare.py,config.py,resolved.json,freeze.json}": {
+   "compare.py": "54410d199693c1288bc31f908a7f927d6d64072278d7a6702108dfa7948c54ba",
+   "config.py": "84ef311b31e6579d22dabc511d58fec79d395830433bb119af33a1f8d400e60c",
+   "resolved.json": "e82015086f0e4bf299852d68698da61305dffa5acfcad2d95acea8c573b41f11",
+   "freeze.json": "1f5d7eba94ceb5acb5006e18df13aae0ccc65fcd775b134d9d97aafa8bfd3ca5",
+   "note": "复核期间该目录仍被出图作业写入，结论绑定于这些哈希"
+  }
+ },
+ "method": [
+  "所有计数/哈希/统计由复核者自写脚本从磁盘重算；未复用被审报告或审计 JSON 的中间结果（仅把审计 JSON 当作待核对的断言）。",
+  "SQLite 只读：file:<path>?mode=ro&immutable=1 + PRAGMA query_only=1；先证明该方式不产生 -wal/-shm，再对三个 db 读前/读后重算 sha256。",
+  "safetensors 用 safetensors.safe_open 在块内 clone 后自算 digest（sha256 of '<dtype>:<shape>:' + 原始字节），完全复刻 kohakumoss.adapters.train.lori._digest 与 worker.py:695 的 combined_digest 定义。",
+  "optim.pt 用 torch.load(map_location='cpu', weights_only=False)，CUDA_VISIBLE_DEVICES='' 全程未初始化 CUDA。",
+  "参数化验证：报告里的每个关键数字都在产物中找到对应字段后重新计算，未找到对应字段的一律记为『无法核对』。"
+ ],
+ "summary": {
+  "total": 84,
+  "passed": 82,
+  "failed": 0,
+  "unverifiable": 2
+ },
+ "checks": [
+  {
+   "id": "D-01",
+   "area": "data",
+   "assertion": "dataset.jsonl 恰 285 行",
+   "method": "自读原始字节，按 b'\\n' 切分，末元素必须为空",
+   "actual": {
+    "bytes": 549396,
+    "lines": 285
+   },
+   "expected": 285,
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/data/round2-caption-285/dataset.jsonl"
+  },
+  {
+   "id": "D-02",
+   "area": "data",
+   "assertion": "dataset.jsonl 仅 LF、末尾单一换行、无多余空行",
+   "method": "检查 b'\\r\\n' 出现次数、末尾字符",
+   "actual": {
+    "crlf": false,
+    "ends_with_nl": true
+   },
+   "expected": {
+    "crlf": false,
+    "ends_with_nl": true
+   },
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/data/round2-caption-285/dataset.jsonl"
+  },
+  {
+   "id": "D-03",
+   "area": "data",
+   "assertion": "每行可解析为 JSON 且键恰为 [image, caption_nl]，顺序不变",
+   "method": "json.loads 逐行 + list(obj.keys())",
+   "actual": {
+    "parsed": 285,
+    "keys": [
+     "image",
+     "caption_nl"
+    ]
+   },
+   "expected": 285,
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/data/round2-caption-285/dataset.jsonl"
+  },
+  {
+   "id": "D-04",
+   "area": "data",
+   "assertion": "285 个 image 为绝对路径、均位于源目录、且文件存在",
+   "method": "os.path.isabs + 目录规范化比较 + os.path.exists",
+   "actual": {
+    "exist": 285,
+    "under_source": 285
+   },
+   "expected": 285,
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/data/round2-caption-285/dataset.jsonl"
+  },
+  {
+   "id": "D-05",
+   "area": "data",
+   "assertion": "图像扩展名分布 279 .png / 6 .jpg / 0 .jpeg",
+   "method": "按后缀计数",
+   "actual": {
+    ".png": 279,
+    ".jpg": 6
+   },
+   "expected": {
+    ".png": 279,
+    ".jpg": 6
+   },
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/data/round2-caption-285/dataset.jsonl"
+  },
+  {
+   "id": "D-06",
+   "area": "data",
+   "assertion": "285 条 image 路径互不重复",
+   "method": "len(set())",
+   "actual": 285,
+   "expected": 285,
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/data/round2-caption-285/dataset.jsonl"
+  },
+  {
+   "id": "D-07",
+   "area": "data",
+   "assertion": "285 条 caption 互不重复",
+   "method": "len(set())",
+   "actual": 285,
+   "expected": 285,
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/data/round2-caption-285/dataset.jsonl"
+  },
+  {
+   "id": "D-08",
+   "area": "data",
+   "assertion": "caption 与同名源 .txt 逐字节一致（全量 285，不是抽样 30）",
+   "method": "open(txt,'rb').read() == caption.encode('utf-8')",
+   "actual": {
+    "identical": 285,
+    "mismatch": 0,
+    "missing": 0
+   },
+   "expected": 285,
+   "status": "pass",
+   "evidence": "D:/Develop/nigenmame-LoRA/dataset-raw/round2-caption/*.txt"
+  },
+  {
+   "id": "D-09",
+   "area": "data",
+   "assertion": "285 条 caption 均非空且以 'nigenmame' 开头（TEXT_DROP=0 的前提）",
+   "method": "startswith + strip",
+   "actual": {
+    "starts_with_trigger": 285,
+    "nonempty": 285
+   },
+   "expected": 285,
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/data/round2-caption-285/dataset.jsonl"
+  },
+  {
+   "id": "D-10",
+   "area": "data",
+   "assertion": "源目录恰 570 文件 = 285 图 + 285 txt，且同名一一配对",
+   "method": "os.listdir + 后缀分组 + stem 集合相等",
+   "actual": {
+    "images": 285,
+    "txt": 285,
+    "total": 570,
+    "img_only": 0,
+    "txt_only": 0
+   },
+   "expected": 570,
+   "status": "pass",
+   "evidence": "D:/Develop/nigenmame-LoRA/dataset-raw/round2-caption"
+  },
+  {
+   "id": "D-11",
+   "area": "data",
+   "assertion": "inventory 的 source_counts 与磁盘一致（570、图 277,264,497 B、txt 518,771 B、方向 273/12/0）",
+   "method": "os.stat 累加 + 属性计数",
+   "actual": {
+    "files": 570,
+    "image_bytes": 277264497,
+    "caption_bytes": 518771,
+    "orientation": {
+     "portrait": 273,
+     "landscape": 12
+    }
+   },
+   "expected": "同左",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/data/round2-caption-285/inventory.json"
+  },
+  {
+   "id": "D-12",
+   "area": "data",
+   "assertion": "inventory 逐记录 sha256：285 张图 + 285 个 txt 全部重算命中",
+   "method": "全量重算 sha256 与记录值比较",
+   "actual": {
+    "image_ok": 285,
+    "caption_ok": 285,
+    "bad": 0
+   },
+   "expected": 285,
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/data/round2-caption-285/inventory.json"
+  },
+  {
+   "id": "D-13",
+   "area": "data",
+   "assertion": "inventory 记录尺寸/字节数与 PIL 实读一致，记录顺序 = 文件名大小写不敏感升序，且与 dataset.jsonl 行序相同",
+   "method": "PIL Image.size + 排序比较",
+   "actual": {
+    "pil_ok": 285,
+    "order_ok": true,
+    "same_as_jsonl": true
+   },
+   "expected": true,
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/data/round2-caption-285/inventory.json"
+  },
+  {
+   "id": "D-14",
+   "area": "data",
+   "assertion": "source-snapshot 的 570 文件元数据摘要在复核时可重算复现（写入前后同一摘要）",
+   "method": "按 name\\tsize\\tmtime_ns 以 \\n 连接后 sha256（复刻 build_manifest.snapshot_metadata）",
+   "actual": {
+    "recorded_before": "69bbc5434c7716fb9a23e9b9aabea7cb1069927a25704698546744452cc02e25",
+    "recorded_after": "69bbc5434c7716fb9a23e9b9aabea7cb1069927a25704698546744452cc02e25",
+    "recomputed": "69bbc5434c7716fb9a23e9b9aabea7cb1069927a25704698546744452cc02e25"
+   },
+   "expected": "三者相等",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/data/round2-caption-285/source-snapshot.json"
+  },
+  {
+   "id": "D-15",
+   "area": "data",
+   "assertion": "源目录 mtime_ns 未变，且与 freeze.json 记录一致",
+   "method": "os.stat(SOURCE_DIR).st_mtime_ns",
+   "actual": {
+    "disk": 1793169777864695900,
+    "freeze": 1793169777864695900
+   },
+   "expected": "相等",
+   "status": "pass",
+   "evidence": "freeze.json:source_dataset.directory_mtime_ns"
+  },
+  {
+   "id": "C-01",
+   "area": "cache",
+   "assertion": "catalog.db 逻辑行恰 285（row key 285 + meta:info/meta:groups 2 = kv 287）",
+   "method": "sqlite3 只读（file:...?mode=ro&immutable=1）+ key 前缀计数 + msgpack 解 meta:info",
+   "actual": {
+    "kv_rows": 287,
+    "row_keys": 285,
+    "vault_info": {
+     "rows": 285,
+     "schema": 2,
+     "kind": "catalog"
+    }
+   },
+   "expected": 285,
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/session-20261118-a/cache/catalog.db"
+  },
+  {
+   "id": "C-02",
+   "area": "cache",
+   "assertion": "catalog 中 285 条 caption 与 dataset.jsonl 逐行完全相等，locator 与 image 路径相同",
+   "method": "逐行 msgpack 解包比对",
+   "actual": {
+    "caption_equal": 285,
+    "locator_equal": 285,
+    "row_index_ordered": true
+   },
+   "expected": 285,
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/session-20261118-a/cache/catalog.db"
+  },
+  {
+   "id": "C-03",
+   "area": "cache",
+   "assertion": "latents.db 逻辑条目恰 285（t: 285 + m: 285 = kv 570），无其它键",
+   "method": "sqlite3 只读 + key 前缀计数",
+   "actual": {
+    "t": 285,
+    "m": 285,
+    "other": 0
+   },
+   "expected": 285,
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/session-20261118-a/cache/latents.db"
+  },
+  {
+   "id": "C-04",
+   "area": "cache",
+   "assertion": "latent 样本可解码，形状 [220,128] bf16 有限，且 (m: 首维 × 128 × 2 + 20 B 头) 等于实际 blob 长度 56,340",
+   "method": "kohakumoss_data.cache.store.decode_tensor 只读解析 + 算术核对",
+   "actual": {
+    "shape": [
+     220,
+     128
+    ],
+    "dtype": "torch.bfloat16",
+    "finite": true,
+    "blob_bytes": 56340,
+    "calc": 56340
+   },
+   "expected": 56340,
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/session-20261118-a/cache/latents.db"
+  },
+  {
+   "id": "C-05",
+   "area": "cache",
+   "assertion": "latents 的 285 个首维求和 = 66,900，等于 step_00000285/state.json 的 tokens",
+   "method": "读回 m: 值求和，与 state.json 交叉",
+   "actual": {
+    "latent_first_dim_sum": 66900,
+    "state285_tokens": 66900
+   },
+   "expected": "相等",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/session-20261118-a/training/lori-dense/checkpoints/step_00000285/state.json"
+  },
+  {
+   "id": "C-06",
+   "area": "cache",
+   "assertion": "text.db 逻辑条目恰 286 = 285 caption + 1 空提示（t:* 286、m:* 286、idx:lengths 1 = kv 573）",
+   "method": "sqlite3 只读 + 前缀计数",
+   "actual": {
+    "t": 286,
+    "m": 286,
+    "idx": 1
+   },
+   "expected": 286,
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/session-20261118-a/cache/text.db"
+  },
+  {
+   "id": "C-07",
+   "area": "cache",
+   "assertion": "text 的 286 首维求和 112,500、最小值 10（空提示）、最大 552；且空提示以外的 285 条求和 112,490 = step_00000285/state.json 的 text_tokens",
+   "method": "读回 m: 与 idx:lengths 表解码比对，再与 state.json 交叉",
+   "actual": {
+    "sum": 112500,
+    "min": 10,
+    "max": 552,
+    "minus_empty": 112490,
+    "state285_text_tokens": 112490
+   },
+   "expected": "相等",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/session-20261118-a/training/lori-dense/checkpoints/step_00000285/state.json"
+  },
+  {
+   "id": "C-08",
+   "area": "cache",
+   "assertion": "text.idx:lengths 长度表 286 项且与逐条 m: 值完全一致",
+   "method": "LengthTable.from_bytes 独立解码后逐键比对",
+   "actual": {
+    "table_len": 286,
+    "mismatch": 0
+   },
+   "expected": 286,
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/session-20261118-a/cache/text.db"
+  },
+  {
+   "id": "C-09",
+   "area": "cache",
+   "assertion": "三个 db 在只读复核前后字节级不变（sha256 相同），且读取方式不产生 -wal/-shm",
+   "method": "读前/读后 sha256 + 对副本做 immutable 与 mode=ro 对照实验",
+   "actual": {
+    "catalog": "fd4bd5de...（与 freeze 同）",
+    "latents": "4cb07744...（与 freeze 同）",
+    "text": "180f536b...（与 freeze 同）",
+    "immutable_creates_sidecar": false,
+    "mode_ro_creates_sidecar": true
+   },
+   "expected": "未变",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/session-20261118-a/freeze.json:cache_files"
+  },
+  {
+   "id": "C-10",
+   "area": "cache",
+   "assertion": "catalog.db.ready 存在（缓存完成标记 30 B）",
+   "method": "目录枚举",
+   "actual": {
+    "catalog.db.ready": 30
+   },
+   "expected": "存在",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/session-20261118-a/cache"
+  },
+  {
+   "id": "F-01",
+   "area": "freeze",
+   "assertion": "freeze.json 的 9 个脚本/配置 sha256 全部命中",
+   "method": "全量重算 sha256",
+   "actual": {
+    "checked": 9,
+    "bad": 0
+   },
+   "expected": 9,
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/session-20261118-a/freeze.json:sha256"
+  },
+  {
+   "id": "F-02",
+   "area": "freeze",
+   "assertion": "manifest（dataset.jsonl）sha256 与字节数命中",
+   "method": "重算",
+   "actual": {
+    "sha256": "4030fdf3094b91cff164257f70fd5290674dbf5b24f4a1e4a75d19036e869ead",
+    "bytes": 549396
+   },
+   "expected": "同左",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/data/round2-caption-285/dataset.jsonl"
+  },
+  {
+   "id": "F-03",
+   "area": "freeze",
+   "assertion": "5 个缓存文件的 size + sha256 全部命中",
+   "method": "全量重算（catalog/latents/text 三个 db + 两个 settings）",
+   "actual": {
+    "checked": 5,
+    "bad": 0,
+    "total_bytes": 946455170
+   },
+   "expected": 5,
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/session-20261118-a/freeze.json:cache_files"
+  },
+  {
+   "id": "F-04",
+   "area": "freeze",
+   "assertion": "3 个权重的 size / mtime_ns / sha256 全部命中（5,413,698,958 / 9,748,121,532 / 249,521,340 B）",
+   "method": "全量重算 sha256 + os.stat",
+   "actual": {
+    "checked": 3,
+    "bad": 0
+   },
+   "expected": 3,
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/session-20261118-a/freeze.json:weights"
+  },
+  {
+   "id": "F-05",
+   "area": "freeze",
+   "assertion": "570 个源文件的 (size, mtime_ns) 与 freeze 快照一致",
+   "method": "逐文件 os.stat 比对",
+   "actual": {
+    "checked": 570,
+    "bad": 0
+   },
+   "expected": 570,
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/session-20261118-a/freeze.json:source_dataset.files"
+  },
+  {
+   "id": "F-06",
+   "area": "freeze",
+   "assertion": "训练器 HEAD = 957ccc3f89c1506db8e41ce4d260f529446e142b 且 git status 干净",
+   "method": "git -C KohakuMossTrainer rev-parse HEAD / status --porcelain",
+   "actual": {
+    "head": "957ccc3f89c1506db8e41ce4d260f529446e142b",
+    "porcelain_lines": 0
+   },
+   "expected": {
+    "head": "957ccc3...",
+    "clean": true
+   },
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/KohakuMossTrainer/.git"
+  },
+  {
+   "id": "F-07",
+   "area": "freeze",
+   "assertion": "freeze 的 initial_hashes 三字段与 initial-hashes.json 一致；task9_comparison = {identical:504, different:0}",
+   "method": "交叉比对两个 JSON",
+   "actual": {
+    "A": "7f8b433f...",
+    "alpha": "930ce824...",
+    "combined": "3731500a...",
+    "task9": {
+     "identical": 504,
+     "different": 0
+    }
+   },
+   "expected": "一致",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/session-20261118-a/stages/prepare/initial-hashes.json"
+  },
+  {
+   "id": "F-08",
+   "area": "freeze",
+   "assertion": "工作区根目录 D:/Develop/KohakuMossTrainer-LoRI 本身不是 git 仓库，trainer 仓库在其子目录 KohakuMossTrainer/",
+   "method": "Test-Path .git 于两个层级",
+   "actual": {
+    "workspace_root_git": false,
+    "trainer_subdir_git": true
+   },
+   "expected": "记录口径，非缺陷",
+   "status": "pass",
+   "evidence": "解释性核对"
+  },
+  {
+   "id": "F-09",
+   "area": "freeze",
+   "assertion": "训练结束后重跑的冻结校验与启动前逐字段相同（freeze_before == freeze_after）",
+   "method": "比较 stages/train/result.json 两个字段",
+   "actual": {
+    "present": true,
+    "equal": true,
+    "keys": [
+     "frozen_session_and_trainer_files",
+     "manifest",
+     "cache_files",
+     "weights",
+     "source_dataset",
+     "trainer",
+     "initial_hashes",
+     "matches_freeze"
+    ]
+   },
+   "expected": "相等",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/session-20261118-a/stages/train/result.json"
+  },
+  {
+   "id": "I-01",
+   "area": "initial",
+   "assertion": "initial-hashes.json 记录 252 A + 252 alpha，parameter_total 10,665,984，modules 252，cuda_initialized=false",
+   "method": "自读 JSON + 用 A 的 shape 求和（7,913,472 = A 参数）与 B 的 10,665,984 区分",
+   "actual": {
+    "A": 252,
+    "alpha": 252,
+    "modules": 252,
+    "parameter_total": 10665984
+   },
+   "expected": "同左",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/session-20261118-a/stages/prepare/initial-hashes.json"
+  },
+  {
+   "id": "I-02",
+   "area": "initial",
+   "assertion": "独立复现 _digest 与 combined digest：A / alpha / 组合三个摘要全部复算命中",
+   "method": "自实现 sha256('<dtype>:<shape>:'+raw bytes) 与 'name:digest\\n' 拼接（A 段在前、alpha 段在后）",
+   "actual": {
+    "A": "7f8b433f...",
+    "alpha": "930ce824...",
+    "combined": "3731500a...",
+    "all_match": true
+   },
+   "expected": "三值相等",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/session-20261118-a/stages/prepare/initial-hashes.json"
+  },
+  {
+   "id": "I-03",
+   "area": "initial",
+   "assertion": "task9 step232 的 A/alpha 与 initial-hashes 逐张量相同：504/504",
+   "method": "自读 safetensors（safe_open + clone）+ 逐张量 digest，不复用 compare-task9.json",
+   "actual": {
+    "A_identical": 252,
+    "alpha_identical": 252,
+    "total": 504,
+    "different": 0
+   },
+   "expected": 504,
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task9/session-20261118-a/training/lori-dense/checkpoints/step_00000232/trainable.safetensors"
+  },
+  {
+   "id": "I-04",
+   "area": "initial",
+   "assertion": "4 个 task10 检查点 + 4 份 lycoris 导出的 A/alpha 全部等于初始（各 252+252）",
+   "method": "逐文件自读 + 逐张量 digest",
+   "actual": {
+    "step_00000285": {
+     "A": 252,
+     "alpha": 252
+    },
+    "step_00000570": {
+     "A": 252,
+     "alpha": 252
+    },
+    "step_00000855": {
+     "A": 252,
+     "alpha": 252
+    },
+    "step_00000900": {
+     "A": 252,
+     "alpha": 252
+    },
+    "lycoris_exports": "4/4 同样命中"
+   },
+   "expected": "全部 252+252",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/session-20261118-a/training/lori-dense/checkpoints"
+  },
+  {
+   "id": "I-05",
+   "area": "initial",
+   "assertion": "digest_algorithm 文案对组合摘要的排序描述不精确（实际是 A 段再 alpha 段，不是全局 sorted）",
+   "method": "分别构造全局 sorted 与分块顺序两种拼接，只有分块顺序能复现 3731500a...",
+   "actual": {
+    "global_sorted_sha": "5ae854e73e7c3e5f5d9a29eee00f57d61074da7868a918423fbc2c3dcf44d0e9",
+    "block_order_sha": "3731500a5202c3068d1a8a749204c9955b52f091b0fee6139042243aaa6da108"
+   },
+   "expected": "记录值 = 分块顺序",
+   "status": "unverifiable",
+   "evidence": "initial-hashes.json:digest_algorithm（文案层面不可核对，行为可复现）"
+  },
+  {
+   "id": "T-01",
+   "area": "train",
+   "assertion": "metrics.jsonl 恰 900 行，step 1..900 连续无跳步",
+   "method": "自读 + 序列比较",
+   "actual": {
+    "rows": 900,
+    "first": 1,
+    "last": 900,
+    "contiguous": true
+   },
+   "expected": 900,
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/session-20261118-a/training/lori-dense/metrics.jsonl"
+  },
+  {
+   "id": "T-02",
+   "area": "train",
+   "assertion": "字段有限：31 个每步核心字段 + 15 个仅 step1 出现的启动分解字段，无其它",
+   "method": "全量并集与核心集合求差",
+   "actual": {
+    "distinct_fields": 46,
+    "core_missing": 0,
+    "step1_only_extra": 15
+   },
+   "expected": "无越界字段",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/session-20261118-a/training/lori-dense/metrics.jsonl"
+  },
+  {
+   "id": "T-03",
+   "area": "train",
+   "assertion": "无跳步、无非有限：skipped_steps / nonfinite_steps / nonfinite_params 全零，loss/grad_norm/step_time/lr 全有限",
+   "method": "逐行累加 + math.isfinite",
+   "actual": {
+    "sum_skipped": 0,
+    "sum_nonfinite_steps": 0,
+    "sum_nonfinite_params": 0,
+    "all_finite": true
+   },
+   "expected": "全 0 且有限",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/session-20261118-a/training/lori-dense/metrics.jsonl"
+  },
+  {
+   "id": "T-04",
+   "area": "train",
+   "assertion": "学习率恒定 1e-4（恒定调度）",
+   "method": "set(lr)",
+   "actual": [
+    0.0001
+   ],
+   "expected": [
+    0.0001
+   ],
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/session-20261118-a/training/lori-dense/metrics.jsonl"
+  },
+  {
+   "id": "T-05",
+   "area": "train",
+   "assertion": "重算 loss 统计与 final-audit 逐值相等（mean 0.70493 / min 0.36417 / max 0.95832 / first 0.73692 / last 0.86007 / median 0.71480）",
+   "method": "自算 vs audit",
+   "actual": {
+    "mean": 0.7049317509267066,
+    "min": 0.3641745150089264,
+    "max": 0.9583156108856201,
+    "first": 0.7369208931922913,
+    "last": 0.8600671887397766,
+    "median": 0.7148032486438751
+   },
+   "expected": "相等",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/session-20261118-a/final-audit.json:metrics.loss"
+  },
+  {
+   "id": "T-06",
+   "area": "train",
+   "assertion": "重算分段与每 100 步轨迹与 audit 相等（1–285 0.71280 / 286–570 0.69705 / 571–900 0.70494 / 801–900 0.70163）",
+   "method": "自算 vs audit",
+   "actual": {
+    "segments": {
+     "1-285": 0.7128005861190327,
+     "286-570": 0.6970529158910116,
+     "571-900": 0.7049403871550705,
+     "801-900": 0.701625685095787
+    },
+    "trajectory_max_abs_diff": 0.0
+   },
+   "expected": "相等",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/session-20261118-a/final-audit.json:metrics.segments"
+  },
+  {
+   "id": "T-07",
+   "area": "train",
+   "assertion": "CUDA 峰值 allocated 2,612,148,736 B / reserved 2,925,527,040 B，逐 step 峰值路径与 final-audit 一致",
+   "method": "max(vram_peak_alloc) / max(vram_peak_reserved) vs audit.peaks",
+   "actual": {
+    "max_alloc_bytes": 2612148736,
+    "max_reserved_bytes": 2925527040
+   },
+   "expected": "相等",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/session-20261118-a/final-audit.json:peaks"
+  },
+  {
+   "id": "T-08",
+   "area": "train",
+   "assertion": "4 个检查点：state.json 的 step/samples = 285/570/855/900，world=1，loader={seed:42,start:step}",
+   "method": "自读 4 份 state.json",
+   "actual": {
+    "steps": [
+     285,
+     570,
+     855,
+     900
+    ],
+    "samples": [
+     285,
+     570,
+     855,
+     900
+    ],
+    "world": [
+     1,
+     1,
+     1,
+     1
+    ],
+    "loader_ok": true
+   },
+   "expected": "同左",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/session-20261118-a/training/lori-dense/checkpoints/*/state.json"
+  },
+  {
+   "id": "T-09",
+   "area": "train",
+   "assertion": "累计 token 数 66,900 / 133,800 / 200,700 / 211,287 与『3 轮 + 第 4 轮前 45 条』自洽",
+   "method": "对比 state.tokens 与 C-05 的 66,900；3×66900=200700；900 步 = 3×285+45",
+   "actual": {
+    "tokens": [
+     66900,
+     133800,
+     200700,
+     211287
+    ],
+    "3_full_epochs": 200700,
+    "epoch_frac_900": 3.1578947368421053
+   },
+   "expected": "自洽",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/session-20261118-a/training/lori-dense/checkpoints/step_00000900/state.json"
+  },
+  {
+   "id": "T-10",
+   "area": "train",
+   "assertion": "每个检查点目录文件集合固定为 {state.json, trainable.safetensors, optim.pt, rng.0.pt, export/×2}",
+   "method": "目录枚举",
+   "actual": {
+    "files": [
+     "export",
+     "optim.pt",
+     "rng.0.pt",
+     "state.json",
+     "trainable.safetensors"
+    ],
+    "n_per_ckpt": 6
+   },
+   "expected": "同左",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/session-20261118-a/training/lori-dense/checkpoints"
+  },
+  {
+   "id": "T-11",
+   "area": "train",
+   "assertion": "optim.pt：1 个 optimizer 组、252 个 entry、键 0..251 连续",
+   "method": "torch.load(weights_only=False, map_location=cpu) 自读结构",
+   "actual": {
+    "groups": 1,
+    "entries": 252,
+    "entry_len": 4
+   },
+   "expected": 252,
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/session-20261118-a/training/lori-dense/checkpoints/step_00000900/optim.pt"
+  },
+  {
+   "id": "T-12",
+   "area": "train",
+   "assertion": "每个 entry 为 4 元组 (master, exp_avg, exp_avg_sq, step)，四列形状多重集合都等于 B 形状集合 {[3072,8]×210, [16384,8]×42}",
+   "method": "逐 entry 读 shape 并与 trainable.safetensors 的 b_dense 形状集合比较",
+   "actual": {
+    "signature": "(master, exp_avg, exp_avg_sq, step)",
+    "distinct_shapes": [
+     [
+      3072,
+      8
+     ],
+     [
+      16384,
+      8
+     ]
+    ],
+    "multiset_equal": true,
+    "n": 252
+   },
+   "expected": "相等",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/session-20261118-a/training/lori-dense/checkpoints/step_00000900/optim.pt"
+  },
+  {
+   "id": "T-13",
+   "area": "train",
+   "assertion": "两列 AdamW 矩各 10,665,984 元素、合计 21,331,968，全 fp32 且有限；更新计数全为 900",
+   "method": "exp_avg / exp_avg_sq 的 numel 累加 + dtype 集合 + isfinite + step 值集合",
+   "actual": {
+    "exp_avg": 10665984,
+    "exp_avg_sq": 10665984,
+    "sum": 21331968,
+    "dtypes": [
+     "torch.float32"
+    ],
+    "steps": [
+     900.0
+    ],
+    "nonfinite_entries": 0
+   },
+   "expected": "同左",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/session-20261118-a/training/lori-dense/checkpoints/step_00000900/optim.pt"
+  },
+  {
+   "id": "T-14",
+   "area": "train",
+   "assertion": "master 列与 trainable.safetensors 的 b_dense 逐张量 digest 多重集合完全相同（252/252，位级一致）",
+   "method": "对两边的 252 个张量各算 sha256 并按 digest 计数比较（不依赖 id↔层名映射）",
+   "actual": {
+    "n_master": 252,
+    "n_b": 252,
+    "digest_multisets_equal": true
+   },
+   "expected": "相等",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/session-20261118-a/training/lori-dense/checkpoints/step_00000900/{optim.pt,trainable.safetensors}"
+  },
+  {
+   "id": "T-15",
+   "area": "train",
+   "assertion": "trainable.safetensors 756 张量 = 252 A + 252 alpha + 252 b_dense；B 全非零、252/252 层被更新、全局 L2 5.49669→9.75000",
+   "method": "自读 + nonzero + 与零初始比较 + 逐层 285 vs 900 比较",
+   "actual": {
+    "keys": 756,
+    "B_nonzero_layers": 252,
+    "B_differs_285_vs_900": 252,
+    "L2_285": 5.496694087982178,
+    "L2_900": 9.750001907348633
+   },
+   "expected": "252/252",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/session-20261118-a/training/lori-dense/checkpoints"
+  },
+  {
+   "id": "T-16",
+   "area": "train",
+   "assertion": "lycoris 导出可读：756 张量，b_dense 与同 step 检查点逐张量完全相同（252/252），A/alpha 与初始一致",
+   "method": "safe_open 读取 + torch.equal",
+   "actual": {
+    "tensors": 756,
+    "b_equal": 252,
+    "A_alpha_equal": 252
+   },
+   "expected": "同左",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/session-20261118-a/training/lori-dense/checkpoints/step_00000900/export/lori-dense-lycoris.safetensors"
+  },
+  {
+   "id": "T-17",
+   "area": "train",
+   "assertion": "comfy 导出可读且结构正确：504 键 / 168 模块（126 plain + 42 fused qkv）、bf16；plain 的 down/up 分别等于 A.bf16 / B.bf16；fused 的 down = cat(A_q,A_k,A_v)、up = blockdiag(2·B)、alpha = 24 = 融合秩（按 fused.py 的设计把 16/8 折进 up、权级 scale=1）",
+   "method": "自读 safetensors + 逐模块重构比对 + 读 adapters/export/fused.py 语义",
+   "actual": {
+    "modules": 168,
+    "plain": 126,
+    "fused": 42,
+    "dtype": "torch.bfloat16",
+    "plain_exact": 126,
+    "fused_reconstruct": 42,
+    "alpha_values": {
+     "16.0": 126,
+     "24.0": 42
+    }
+   },
+   "expected": "同左",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/session-20261118-a/training/lori-dense/checkpoints/step_00000900/export/lori-dense-comfy.safetensors"
+  },
+  {
+   "id": "T-18",
+   "area": "train",
+   "assertion": "final-audit.json 两份（会话根 / 运行目录）字节完全相同，sha256 6447314f71ecb42e…",
+   "method": "两侧 sha256 比较",
+   "actual": {
+    "same_bytes": true,
+    "sha256": "6447314f71ecb42eb5f02af62a0e4e0c56f12db32917e413740467a42e164884"
+   },
+   "expected": "相同",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/session-20261118-a/final-audit.json"
+  },
+  {
+   "id": "T-19",
+   "area": "train",
+   "assertion": "7 个 stage（resolve/catalog/text/latents/offline/prepare/train）全部 exit_code=0；train stage launcher 1497.92 s、worker 1496.18 s、训练调用 1472.87 s",
+   "method": "逐 stage 读 exit.json/result.json",
+   "actual": {
+    "exit_codes": {
+     "prepare": 0,
+     "resolve": 0,
+     "catalog": 0,
+     "text": 0,
+     "latents": 0,
+     "offline": 0,
+     "train": 0
+    },
+    "train_exit": {
+     "total_wall_seconds": 1497.9198517999612,
+     "worker_wall_seconds": 1496.1784996000351
+    },
+    "train_wall": 1472.8728760000085
+   },
+   "expected": "全 0",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/session-20261118-a/stages/*/exit.json"
+  },
+  {
+   "id": "T-20",
+   "area": "train",
+   "assertion": "log.txt 与 stdout.log 无 skip/nonfinite/nan/error/traceback；末尾 TrainState(step=900, ok=True, skipped=0, nonfinite=0)",
+   "method": "正则扫描 100,267 B 日志 + 读尾部",
+   "actual": {
+    "skip": 0,
+    "nonfinite": 0,
+    "nan": 0,
+    "error": 0,
+    "warn": 0,
+    "final_state_ok": true
+   },
+   "expected": "全 0",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/session-20261118-a/training/lori-dense/log.txt"
+  },
+  {
+   "id": "R-01",
+   "area": "report",
+   "assertion": "稠密报告的表格数字（900/900、1,497.920 s、1,472.873 s、0.70493、分段 0.71280/0.69705/0.70494、801–900 0.70163、2.4328/2.7246 GiB）逐项命中产物",
+   "method": "逐项取自 metrics.jsonl / exit.json / final-audit.json 后比较",
+   "actual": {
+    "all_match": true
+   },
+   "expected": "全部一致",
+   "status": "pass",
+   "evidence": "docs/execution/dit-lori/task-10-dense-training-report.md"
+  },
+  {
+   "id": "R-02",
+   "area": "report",
+   "assertion": "报告 §4 的 24 个检查点文件 size+sha256 全部命中",
+   "method": "全量重算 sha256",
+   "actual": {
+    "checked": 24,
+    "bad": 0
+   },
+   "expected": 24,
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/session-20261118-a/training/lori-dense/checkpoints"
+  },
+  {
+   "id": "R-03",
+   "area": "report",
+   "assertion": "报告 §11 的 final-audit / metrics / 工件 sha256 命中；运行目录『33 个文件、1,432,412,779 B』命中",
+   "method": "重算 + os.walk 统计",
+   "actual": {
+    "files": 33,
+    "bytes": 1432412779,
+    "audit_sha_match": true,
+    "metrics_sha_match": true
+   },
+   "expected": "一致",
+   "status": "pass",
+   "evidence": "docs/execution/dit-lori/task-10-dense-training-report.md"
+  },
+  {
+   "id": "R-04",
+   "area": "report",
+   "assertion": "报告 §5 的『三列形状多重集合都等于 B 形状集合』『更新计数都恰为 900』命中",
+   "method": "自读 optim.pt",
+   "actual": {
+    "shapes_equal": true,
+    "steps_900": true
+   },
+   "expected": "一致",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/session-20261118-a/training/lori-dense/checkpoints/step_00000900/optim.pt"
+  },
+  {
+   "id": "R-05",
+   "area": "report",
+   "assertion": "报告 §4 称『运行级 export 与 step900 检查点内导出字节不同』属实，但未说明原因；实则张量完全相同，差异只在 safetensors 头部序列化",
+   "method": "两侧逐张量 torch.equal + 元数据比对 + sha256 比对",
+   "actual": {
+    "lycoris_tensors_equal": 756,
+    "comfy_tensors_equal": 504,
+    "metadata_equal": true,
+    "sha256_differs": true
+   },
+   "expected": "内容一致、字节不同",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/session-20261118-a/training/lori-dense/export"
+  },
+  {
+   "id": "R-06",
+   "area": "report",
+   "assertion": "报告 §2 的 startup 分解（step1 8.60406 s、torch_compile 1.475、optimizer 0.765、grad-accumulate 5.33、读线程 2.665）命中",
+   "method": "对比 final-audit.startup 与 startup/step1_breakdown.json",
+   "actual": {
+    "wall": 8.604060799989384,
+    "torch_compile": 1.475,
+    "optimizer": 0.765,
+    "threads": {
+     "kohakumoss-grad-accumulate": 5.33,
+     "Thread-5 (_read)": 2.665
+    }
+   },
+   "expected": "一致",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/session-20261118-a/training/lori-dense/startup/step1_breakdown.json"
+  },
+  {
+   "id": "R-07",
+   "area": "report",
+   "assertion": "报告 §9 的 task9 对照数字（mean 0.71226、首/末 0.54285/0.42150、min/max 0.40382/0.93787、中位步时 1.519 s、峰值 2.43/2.59 GiB）命中 task9 metrics",
+   "method": "自读 task9 metrics.jsonl 重算",
+   "actual": {
+    "mean": 0.7122634325561852,
+    "first": 0.5428468585014343,
+    "last": 0.42150017619132996,
+    "min": 0.40381646156311035,
+    "max": 0.937869131565094,
+    "median_step_time_33_232": 1.5186905500013381,
+    "peak_alloc": 2.4327149391174316,
+    "peak_reserved": 2.58984375
+   },
+   "expected": "一致",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task9/session-20261118-a/training/lori-dense/metrics.jsonl"
+  },
+  {
+   "id": "R-08",
+   "area": "report",
+   "assertion": "报告 §9 的『task9 step 1 墙钟 7.661 s』与 task9 记录的 7.66051 s 一致（四舍五入到 7.661）",
+   "method": "对比 step1_breakdown.counters.wall（metrics 的 step_time 为 7.66307，口径不同）",
+   "actual": {
+    "breakdown_wall": 7.660510599962436,
+    "metrics_step_time": 7.663072400027886
+   },
+   "expected": 7.661,
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task9/session-20261118-a/training/lori-dense/startup/step1_breakdown.json"
+  },
+  {
+   "id": "R-09",
+   "area": "report",
+   "assertion": "报告 §2『143 个 knob』命中 config.json 顶层键数；『12 个缓存变量』命中 launch.json.runtime_environment 条目数；『897 步进入 steady』命中 ranks/summary.json",
+   "method": "自数 + 读 launch.json / summary.json",
+   "actual": {
+    "config_top_keys": 143,
+    "runtime_env_entries": 12,
+    "steady_steps": 897
+   },
+   "expected": "一致",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/session-20261118-a/training/lori-dense/config.json"
+  },
+  {
+   "id": "R-10",
+   "area": "report",
+   "assertion": "数据准备报告的工件 size+sha256（dataset 549,396 / inventory 223,882 / snapshot 160,106 / build_manifest 25,986）全部命中",
+   "method": "全量重算",
+   "actual": {
+    "bad": 0,
+    "dataset": "4030fdf3...",
+    "inventory": "0fbd65ef...",
+    "snapshot": "c5b1789f...",
+    "build_manifest": "f8c2a661..."
+   },
+   "expected": "一致",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/data/round2-caption-285"
+  },
+  {
+   "id": "R-11",
+   "area": "report",
+   "assertion": "数据准备报告的缓存总量 946,455,170 B（902.6 MiB）命中；六 stage launcher 合计 434.9 s、worker 合计 429.5 s 命中",
+   "method": "字节求和 + exit.json 求和",
+   "actual": {
+    "cache_bytes": 946455170,
+    "sum_launcher_wall": 434.94556769996416,
+    "sum_worker_wall": 429.45002560003195
+   },
+   "expected": "一致",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/session-20261118-a/stages/*/exit.json"
+  },
+  {
+   "id": "R-12",
+   "area": "report",
+   "assertion": "数据准备报告的 text 统计（286 条、sum 112,500、min 10、max 552、mean 393.357）与 latents（285 条、channel 128、latent_factor 16）命中",
+   "method": "读 stages/text|latents/result.json 并与缓存重算值交叉",
+   "actual": {
+    "text": {
+     "count": 286,
+     "sum": 112500,
+     "min": 10,
+     "max": 552,
+     "mean": 393.35664335664336
+    },
+    "latents": {
+     "count": 285,
+     "channels": [
+      128
+     ],
+     "latent_factor": 16
+    }
+   },
+   "expected": "一致",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/session-20261118-a/stages/text/result.json"
+  },
+  {
+   "id": "R-13",
+   "area": "report",
+   "assertion": "两份报告均明确写出边界：无独立留出集 / 训练 loss 与 RGB MAE 不作质量或泛化判据 / 触发词因果未证",
+   "method": "在报告中定位相应陈述",
+   "actual": {
+    "dense_report": "§9(3) 与 §12 明确『285 图全部参与训练、没有留出集，loss 与 RGB 差异都不能当作泛化证据』；§10(5) 明确单步末值不代表趋势",
+    "data_prep_report": "开篇边界声明声明不含训练与出图，显存/耗时只属缓存阶段"
+   },
+   "expected": "存在明确免责",
+   "status": "pass",
+   "evidence": "docs/execution/dit-lori/task-10-dense-training-report.md:171"
+  },
+  {
+   "id": "R-14",
+   "area": "report",
+   "assertion": "报告是否存在把『训练 loss 下降』或『像素差增大』当作质量结论的过度表述",
+   "method": "逐节通读两份报告，检索 '泛化/质量/学会/效果/提升' 等词并核对上下文",
+   "actual": {
+    "dense": "未发现；§9 明确拒绝把 loss/步数当对照，§10(5) 拒绝用末步 loss 代表趋势",
+    "data_prep": "未发现；显式声明显存与耗时不能外推训练可用性"
+   },
+   "expected": "无过度表述",
+   "status": "pass",
+   "evidence": "docs/execution/dit-lori/task-10-dense-training-report.md"
+  },
+  {
+   "id": "P-01",
+   "area": "protocol",
+   "assertion": "评估协议恰 24 行 = 6 提示组 × 2 seed × {有词,无词}；去重后 12 个提示串、12 个配对单元",
+   "method": "实跑 config.py 推导 + 与 resolved.json.rows 交叉",
+   "actual": {
+    "rows": 24,
+    "pairs": 12,
+    "unique_prompts": 12,
+    "expected_images": 72
+   },
+   "expected": 24,
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-20261118-a/resolved.json"
+  },
+  {
+   "id": "P-02",
+   "area": "protocol",
+   "assertion": "每对只差 'nigenmame, '（11 字符）前缀：12/12 去前缀后逐字符相等；无大写/双空格变体",
+   "method": "字符串级比较",
+   "actual": {
+    "pairs_equal_after_strip": 12,
+    "failures": 0,
+    "trigger_len": 11
+   },
+   "expected": 12,
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-20261118-a/config.py"
+  },
+  {
+   "id": "P-03",
+   "area": "protocol",
+   "assertion": "前 3 组与 task7 实际出图提示逐字符一致（6/6 串，含 seed43 行）",
+   "method": "task7 config.PROMPTS、task7 images/metadata.json knobs.PROMPTS、task7 报告正文 三路取串比对",
+   "actual": {
+    "g0": [
+     262,
+     251
+    ],
+    "g1": [
+     367,
+     356
+    ],
+    "g2": [
+     255,
+     244
+    ],
+    "all_exact": true
+   },
+   "expected": "6/6 相等",
+   "status": "pass",
+   "evidence": "experiment/task7/session-20261118-a/images/metadata.json"
+  },
+  {
+   "id": "P-04",
+   "area": "protocol",
+   "assertion": "6 个锚点映射正确（r0/r1→粉, r6/r7→星空, r8/r9→海），且锚点 Base 的 PNG/RGB sha256 命中冻结值",
+   "method": "ANCHORS=(0,0),(1,1),(6,2),(7,3),(8,4),(9,5) 逐行核 prompt/seed + 重算 task9 六块哈希",
+   "actual": {
+    "anchors": 6,
+    "prompt_seed_match": "6/6",
+    "png_sha_hit": "6/6",
+    "rgb_sha_hit": "6/6"
+   },
+   "expected": "6/6",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-20261118-a/freeze.json:anchors"
+  },
+  {
+   "id": "P-05",
+   "area": "protocol",
+   "assertion": "三列 = Base(无 adapter) / step285 / step900，列序与标签一致，且标签↔文件内容由 kohakumoss_step 元数据独立确认",
+   "method": "config→resolved→grid.columns()→文件头四层核对",
+   "actual": {
+    "labels": [
+     "base",
+     "Dense B step 285 x1",
+     "Dense B step 900 x1"
+    ],
+    "file_steps": [
+     "285",
+     "900"
+    ],
+    "tensors_per_file": 756
+   },
+   "expected": "同左",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-20261118-a/resolved.json"
+  },
+  {
+   "id": "P-06",
+   "area": "protocol",
+   "assertion": "其余采样配方与 task7 逐项一致：42 键中仅 6 键不同（CHECKPOINTS/LABELS/OUT/PROMPTS/SEEDS/SIZES），512²/50 步/CFG 3/shift 5/two_pass/batch 1/bf16/int8/minimal/bypass 全部相同",
+   "method": "task7 metadata.knobs 与 resolved.knobs 全键 diff",
+   "actual": {
+    "differing_keys": [
+     "CHECKPOINTS",
+     "LABELS",
+     "OUT",
+     "PROMPTS",
+     "SEEDS",
+     "SIZES"
+    ],
+    "same": 36
+   },
+   "expected": "仅应改项不同",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-20261118-a/resolved.json"
+  },
+  {
+   "id": "P-07",
+   "area": "protocol",
+   "assertion": "整体网格生成尚未完成（出图作业进行中），24 行 × 3 列 = 72 张图与像素审计在本阶段无法核对",
+   "method": "检查 images/ 与 pixel-audit.json 是否存在（审计时点）",
+   "actual": {
+    "images_dir": "尚未生成",
+    "pixel_audit": "尚未生成",
+    "generate_stage": "运行中"
+   },
+   "expected": "留待第二阶段",
+   "status": "unverifiable",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-20261118-a"
+  },
+  {
+   "id": "P-08",
+   "area": "protocol",
+   "assertion": "协议目录在复核期间仍在被另一个作业写入（compare.py 17:58:50、freeze.json 17:59:29 均晚于本次复核开始），因此本节的结论绑定于下列冻结哈希",
+   "method": "记录复核时点的 sha256 并写入本文件",
+   "actual": {
+    "compare.py": "54410d199693c1288bc31f908a7f927d6d64072278d7a6702108dfa7948c54ba",
+    "config.py": "84ef311b31e6579d22dabc511d58fec79d395830433bb119af33a1f8d400e60c",
+    "resolved.json": "e82015086f0e4bf299852d68698da61305dffa5acfcad2d95acea8c573b41f11",
+    "freeze.json": "1f5d7eba94ceb5acb5006e18df13aae0ccc65fcd775b134d9d97aafa8bfd3ca5"
+   },
+   "expected": "记录",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/comparison-20261118-a"
+  },
+  {
+   "id": "O-01",
+   "area": "overstatement",
+   "assertion": "两份报告未把训练 loss 下降当作质量或泛化结论；未把 RGB MAE 增大当作风格更好",
+   "method": "通读 + 关键词定位",
+   "actual": {
+    "found": false
+   },
+   "expected": "无",
+   "status": "pass",
+   "evidence": "docs/execution/dit-lori/task-10-dense-training-report.md"
+  },
+  {
+   "id": "O-02",
+   "area": "overstatement",
+   "assertion": "报告明确说明『无独立留出集、不能声称泛化或触发词因果』",
+   "method": "定位原文",
+   "actual": {
+    "dense_report_line": 171,
+    "plan_doc_line": 68,
+    "content": "本轮没有独立图像留出集……不能据此声称严格的泛化能力或触发词因果效果"
+   },
+   "expected": "存在",
+   "status": "pass",
+   "evidence": "LoRI阶段成果与900步验证方案.md:68"
+  },
+  {
+   "id": "O-03",
+   "area": "overstatement",
+   "assertion": "『575 图全部参与训练 + TEXT_DROP=0 + 285/285 caption 均带触发词』意味着触发词维度在训练中从未缺席，报告未声称已证明触发词作用",
+   "method": "自数 caption 前缀 + 读 config TEXT_DROP",
+   "actual": {
+    "captions_with_trigger": 285,
+    "total": 285,
+    "TEXT_DROP": 0.0
+   },
+   "expected": "与报告口径一致",
+   "status": "pass",
+   "evidence": "D:/Develop/KohakuMossTrainer-LoRI/experiment/data/round2-caption-285/dataset.jsonl"
+  }
+ ],
+ "issues": [
+  {
+   "id": "ISS-01",
+   "severity": "info",
+   "title": "复核期间 cache 目录出现 6 个 SQLite sidecar 文件（0 B WAL + 32 KB shm）",
+   "detail": "catalog/latents/text 三个 db 各自出现 -wal（0 字节）与 -shm（32,768 字节），创建时间 18:02:34、最后写 18:02:46–18:03:18，落在本次复核窗口内。对照实验证明我使用的 file:...?mode=ro&immutable=1 不会创建 sidecar（同一份副本上 mode=ro 会创建），故 sidecar 由并发的另一个读取方（同窗口内运行的审计子代理或对照作业的预检）以非 immutable 方式打开造成。三个 db 的 sha256 在事件前后均与 freeze.json 完全一致（fd4bd5de… / 4cb07744… / 180f536b…），文字内容零改动。",
+   "evidence": [
+    "D:/Develop/KohakuMossTrainer-LoRI/experiment/task10/session-20261118-a/cache/*.db-wal",
+    "*.db-shm",
+    "对照实验：.tools 下副本 immutable 读不产生 sidecar",
+    "freeze.json:cache_files 的 sha256 复核命中"
+   ],
+   "impact_on_conclusion": "none（数据零改动）。但严格按『不改实验产物』约束，这 6 个文件属于本轮新增的目录污染，建议出图作业与所有读方结束后删除，可完全恢复到 freeze 状态。"
+  },
+  {
+   "id": "ISS-02",
+   "severity": "info",
+   "title": "initial-hashes.json 的 digest_algorithm 文案对『组合摘要』的排序描述不准确",
+   "detail": "文案写 'combined: sha256 over one name:digest line per tensor in sorted name order'，但 worker.py:815 实际是 combined_digest(a_items + alpha_items)，即先全部 A（段内按名排序）再全部 alpha，与全局 sorted 不同。我用两种拼接分别计算：全局 sorted 得 5ae854e7…（不等于记录值），分块顺序得 3731500a…（等于记录值）。行为可复现且正确，只是文档表述会误导复核者。",
+   "evidence": [
+    "experiment/task10/session-20261118-a/stages/prepare/initial-hashes.json:digest_algorithm",
+    "worker.py:695-700,811-824"
+   ],
+   "impact_on_conclusion": "none（仅文档措辞）。"
+  },
+  {
+   "id": "ISS-03",
+   "severity": "info",
+   "title": "运行级 export/ 与 step900 检查点内导出 sha256 不同，但张量完全相同",
+   "detail": "lori-dense-lycoris：b7f5eb34…（运行级）对 c4309ca6…（检查点内），comfy：477768fa… 对 c8e45d41…。逐张量比较 756/756 与 504/504 完全相等，元数据字典也相等，差异只存在于 safetensors 头部（键序/JSON 序列化）。报告 §4 只写『字节不同，属训练器既有的运行级导出路径』，未指出内容相同，读者易误判为权重差异。",
+   "evidence": [
+    "experiment/task10/session-20261118-a/training/lori-dense/export/",
+    ".../checkpoints/step_00000900/export/"
+   ],
+   "impact_on_conclusion": "none（不构成产物不一致，仅需在文档中补一句说明）。"
+  },
+  {
+   "id": "ISS-04",
+   "severity": "low",
+   "title": "comfy 导出的 fused qkv 依赖『alpha=秩、scale=1』约定，消费端若改用 per-module alpha 语义会得到 1/2 强度",
+   "detail": "fused.py 的 fused_lora 把每个子层的 alpha/rank 折进 up，再把 fused alpha 设成 rank(24)、up 为 blockdiag(2·B)。我逐模块重构命中了这一点（126 plain 精确、42 fused 精确）。一旦某个消费端按 shape 推出 dim=24 并用 per-module alpha=24 计算 scale=24/24=1，效果与 LyCORIS 的 metadata 语义（alpha 16 / dim 8 = 2）相同；但若消费端按 dim=8 与 alpha=24 计算，则得到 3 倍强度。属生态约定问题，非本轮产物缺陷。",
+   "evidence": [
+    "KohakuMossTrainer/src/kohakumoss/adapters/export/fused.py:35-63",
+    "checkpoints/step_00000900/export/lori-dense-comfy.safetensors 元数据 ss_network_dim=8 / ss_network_alpha=16.0 / kohakumoss_fused_qkv=1"
+   ],
+   "impact_on_conclusion": "none（本轮的视觉评估使用 lycoris 导出，不使用 comfy 导出）。"
+  },
+  {
+   "id": "ISS-05",
+   "severity": "info",
+   "title": "复核方法论教训（记录以免后人重犯）：safe_open 关闭后再使用其张量会得到假阴性",
+   "detail": "首轮我用 safe_open 在 with 块内取张量、出块后再计算 digest，A 的 252 个张量 digest 全部不匹配（B 因后续大分配被复用而更明显）；改为在块内 clone 后，A/alpha 全部 252/252 命中，且与 torch.equal 一致。这不是产物缺陷，但足以让复核者误判『A 被训练改动』。",
+   "evidence": [
+    "本轮 p5 脚本首轮输出 A=0/252；p7 脚本 clone 后 252/252",
+    "同一张量单独计算 digest 首轮即命中 9f85bd3e…"
+   ],
+   "impact_on_conclusion": "none（已在复核中纠正）。"
+  },
+  {
+   "id": "ISS-06",
+   "severity": "info",
+   "title": "『未删除任何检查点或导出』无法从终态产物反证",
+   "detail": "环形保留 KEEP_LAST=4 与 SAVE_EVERY=285 只能证明终态恰有 4 个 step 目录；是否曾删除过中间检查点（例如 step 45）没有历史记录可查，只能信任 stage 日志与 launch 配置。",
+   "evidence": [
+    "stages/train/launch.json",
+    "checkpoints/ 仅 4 个目录"
+   ],
+   "impact_on_conclusion": "none（不影响训练完整性判定，但该断言应标注为『据配置与日志，非独立可证』）。"
+  }
+ ],
+ "risks": [
+  {
+   "id": "RSK-01",
+   "severity": "critical",
+   "title": "触发词维度在本轮设计下不可证伪，且『扣减 Base 对触发词的响应』只有文字、没有实现",
+   "detail": "TEXT_DROP=0 且 285/285 caption 都带 'nigenmame'，训练期触发词从未缺席；无词行仍加载同一 adapter（multiplier 固定 1.0），因此『无词』并不能得到『无触发词条件』。compare.py 的 audit_images 只算同一行内三列互差，没有任何跨行（有词 vs 无词）量，也没有 Base 响应扣减字段。任何『触发词被学会/带来风格』的结论都不成立。",
+   "evidence": [
+    "experiment/task10/session-20261118-a/common.py:28 (TEXT_DROP)",
+    "dataset.jsonl 285/285 前缀",
+    "comparison-20261118-a/compare.py audit_images"
+   ],
+   "suggestion": "本轮结论限定为『adapter 效果不依赖触发词』；若要做因果，需 TEXT_DROP>0 的另一次训练，或在像素审计中显式给出 δ_adapter − δ_base。"
+  },
+  {
+   "id": "RSK-02",
+   "severity": "critical",
+   "title": "无独立留出集：285 张全部入训，『学会风格』与『训练样本复现』不可分离",
+   "detail": "285/285 参与训练（text 缓存 286 条 = 285 caption + 空提示），比较目录中没有任何 held-out 产物。因此本轮最多只能给出『在该 6 个提示上的定性差异』。",
+   "evidence": [
+    "stages/text/result.json:expected.total=286",
+    "comparison-20261118-a 无留出工件"
+   ],
+   "suggestion": "报告与总结中固定使用『无留出集、不声称泛化』口径；后续用固定 10–15% 留出重训，或引入训练目录外的参考图。"
+  },
+  {
+   "id": "RSK-03",
+   "severity": "high",
+   "title": "285 vs 900 同时改变步数与数据轮次（1.000 → 3.158 轮），且已存在的 step570/step855 未被使用",
+   "detail": "285 样本 batch 1、LR 恒定：285 步正好 1 轮、570=2 轮、855=3 轮、900=3.16 轮。两点比较无法区分『步数增益』与『曝光/过拟合』，也无法判断单调性。",
+   "evidence": [
+    "common.py LR/SCHEDULE",
+    "state.json tokens 66900/133800/200700/211287"
+   ],
+   "suggestion": "把网格扩到 4 列（285/570/855/900，96 张）或至少加 855 作稳定性判断——这是本轮仍可改的最高性价比项。"
+  },
+  {
+   "id": "RSK-04",
+   "severity": "high",
+   "title": "判定规则不可执行：无量表、无预注册阈值、单评者、盲评只盲列标签",
+   "detail": "方案要求『大多数场景、两个 seed 方向一致』，但评分表只有自由文本列；216 个判定格由同一人填写且其知道假设。blind-key.json 写在 run 目录内，matched-grid.png 在同一 audit 阶段先于盲评表产出。",
+   "evidence": [
+    "LoRI阶段成果与900步验证方案.md:73",
+    "comparison-20261118-a/compare.py BLIND_ORDER/BLIND 写出位置"
+   ],
+   "suggestion": "改 1–5 分 + 强制『更好/更差/无差』；预注册阈值（如 ≥10/12 配对方向一致）；blind-key 移出 run 目录或评分后再生成。"
+  },
+  {
+   "id": "RSK-05",
+   "severity": "medium",
+   "title": "2 个 seed × 6 场景的统计效力支撑不了『多数场景』",
+   "detail": "双侧符号检验：n=6 时 6/6 才 p=0.031，5/6 已 p=0.219；按 (场景,seed)=12 个单元时 10/12 p=0.039、9/12 p=0.146，且 12 个单元并不独立（同提示、同模型）。",
+   "evidence": [
+    "protocol-auditor 的独立计算（已由我核对行/对结构与这 12 个单元的定义）"
+   ],
+   "suggestion": "措辞改为『6 个场景中 k 个方向一致』并附 p 值，或增加 seed 数。"
+  },
+  {
+   "id": "RSK-06",
+   "severity": "medium",
+   "title": "『新场景』只是新组合，元素层大量落在训练分布内",
+   "detail": "按词边界统计 285 条 caption：reading 30 / neon 21 / night 11 / flower(s) 40 / leaf(leaves) 58 / pink 193 / star 48 / sky 81。3 个新场景的词汇元素均在训练分布内，只有组合是新的。",
+   "evidence": [
+    "dataset.jsonl 全文词频（protocol-auditor 独立统计）"
+   ],
+   "suggestion": "表述为『未出现过的组合』，不要写成分布外；若需分布外证据，选 library(0)/rainy(0) 这类计数为 0 的概念。"
+  },
+  {
+   "id": "RSK-07",
+   "severity": "medium",
+   "title": "采样 512² 与训练 256² 面积差 4 倍，属跨分辨率外推",
+   "detail": "训练 TARGET_AREA = 256×256（common.py:31）；采样 24 行全部 512×512。三列共享外推条件，列间比较公平，但绝对质量判断是外推，可能系统性放大结构瑕疵并偏向某一 checkpoint。",
+   "evidence": [
+    "common.py:31",
+    "comparison config SIZES"
+   ],
+   "suggestion": "加一组 256² 复现作为锚，或把结论限定为『512² 外推条件下的相对差异』。"
+  },
+  {
+   "id": "RSK-08",
+   "severity": "medium",
+   "title": "adapter 摘除缺 canary（相对 task7 是回退）",
+   "detail": "三列串行装载/摘除（grid.py:61-77，finally stack.remove()）。Base 只画第一列；若 remove 失效，第 2/3 列会被叠加污染而现有审计（只断言『有差异』）无法发现。task7 原有『x0 after x1』列正是此类 canary，本轮删掉。",
+   "evidence": [
+    "KohakuMossTrainer/src/kohakumoss/inference/grid.py:61-77",
+    "comparison-20261118-a/compare.py 像素断言"
+   ],
+   "suggestion": "末尾加一列『无 adapter』并断言其与第 1 列逐字节相等——最便宜的正确性护栏。"
+  },
+  {
+   "id": "RSK-09",
+   "severity": "low",
+   "title": "对比目录的验证脚本在产物之后被修订（freeze.amendments），带事后拟合色彩",
+   "detail": "comparison-20261118-a/freeze.json:197 起记录 compare.py 由 c96a0c11… 改为 54410d19…，理由为『verify_training 假定了 run 并不产出的 schema』。我复核：amend 后 freeze.sha256 的 18 条全部与磁盘一致（0 失败），且该脚本断言的事实（900 步、导出 bytes/sha、A/alpha 与初始化一致）我已独立复算为真。",
+   "evidence": [
+    "comparison-20261118-a/freeze.json:amendments",
+    "compare.py 现值 sha256 54410d19…"
+   ],
+   "suggestion": "amendments 改存独立 sidecar 并保留 diff 原文；或先声明期望 schema 再跑 stage。"
+  },
+  {
+   "id": "RSK-10",
+   "severity": "low",
+   "title": "训练与采样语域不同轴（caption 是长句 NL，采样提示是 'adult anime-style …; clean linework'）",
+   "detail": "caption 长度 1275–2529 字符、'girl' 出现 258 次、'adult'/'anime'/'linework' 出现 0 次；采样提示统一带 adult/anime-style/linework，属分布外语域。",
+   "evidence": [
+    "dataset.jsonl 词频",
+    "comparison config PROMPTS"
+   ],
+   "suggestion": "加一条与训练 caption 同语域的对照提示，用于区分『风格变化』与『语域不匹配导致退化』。"
+  }
+ ],
+ "conclusion": {
+  "training_integrity": "达标（可宣布训练完整成功）",
+  "basis": [
+   "7 个 stage 全部 exit_code=0；训练 900/900 步，metrics 900 行连续、无 skip/非有限、lr 恒定。",
+   "4 个检查点 state 自洽（step/samples/loader/tokens 与缓存首维求和 66,900、112,490 及 3 轮+45 条算术完全吻合）。",
+   "A/alpha 在 4 个检查点与 4 份 lycoris 导出中 252+252 全部等于初始，且与 task9 step232 504/504 相同；初始化未漂移。",
+   "optim.pt 252 entry × (master, exp_avg, exp_avg_sq, step)：两列矩各 10,665,984 = 合计 21,331,968，fp32 有限，计数全 900，形状集合与 B 相同；master 与 B 逐张量位级一致。",
+   "B 252/252 层非零且 285→900 全部改变，全局 L2 5.49669→9.75000；导出可读且与检查点逐张量一致。",
+   "freeze 的 9 脚本 + manifest + 5 缓存 + 3 权重 + 570 源文件 + trainer HEAD/clean 全部仍然成立。"
+  ],
+  "explicitly_not_claimed": [
+   "不声称泛化：285 张全部入训，无独立留出集。",
+   "不声称触发词因果：TEXT_DROP=0，285/285 caption 带触发词，且无词行仍加载同一 adapter。",
+   "不声称视觉增益：72 图与像素审计属第二阶段，本阶段未做。",
+   "『未删除任何检查点』只能依配置与日志，不能从终态反证。"
+  ]
+ },
+ "phase_b_todo": [
+  "复核 72 张图与 grid 图块一致性、6 个锚点 Base 与 task9 归档 RGB sha256 一致性、pixel-audit.json 的 MAE 抽样复算。",
+  "亲眼看 matched-grid.png / blind-grid.png 与若干单图，独立描述差异。",
+  "复核盲评材料是否泄露列名、评分表 24 行齐全、blind-key.json 与 blind-grid 列序自洽。",
+  "生成第二阶段章节并更新 docs/progress.md、README.md、方案文档状态句。",
+  "（建议）出图作业结束后清理 cache 目录的 6 个 sidecar（ISS-01）。"
+ ]
+}
