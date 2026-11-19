@@ -60,6 +60,10 @@ class FullTrainable:
         weights are stored in (FOLD_KEY)."""
         return {FULL_TAG: "1", **fold_metadata(self.model)}
 
+    def checkpoint_metadata(self, state: dict[str, Tensor] | None = None) -> dict:
+        """Nothing: a full finetune's state.json carries no adapter facts."""
+        return {}
+
     @torch.no_grad()
     def load_state_dict(self, state: dict[str, Tensor]) -> None:
         for name, p in self.named:

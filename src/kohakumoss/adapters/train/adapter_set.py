@@ -23,12 +23,15 @@ from kohakumoss.adapters.export.fused import (
 from kohakumoss.adapters.export.merged import merged_state_dict
 from kohakumoss.adapters.train import groups
 from kohakumoss.adapters.train import norms as norm_delta
-from kohakumoss.adapters.train.lori import META_KEY
+from kohakumoss.adapters.train.lori import META_KEY, checkpoint_block, export_facts
 from kohakumoss.adapters.train.scope import evaluated, rebind_owner
 from kohakumoss.adapters.train.steps import StepPlan
+from kohakumoss.logging.log import get_logger
 from kohakumoss.model.io.save import write_diffusers
 from kohakumoss.model.numerics import fold_record
 from kohakumoss_common.calls import nothing
+
+log = get_logger(__name__)
 
 FORMATS = ("lycoris", "comfy", "merged", "diffusers")
 RAW_TAG = "kohakumoss_adapter_state"
@@ -389,6 +392,16 @@ class LycoAdapterSet:
                 default=str,
             ),
         }
+        if config.algo == "lori":
+            meta.update(self._facts())
+            meta["kohakumoss_container"] = "lora"
+            if fmt == "comfy":
+                meta["kohakumoss_lori_comfy"] = "inference_only_dense_b"
+                if meta["kohakumoss_lori_phase"] == "sparse":
+                    log.warning(
+                        "LoRI comfy export: sparse mask expanded to dense LoRA; "
+                        "inference only; resuming training would train A"
+                    )
         meta.update({k: str(v) for k, v in (extra or {}).items()})
         return meta
 
@@ -465,13 +478,29 @@ class LycoAdapterSet:
 
     def state_metadata(self) -> dict[str, str]:
         """The metadata of a `state_dict()` file: RAW_TAG, the configuration under
-        SPEC_KEY and the weight fold the layers trained on (FOLD_KEY)."""
+        SPEC_KEY, the weight fold the layers trained on (FOLD_KEY) and a LoRI run's
+        facts."""
         return {
             RAW_TAG: "1",
             SPEC_KEY: json.dumps(asdict(self.config)),
             **fold_metadata(self.model),
+            **self._facts(),
             **self._lori_metadata(),
         }
+
+    def _facts(self) -> dict[str, str]:
+        """The file's LoRI facts ({} for another algorithm)."""
+        if self.config.algo != "lori":
+            return {}
+        return export_facts(self.config, self._live())
+
+    def checkpoint_metadata(self, state: dict[str, Tensor] | None = None) -> dict:
+        """The `lori` block of a checkpoint's state.json ({} for another algorithm);
+        `state` is the raw trainable state when the live set holds one stage's."""
+        if self.config.algo != "lori":
+            return {}
+        live = self._live() if state is None else state
+        return {"lori": checkpoint_block(self.config, live)}
 
     def _lori_metadata(self) -> dict[str, str]:
         """Versioned sparse initialization metadata marked as trained native state."""

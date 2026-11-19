@@ -34,6 +34,7 @@ The adapter knobs of `scripts/train/moss.py`:
 | `ia3` | `IA3Module` | `train_on_input` |
 | `dylora` | `DyLoraModule` | a rank prefix drawn per step while training, every rank in eval |
 | `tlora` | `TLoraModule` | per-token rank masks set each step; `ADAPTER_MODE="bypass"` only |
+| `lori` | `LoRIModule` | frozen random projection A and a trainable B; dense B in the calibration phase, a masked compact B in the sparse one ([LoRI exports](#lori-exports)) |
 
 `ALGO="full"` is the full finetune ([full-finetune.md](../guides/full-finetune.md)): the
 backbone's own weights train and no LyCORIS module is built.
@@ -137,6 +138,56 @@ strength one rule (`diff`-written layers, merges and the DoRA kernels all comput
   training (no rank dropout, every DyLoRA block, no T-LoRA mask) and leaves the training
   state as it was.
 - **`merge_into(m)`** bakes every linear and norm delta at `m`.
+
+### LoRI exports
+
+`ALGO="lori"` writes its facts into the file's metadata. A `comfy` file is an ordinary
+LoRA container that any loader reads; a `lycoris` file is the native LoRI state. In
+both, a reader of the `kohakumoss_*` keys can tell what it is holding.
+
+| key | content |
+| --- | --- |
+| `kohakumoss_lori_phase` | `calibration` (dense B) or `sparse` (masked B) |
+| `kohakumoss_lori_mechanism` | `dense_calibration` or `sparse_mask` |
+| `kohakumoss_lori_trainable` | `b_dense` or `b_values` |
+| `kohakumoss_lori_a` | `frozen_buffer`: A is a frozen projection, never trained |
+| `kohakumoss_lori_sparsity` | the configured mask sparsity (`0.0` when unset) |
+| `kohakumoss_lori_kept_total` | sparse only: the kept B offsets over every layer |
+| `kohakumoss_lori_rank` | sparse only: the LoRI rank |
+| `kohakumoss_lori_comfy` | `comfy` only: `inference_only_dense_b` |
+| `kohakumoss_lori_a_sha256` | fingerprint of the frozen projections (below) |
+| `kohakumoss_container` | `comfy` only: `lora`, the container the file is written in |
+
+- **Container and facts are separate.** In a `comfy` file `ss_network_module`,
+  `ss_network_dim`, `ss_network_alpha` and `ss_network_args` describe the LyCORIS / LoRA
+  container and stay valid for any LoRA loader; `ss_network_args` carries
+  `{"algo": "lora"}` and no LoRI key, so a third-party loader never sees an argument it
+  cannot take. The `kohakumoss_lori_*` keys are the LoRI facts; the native `lycoris`
+  file carries no `ss_network_*` keys, since it is not a LyCORIS file.
+- **A dense calibration is not sparse LoRI.** Such a file reports
+  `phase=calibration`, `mechanism=dense_calibration`, `trainable=b_dense` and no mask
+  counts; only a sparse run reports a mask, its kept offsets and its rank.
+- **The `lycoris` format** (`kohakumoss_format="kohakumoss_lori"`) is the native state:
+  every layer keeps `A`, `alpha` and either `b_dense`, or `active_indices` with
+  `b_values`. A sparse file is never expanded into a dense `b_dense`, so it stays
+  resumable.
+- **The `comfy` format is inference only.** ComfyUI's LoRA carries neither a frozen
+  projection nor a mask, so the file is an ordinary `lora_down` / `lora_up` / `alpha`
+  set: `lora_down` is the frozen A and `lora_up` is B with the mask expanded to zeros
+  (`kohakumoss_lori_comfy="inference_only_dense_b"`). Loading it back for training
+  trains A and the full dense B, which is no longer LoRI; a run warns when it writes
+  such a file.
+- **`kohakumoss_lori_a_sha256`** is recomputable from the state: the layers' A tensors,
+  sorted by `lora_name`, cast to fp32, made contiguous, concatenated in that order and
+  hashed with SHA-256. A re-export of the same state repeats the value; a change of any
+  A changes it. The `lycoris` file keeps the projections in fp32; a `comfy` file stores
+  them in its save dtype, so recompute the digest from the state (or the `lycoris`
+  file), not from a `comfy` file.
+- **`state.json`** of a LoRI run's checkpoint carries the same facts under a `lori`
+  block (`phase`, `mechanism`, `trainable`, `sparsity`, `kept_total`, `a_sha256`) next to
+  the step and loader counters; another algorithm's checkpoint has no such block.
+  `kept_total` counts the trainable B elements: the kept offsets when sparse, all of
+  dense B in a calibration run.
 
 ## Inference
 

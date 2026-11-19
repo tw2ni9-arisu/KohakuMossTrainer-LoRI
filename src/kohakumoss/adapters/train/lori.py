@@ -1,4 +1,5 @@
-"""CPU calibration masks and self-contained raw LoRI initialization artifacts."""
+"""CPU calibration masks, self-contained raw LoRI initialization artifacts and the
+export facts that describe them."""
 
 import hashlib
 import json
@@ -9,8 +10,12 @@ import torch
 from safetensors import safe_open
 from torch import Tensor
 
+from kohakumoss.adapters.build.config import AdapterConfig
+
 META_KEY = "kohakumoss_lori"
 VERSION = 1
+MECHANISM_OF = {"calibration": "dense_calibration", "sparse": "sparse_mask"}
+TRAINABLE_OF = {"calibration": "b_dense", "sparse": "b_values"}
 
 
 def _digest(tensor: Tensor) -> str:
@@ -121,6 +126,60 @@ def _layer_metadata(layer: dict[str, Tensor], target_shape: list[int]) -> dict:
         "a_digest": _digest(layer["A"]),
         "alpha_digest": _digest(layer["alpha"]),
         "indices_digest": _digest(layer["active_indices"]),
+    }
+
+
+def a_sha256(state: dict[str, Tensor]) -> str:
+    """sha256 of a state's A tensors: fp32 contiguous bytes, layer names sorted."""
+    digest = hashlib.sha256()
+    for layer in _layers(state).values():
+        digest.update(layer["A"].to(torch.float32).contiguous().numpy().tobytes())
+    return digest.hexdigest()
+
+
+def kept_total(state: dict[str, Tensor], phase: str) -> int:
+    """Trainable B elements of a state: the kept indices (sparse) or all of B."""
+    field = "active_indices" if phase == "sparse" else "b_dense"
+    return sum(layer[field].numel() for layer in _layers(state).values())
+
+
+def _phase(config: AdapterConfig) -> str:
+    return config.algo_kwargs.get("phase", "calibration")
+
+
+def _sparsity(config: AdapterConfig) -> float:
+    """The configured mask sparsity (0.0 when ALGO_KWARGS sets none)."""
+    return float(config.algo_kwargs.get("sparsity", 0.0))
+
+
+def export_facts(config: AdapterConfig, state: dict[str, Tensor]) -> dict[str, str]:
+    """The LoRI facts of a written file: phase, mechanism, trainable tensor, frozen A,
+    its digest and, when sparse, the kept offsets and rank."""
+    phase = _phase(config)
+    facts = {
+        "kohakumoss_lori_phase": phase,
+        "kohakumoss_lori_mechanism": MECHANISM_OF[phase],
+        "kohakumoss_lori_trainable": TRAINABLE_OF[phase],
+        "kohakumoss_lori_a": "frozen_buffer",
+        "kohakumoss_lori_sparsity": str(_sparsity(config)),
+        "kohakumoss_lori_a_sha256": a_sha256(state),
+    }
+    if phase == "sparse":
+        facts["kohakumoss_lori_kept_total"] = str(kept_total(state, phase))
+        facts["kohakumoss_lori_rank"] = str(int(config.dim))
+    return facts
+
+
+def checkpoint_block(config: AdapterConfig, state: dict[str, Tensor]) -> dict:
+    """The `lori` block of a checkpoint's state.json."""
+    phase = _phase(config)
+    return {
+        "phase": phase,
+        "mechanism": MECHANISM_OF[phase],
+        "trainable": TRAINABLE_OF[phase],
+        "sparsity": _sparsity(config),
+        "kept_total": kept_total(state, phase),
+        "a_sha256": a_sha256(state),
     }
 
 

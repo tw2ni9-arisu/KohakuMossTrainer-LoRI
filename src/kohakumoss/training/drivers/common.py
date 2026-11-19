@@ -129,6 +129,7 @@ class Parts:
                 "joint_sq": state.joint_sq,
                 "text_tokens": state.text_tokens,
                 **self.extra(),
+                **self.trainable.checkpoint_metadata(),
             },
         }
 

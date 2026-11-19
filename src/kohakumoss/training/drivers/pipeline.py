@@ -165,6 +165,10 @@ class PipelineParts(Parts):
         full = parts["trainable"]
         local = {k: v for k, v in full.items() if k in self.local_names}
         parts["trainable"] = _gather_merge(full, local, self.world)
+        parts["state"] = {
+            **parts["state"],
+            **self.trainable.checkpoint_metadata(parts["trainable"]),
+        }
         ema = parts["ema"]
         local_ema = {
             k: v for k, v in ema.items() if k.split("/", 1)[-1] in self.local_names

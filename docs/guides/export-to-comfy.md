@@ -107,6 +107,7 @@ strength 1:
 | IA3 | `diff` | the full dW, loaded by ComfyUI's `diff` adapter |
 | DyLoRA | `lora_up.weight`, `lora_down.weight`, `alpha = rank` | every rank, eval scale folded into up |
 | T-LoRA | rank-2r LoRA | `[P*lam*s, -P0*lam0*s] @ [Q ; Q0]`, no rank mask |
+| LoRI | `lora_up.weight`, `lora_down.weight`, `alpha` | none; `lora_down` is the frozen A and `lora_up` B with the sparse mask expanded (inference only, [concepts/adapters.md](../concepts/adapters.md#lori-exports)) |
 | full | `diff`, `diff_b` | none |
 | norms | `w_norm`, `b_norm` | none |
 

@@ -33,8 +33,9 @@ class BlockRunner(Protocol):
 class AdapterSet(Protocol):
     """What trains on a model (LyCORIS adapters from kohakumoss.adapters.build.apply, or the
     full finetune's own weights); `state_metadata()` is the safetensors metadata of a
-    checkpoint's `state_dict()`; `prewarm_stats` the last `prewarm`'s counts (empty
-    when it measured nothing)."""
+    checkpoint's `state_dict()`, `checkpoint_metadata()` the run facts its `state.json`
+    records; `prewarm_stats` the last `prewarm`'s counts (empty when it measured
+    nothing)."""
 
     prewarm_stats: dict[str, int]
 
@@ -47,6 +48,8 @@ class AdapterSet(Protocol):
     def state_dict(self) -> dict[str, Tensor]: ...
 
     def state_metadata(self) -> dict[str, str]: ...
+
+    def checkpoint_metadata(self, state: dict[str, Tensor] | None = None) -> dict: ...
 
     def load_state_dict(self, state: dict[str, Tensor]) -> None: ...
 
